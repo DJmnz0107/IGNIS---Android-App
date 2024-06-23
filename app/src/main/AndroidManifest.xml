@@ -13,6 +13,10 @@
         android:theme="@style/Theme.IGNIS_PTC"
         tools:targetApi="31">
         <activity
+            android:name=".activity_UbicacionesBomberos"
+            android:exported="false"
+            android:label="@string/title_activity_ubicaciones_bomberos" />
+        <activity
             android:name=".activity_Register"
             android:exported="false" />
         <activity
@@ -27,7 +31,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
 
         <meta-data
             android:name="preloaded_fonts"
