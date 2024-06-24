@@ -4,19 +4,193 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F2844C"
     tools:context=".ui.home.HomeFragment">
 
-    <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+    <View
+        android:id="@+id/view3"
+        android:layout_width="945dp"
+        android:layout_height="543dp"
+        android:background="@drawable/inicio_bomberos"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="886dp"
+        android:layout_height="113dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/cabin_bold"
+        android:text="¡Bienvenido a la aplicación!"
+        android:textColor="#F1724D"
+        android:textSize="70sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="761dp"
+        android:layout_height="206dp"
+        android:fontFamily="@font/cabin_semibold"
+        android:text="Esperamos hagas un buen uso de  las diversas herramientas que se ofrecen a través de esta."
+        android:textColor="#F1724D"
+        android:textSize="45sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.185"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.103" />
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="967dp"
+        android:layout_height="1042dp"
+        android:background="@drawable/inicio_bomberos_3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <View
+        android:id="@+id/view6"
+        android:layout_width="399dp"
+        android:layout_height="381dp"
+        android:background="@drawable/inicio_bomberos_2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view3"
+        app:layout_constraintVertical_bias="0.28" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="857dp"
+        android:layout_height="214dp"
+        android:layout_marginBottom="808dp"
+        android:fontFamily="@font/cabin_bold"
+        android:text="Encuentra dos funciones importantes para poder realizar un mejor seguimiento de las emergencias y enviar datos sobre las misión a la estación. "
+        android:textColor="#F1724D"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view6"
+        app:layout_constraintVertical_bias="0.313" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/imagen_alarma"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.292" />
+
+    <View
+        android:id="@+id/view7"
+        android:layout_width="763dp"
+        android:layout_height="200dp"
+        android:background="@drawable/inicio_bomberos_4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.64" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="631dp"
+        android:layout_height="155dp"
+        android:fontFamily="@font/cabin_semibold"
+        android:text="En el informe podrás añadir un registro más completo sobre los resultados de la misión que te fue encargada."
+        android:textColor="#FFFFFF"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.887"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.631" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="130dp"
+        android:layout_height="128dp"
+        android:src="@drawable/imagen_con"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.625" />
+
+    <View
+        android:id="@+id/view8"
+        android:layout_width="742dp"
+        android:layout_height="178dp"
+        android:background="@drawable/inicio_bomberos_5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.774" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="100dp"
+        android:layout_height="96dp"
+        android:src="@drawable/imagen_google"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.912"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.755" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="676dp"
+        android:layout_height="173dp"
+        android:fontFamily="@font/cabin_semibold"
+        android:text="En las ubicaciones podrás observar la ubicación de la emergencia que estás tratando y de los hidrantes cercanos."
+        android:textColor="#FFFFFF"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.056"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.771" />
+
+    <Button
+        android:id="@+id/btnCerrarBombero"
+        android:layout_width="197dp"
+        android:layout_height="85dp"
+        android:backgroundTint="#F5B24A"
+        android:fontFamily="@font/cabin_semibold"
+        android:text="Cerrar Sesión"
+        app:cornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.048"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.924"
+        app:strokeColor="#F0EB51"
+        app:strokeWidth="3dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
