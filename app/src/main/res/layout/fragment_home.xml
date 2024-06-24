@@ -4,19 +4,247 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F2844C"
     tools:context=".ui.home.HomeFragment">
 
-    <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+    <View
+        android:id="@+id/view"
+        android:layout_width="46dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/iconobottomnav"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="50dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="53dp"
+        android:layout_marginBottom="23dp"
+        android:background="@drawable/icononavblanco"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/view" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="48dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="53dp"
+        android:layout_marginBottom="23dp"
+        android:background="@drawable/icononavblanco"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/view2" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="48dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="53dp"
+        android:layout_marginBottom="23dp"
+        android:background="@drawable/icononavblanco"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/view3" />
+
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="412dp"
+        android:layout_height="215dp"
+        android:background="@drawable/bienvenidaini"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:fontFamily="@font/cabin_bold"
+        android:text="¡Bienvenido a la aplicación!"
+        android:textColor="#EF8A4C"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="122dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="#F5B24A"
+        android:letterSpacing="0"
+        android:rotationX="4"
+        android:text="Cerrar Sesion"
+        android:textAllCaps="false"
+        app:cornerRadius="50dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/textView1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="#F0EB51"
+        app:strokeWidth="1dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="266dp"
+        android:layout_height="101dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/cabin_semibold"
+        android:text="Esperamos hagas un buen uso de  las diversas herramientas que se ofrecen a través de esta."
+        android:textAlignment="textStart"
+        android:textColor="#EF8A4C"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.11"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView1" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="279dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="#F8B64E"
+        android:fontFamily="@font/cabin_semibold"
+        android:letterSpacing="0"
+        android:text="Pulsa acá si tienes una emergencia"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view5" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/button5"
+        app:layout_constraintEnd_toEndOf="@+id/button5"
+        app:layout_constraintHorizontal_bias="0.945"
+        app:layout_constraintStart_toStartOf="@+id/button5"
+        app:layout_constraintTop_toTopOf="@+id/button5"
+        app:srcCompat="@drawable/baseline_arrow_downward_24" />
+
+    <View
+        android:id="@+id/view9"
+        android:layout_width="232dp"
+        android:layout_height="230dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/fondobutton3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button5" />
+
+    <View
+        android:id="@+id/view10"
+        android:layout_width="252dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/fondobutton4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button5" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="160dp"
+        android:layout_height="167dp"
+        android:layout_marginTop="48dp"
+        android:backgroundTint="#8E0202"
+        android:letterSpacing="0"
+        android:text="I"
+        android:textAllCaps="false"
+        android:textColor="#8E0202"
+        app:cornerRadius="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button5" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="92dp"
+        android:layout_height="85dp"
+        android:elevation="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/button6"
+        app:layout_constraintEnd_toEndOf="@+id/button6"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toStartOf="@+id/button6"
+        app:layout_constraintTop_toTopOf="@+id/button6"
+        app:layout_constraintVertical_bias="0.487"
+        app:srcCompat="@drawable/personbutton" />
+
+    <View
+        android:id="@+id/view7"
+        android:layout_width="188dp"
+        android:layout_height="186dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/fondobutton1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button5" />
+
+    <View
+        android:id="@+id/view8"
+        android:layout_width="210dp"
+        android:layout_height="208dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/fondobutton2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button5" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/circuloblanco" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="256dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/cabin_bold"
+        android:text="Recuerda usarlo solo en situaciones que lo ameriten."
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView6"
+        app:layout_constraintTop_toBottomOf="@+id/view10" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="34dp"
+        android:layout_height="37dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+        app:layout_constraintEnd_toEndOf="@+id/imageView6"
+        app:layout_constraintStart_toStartOf="@+id/imageView6"
+        app:layout_constraintTop_toTopOf="@+id/imageView6"
+        app:srcCompat="@drawable/advertenciadadad" />
+
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
