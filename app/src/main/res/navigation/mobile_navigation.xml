@@ -22,4 +22,9 @@
         android:name="N.J.L.F.S.Q.ignis_ptc.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/fragment_urgencia_incendio"
+        android:name="N.J.L.F.S.Q.ignis_ptc.fragment_urgencia_incendio"
+        android:label="fragment_urgencia_incendio"
+        tools:layout="@layout/fragment_urgencia_incendio" />
 </navigation>
