@@ -22,4 +22,9 @@
         android:name="N.J.L.F.S.Q.ignis_ptc.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/uregnciasInundacion"
+        android:name="N.J.L.F.S.Q.ignis_ptc.UregnciasInundacion"
+        android:label="fragment_uregncias_inundacion"
+        tools:layout="@layout/fragment_uregncias_inundacion" />
 </navigation>
