@@ -3,6 +3,7 @@ package N.J.L.F.S.Q.ignis_ptc
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -21,6 +22,13 @@ class activity_Login : AppCompatActivity() {
         }
 
         val btnLogin = findViewById<Button>(R.id.btnLogin)
+
+        val lblRegistrarse = findViewById<TextView>(R.id.lblRegistrarse)
+
+        lblRegistrarse.setOnClickListener {
+            val pantallaRegister = Intent(this,activity_Register::class.java)
+            startActivity(pantallaRegister)
+        }
 
         btnLogin.setOnClickListener {
             val randomNumber = Random.nextInt(2)
