@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_bomberos"
+    app:startDestination="@id/inicio_Bombero">
+
+    <fragment
+        android:id="@+id/inicio_Bombero"
+        android:name="N.J.L.F.S.Q.ignis_ptc.Inicio_Bombero"
+        android:label="fragment_inicio__bombero"
+        tools:layout="@layout/fragment_inicio__bombero" />
+    <fragment
+        android:id="@+id/informe_Bomberos"
+        android:name="N.J.L.F.S.Q.ignis_ptc.Informe_Bomberos"
+        android:label="fragment_informe__bomberos"
+        tools:layout="@layout/fragment_informe__bomberos" />
+    <fragment
+        android:id="@+id/ubicaciones_Bomberos"
+        android:name="N.J.L.F.S.Q.ignis_ptc.Ubicaciones_Bomberos"
+        android:label="fragment_ubicaciones__bomberos"
+        tools:layout="@layout/fragment_ubicaciones__bomberos" />
+</navigation>
