@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IGNIS_PTC"
         tools:targetApi="31">
+
+
+
+
+
+
         <activity
             android:name=".activity_bomberos"
             android:exported="false" />
