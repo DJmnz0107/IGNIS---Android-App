@@ -11,8 +11,8 @@
 
     <View
         android:id="@+id/view"
-        android:layout_width="458dp"
-        android:layout_height="210dp"
+        android:layout_width="451dp"
+        android:layout_height="192dp"
         android:background="@drawable/login_element"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -100,18 +100,16 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_width="113dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/cabin_semibold"
         android:text="Contraseña"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/editTextText2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintHorizontal_bias="0.104"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
 
     <TextView
         android:id="@+id/textView4"
@@ -200,7 +198,7 @@
         android:id="@+id/button2"
         android:layout_width="261dp"
         android:layout_height="51dp"
-        android:layout_marginBottom="232dp"
+        android:layout_marginBottom="208dp"
         android:backgroundTint="#E8D7D7"
         android:drawableLeft="@drawable/yayaya"
         android:fontFamily="@font/cabin_bold"
@@ -210,38 +208,35 @@
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="224dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/cabin"
         android:text="¿No tienes cuenta?"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.353"
+        app:layout_constraintHorizontal_bias="0.347"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
 
     <TextView
         android:id="@+id/lblRegistrarse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="224dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/cabin_bold"
         android:text="Registrate"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.662"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
 
     <TextView
         android:id="@+id/textView8"
@@ -274,7 +269,7 @@
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.944"
+        app:layout_constraintHorizontal_bias="0.94"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view"
         app:layout_constraintVertical_bias="1.0"

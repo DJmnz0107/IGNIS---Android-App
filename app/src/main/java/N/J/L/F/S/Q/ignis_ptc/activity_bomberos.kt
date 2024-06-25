@@ -4,6 +4,7 @@ import N.J.L.F.S.Q.ignis_ptc.databinding.ActivityBomberosBinding
 import N.J.L.F.S.Q.ignis_ptc.databinding.ActivityMainBinding
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.Window
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -22,6 +23,7 @@ class activity_bomberos : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         enableEdgeToEdge()
         setContentView(R.layout.activity_bomberos)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -29,6 +31,8 @@ class activity_bomberos : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
         val navController = findNavController(R.id.nav_host_fragment_container)
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.nav_bomberos)

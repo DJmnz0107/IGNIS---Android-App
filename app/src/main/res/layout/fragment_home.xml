@@ -158,7 +158,7 @@
         app:layout_constraintTop_toBottomOf="@+id/button5" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/btnEmergencia"
         android:layout_width="160dp"
         android:layout_height="167dp"
         android:layout_marginTop="48dp"
@@ -178,11 +178,11 @@
         android:layout_width="92dp"
         android:layout_height="85dp"
         android:elevation="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/button6"
-        app:layout_constraintEnd_toEndOf="@+id/button6"
+        app:layout_constraintBottom_toBottomOf="@+id/btnEmergencia"
+        app:layout_constraintEnd_toEndOf="@+id/btnEmergencia"
         app:layout_constraintHorizontal_bias="0.485"
-        app:layout_constraintStart_toStartOf="@+id/button6"
-        app:layout_constraintTop_toTopOf="@+id/button6"
+        app:layout_constraintStart_toStartOf="@+id/btnEmergencia"
+        app:layout_constraintTop_toTopOf="@+id/btnEmergencia"
         app:layout_constraintVertical_bias="0.487"
         app:srcCompat="@drawable/personbutton" />
 
