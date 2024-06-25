@@ -75,8 +75,8 @@
 
     <Button
         android:id="@+id/button1"
-        android:layout_width="122dp"
-        android:layout_height="48dp"
+        android:layout_width="145dp"
+        android:layout_height="46dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="#F5B24A"
         android:letterSpacing="0"
@@ -223,7 +223,7 @@
         android:layout_width="256dp"
         android:layout_height="61dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="52dp"
         android:fontFamily="@font/cabin_bold"
         android:text="Recuerda usarlo solo en situaciones que lo ameriten."
         android:textColor="#FFFFFF"
