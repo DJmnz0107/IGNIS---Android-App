@@ -9,7 +9,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import N.J.L.F.S.Q.ignis_ptc.databinding.FragmentHomeBinding
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.Spinner
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
@@ -40,6 +42,8 @@ class HomeFragment : Fragment() {
 
         }
 
+
+
         return root
     }
 
@@ -58,7 +62,17 @@ class HomeFragment : Fragment() {
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
 
 
+        val spGravedad = bottomSheetView.findViewById<Spinner>(R.id.spGravedad)
+
+        val listadoGravedad = arrayOf("Baja", "Media", "Alta")
+
+        val AdapterSpinner = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, listadoGravedad)
+
+        spGravedad.adapter = AdapterSpinner
+
         bottomSheetDialog.show()
+
+
     }
 
 
