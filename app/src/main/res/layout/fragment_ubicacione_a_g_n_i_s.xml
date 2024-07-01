@@ -123,7 +123,7 @@
         android:layout_marginEnd="12dp"
         android:background="@drawable/ubi_redondo"
         app:layout_constraintEnd_toEndOf="@+id/cuadrado1"
-        app:layout_constraintHorizontal_bias="0.684"
+        app:layout_constraintHorizontal_bias="0.657"
         app:layout_constraintStart_toEndOf="@+id/textView12"
         app:layout_constraintTop_toTopOf="@+id/cuadrado1" />
 
@@ -287,6 +287,39 @@
         app:layout_constraintEnd_toEndOf="@+id/cuadrado3"
         app:layout_constraintTop_toBottomOf="@+id/redondo_ubi2"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imgHidrante"
+        android:layout_width="60dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/aguacero"
+        app:layout_constraintBottom_toBottomOf="@+id/redondo_ubi1"
+        app:layout_constraintEnd_toEndOf="@+id/redondo_ubi1"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toStartOf="@+id/redondo_ubi1" />
+
+    <ImageView
+        android:id="@+id/imgEstaciones"
+        android:layout_width="60dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/baseimg"
+        app:layout_constraintEnd_toEndOf="@+id/redondo_ubi3"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toStartOf="@+id/redondo_ubi3"
+        app:layout_constraintTop_toTopOf="@+id/redondo_ubi3" />
+
+    <ImageView
+        android:id="@+id/imgPeligro"
+        android:layout_width="60dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="12dp"
+        android:src="@drawable/alertaubiimg"
+        app:layout_constraintBottom_toBottomOf="@+id/redondo_ubi2"
+        app:layout_constraintEnd_toEndOf="@+id/redondo_ubi2"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toStartOf="@+id/redondo_ubi2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
