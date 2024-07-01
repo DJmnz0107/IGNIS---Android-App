@@ -8,12 +8,14 @@
     tools:context=".ui.home.HomeFragment">
 
     <View
+
         android:id="@+id/view"
         android:layout_width="46dp"
         android:layout_height="35dp"
         android:layout_marginStart="28dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/iconobottomnav"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -60,6 +62,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

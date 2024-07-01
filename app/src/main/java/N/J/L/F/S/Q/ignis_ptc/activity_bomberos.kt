@@ -1,5 +1,6 @@
 package N.J.L.F.S.Q.ignis_ptc
 
+
 import N.J.L.F.S.Q.ignis_ptc.databinding.ActivityBomberosBinding
 import N.J.L.F.S.Q.ignis_ptc.databinding.ActivityMainBinding
 import android.annotation.SuppressLint
@@ -10,15 +11,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.Navigation.findNavController
+
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+
 import com.google.android.material.bottomnavigation.BottomNavigationView
+
 
 class activity_bomberos : AppCompatActivity() {
 
     private lateinit var binding: ActivityBomberosBinding
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,5 +43,6 @@ class activity_bomberos : AppCompatActivity() {
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.nav_bomberos)
 
         bottomNavigationView.setupWithNavController(navController)
+
     }
 }
