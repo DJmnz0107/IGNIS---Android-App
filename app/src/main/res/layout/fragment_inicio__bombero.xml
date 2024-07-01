@@ -48,21 +48,21 @@
 
     <View
         android:id="@+id/view17"
-        android:layout_width="401dp"
-        android:layout_height="412dp"
+        android:layout_width="410dp"
+        android:layout_height="413dp"
         android:background="@drawable/inicio_bomberos_3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.651" />
+        app:layout_constraintVertical_bias="0.764" />
 
     <View
         android:id="@+id/view18"
-        android:layout_width="135dp"
-        android:layout_height="117dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="137dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/inicio_bomberos_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +97,7 @@
         android:id="@+id/view19"
         android:layout_width="277dp"
         android:layout_height="64dp"
-        android:layout_marginTop="388dp"
+        android:layout_marginTop="396dp"
         android:background="@drawable/inicio_bomberos_4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -116,7 +116,7 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/view19"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.656"
+        app:layout_constraintHorizontal_bias="0.446"
         app:layout_constraintStart_toEndOf="@+id/imageView8"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
@@ -155,9 +155,10 @@
         android:src="@drawable/imagen_con"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/view19"
+        app:layout_constraintHorizontal_bias="0.395"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.548" />
+        app:layout_constraintVertical_bias="0.593" />
 
     <ImageView
         android:id="@+id/imageView9"
@@ -167,10 +168,10 @@
         android:src="@drawable/imagen_google"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintHorizontal_bias="0.449"
         app:layout_constraintStart_toEndOf="@+id/view20"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.665" />
+        app:layout_constraintVertical_bias="0.701" />
 
     <Button
         android:id="@+id/button"
@@ -181,10 +182,10 @@
         app:cornerRadius="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.113"
+        app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.857"
+        app:layout_constraintVertical_bias="0.922"
         app:strokeColor="#F0EB51"
         app:strokeWidth="2dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,8 +9,8 @@
 
     <View
         android:id="@+id/view11"
-        android:layout_width="400dp"
-        android:layout_height="265dp"
+        android:layout_width="410dp"
+        android:layout_height="261dp"
         android:background="@drawable/informe1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -19,8 +19,8 @@
 
     <View
         android:id="@+id/view12"
-        android:layout_width="396dp"
-        android:layout_height="311dp"
+        android:layout_width="405dp"
+        android:layout_height="304dp"
         android:background="@drawable/informe2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
