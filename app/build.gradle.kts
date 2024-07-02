@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.activity)
     testImplementation(libs.junit)
     implementation("com.google.android.material:material:<version>")
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

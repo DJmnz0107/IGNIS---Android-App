@@ -28,6 +28,7 @@ class activity_Login : AppCompatActivity() {
         lblRegistrarse.setOnClickListener {
             val pantallaRegister = Intent(this,activity_Register::class.java)
             startActivity(pantallaRegister)
+
         }
 
         btnLogin.setOnClickListener {

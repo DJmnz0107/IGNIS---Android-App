@@ -27,4 +27,9 @@
         android:name="N.J.L.F.S.Q.ignis_ptc.fragment_urgencia_incendio"
         android:label="fragment_urgencia_incendio"
         tools:layout="@layout/fragment_urgencia_incendio" />
+    <fragment
+        android:id="@+id/estacionesMaps"
+        android:name="N.J.L.F.S.Q.ignis_ptc.EstacionesMaps"
+        android:label="fragment_estaciones_maps"
+        tools:layout="@layout/fragment_estaciones_maps" />
 </navigation>
