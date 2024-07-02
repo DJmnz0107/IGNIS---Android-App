@@ -7,7 +7,7 @@
         android:title="Inicio"/>
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/ubicacionesIgnis"
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title= "Ubicaciones"/>
 
@@ -22,10 +22,6 @@
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="Urgencia"/>
 
-    <item
-        android:id="@+id/estacionesMaps"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="Estaciones"/>
 
 
 

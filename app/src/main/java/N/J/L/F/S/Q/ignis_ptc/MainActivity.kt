@@ -8,6 +8,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import N.J.L.F.S.Q.ignis_ptc.databinding.ActivityMainBinding
+import android.content.Intent
 import android.view.Window
 
 class MainActivity : AppCompatActivity() {
@@ -34,4 +35,5 @@ class MainActivity : AppCompatActivity() {
         )
         navView.setupWithNavController(navController)
     }
+
 }

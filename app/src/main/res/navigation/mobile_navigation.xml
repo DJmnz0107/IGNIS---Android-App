@@ -32,4 +32,9 @@
         android:name="N.J.L.F.S.Q.ignis_ptc.EstacionesMaps"
         android:label="fragment_estaciones_maps"
         tools:layout="@layout/fragment_estaciones_maps" />
+    <fragment
+        android:id="@+id/ubicacionesIgnis"
+        android:name="N.J.L.F.S.Q.ignis_ptc.UbicacionesIgnis"
+        android:label="fragment_ubicaciones_ignis"
+        tools:layout="@layout/fragment_ubicaciones_ignis" />
 </navigation>
