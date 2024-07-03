@@ -27,4 +27,24 @@
         android:name="N.J.L.F.S.Q.ignis_ptc.UregnciasInundacion"
         android:label="fragment_uregncias_inundacion"
         tools:layout="@layout/fragment_uregncias_inundacion" />
+    <fragment
+        android:id="@+id/urgenciasIncendio"
+        android:name="N.J.L.F.S.Q.ignis_ptc.urgenciasIncendio"
+        android:label="fragment_urgencias_incendio"
+        tools:layout="@layout/fragment_urgencias_incendio" />
+    <fragment
+        android:id="@+id/urgencias_inundacion"
+        android:name="N.J.L.F.S.Q.ignis_ptc.urgencias_inundacion"
+        android:label="fragment_urgencias_inundacion"
+        tools:layout="@layout/fragment_urgencias_inundacion" />
+    <fragment
+        android:id="@+id/urgencias_principal"
+        android:name="N.J.L.F.S.Q.ignis_ptc.urgencias_principal"
+        android:label="fragment_urgencias_principal"
+        tools:layout="@layout/fragment_urgencias_principal" />
+    <fragment
+        android:id="@+id/urgencias_derrumbes"
+        android:name="N.J.L.F.S.Q.ignis_ptc.urgencias_derrumbes"
+        android:label="fragment_urgencias_derrumbes"
+        tools:layout="@layout/fragment_urgencias_derrumbes" />
 </navigation>
