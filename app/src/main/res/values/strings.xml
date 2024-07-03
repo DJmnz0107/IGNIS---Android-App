@@ -3,10 +3,6 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-<<<<<<< HEAD
-    <string name="title_activity_ubicaciones_bomberos">activity_UbicacionesBomberos</string>
-=======
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
->>>>>>> master
 </resources>
