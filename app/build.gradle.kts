@@ -52,6 +52,8 @@ dependencies {
     testImplementation(libs.junit)
     implementation("com.google.android.material:material:<version>")
     implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
