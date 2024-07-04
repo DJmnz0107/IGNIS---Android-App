@@ -18,23 +18,45 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="N.J.L.F.S.Q.ignis_ptc.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
-    <fragment
-        android:id="@+id/fragment_urgencia_incendio"
-        android:name="N.J.L.F.S.Q.ignis_ptc.fragment_urgencia_incendio"
-        android:label="fragment_urgencia_incendio"
-        tools:layout="@layout/fragment_urgencia_incendio" />
-    <fragment
         android:id="@+id/estacionesMaps"
         android:name="N.J.L.F.S.Q.ignis_ptc.EstacionesMaps"
         android:label="fragment_estaciones_maps"
         tools:layout="@layout/fragment_estaciones_maps" />
+
     <fragment
         android:id="@+id/ubicacionesIgnis"
         android:name="N.J.L.F.S.Q.ignis_ptc.UbicacionesIgnis"
         android:label="fragment_ubicaciones_ignis"
         tools:layout="@layout/fragment_ubicaciones_ignis" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="N.J.L.F.S.Q.ignis_ptc.ui.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/uregnciasInundacion"
+        android:name="N.J.L.F.S.Q.ignis_ptc.UregnciasInundacion"
+        android:label="fragment_uregncias_inundacion"
+        tools:layout="@layout/fragment_uregncias_inundacion" />
+    <fragment
+        android:id="@+id/urgenciasIncendio"
+        android:name="N.J.L.F.S.Q.ignis_ptc.urgenciasIncendio"
+        android:label="fragment_urgencias_incendio"
+        tools:layout="@layout/fragment_urgencias_incendio" />
+    <fragment
+        android:id="@+id/urgencias_inundacion"
+        android:name="N.J.L.F.S.Q.ignis_ptc.urgencias_inundacion"
+        android:label="fragment_urgencias_inundacion"
+        tools:layout="@layout/fragment_urgencias_inundacion" />
+    <fragment
+        android:id="@+id/urgencias_principal"
+        android:name="N.J.L.F.S.Q.ignis_ptc.urgencias_principal"
+        android:label="fragment_urgencias_principal"
+        tools:layout="@layout/fragment_urgencias_principal" />
+    <fragment
+        android:id="@+id/urgencias_derrumbes"
+        android:name="N.J.L.F.S.Q.ignis_ptc.urgencias_derrumbes"
+        android:label="fragment_urgencias_derrumbes"
+        tools:layout="@layout/fragment_urgencias_derrumbes" />
 </navigation>
