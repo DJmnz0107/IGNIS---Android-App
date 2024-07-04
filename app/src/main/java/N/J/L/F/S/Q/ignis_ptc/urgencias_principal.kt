@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 
@@ -39,8 +40,34 @@ class urgencias_principal : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val root = inflater.inflate(R.layout.fragment_urgencias_principal, container, false)
+
         tabLayout = root.findViewById(R.id.tabLayoutUrgencias)
         viewPager2 = root.findViewById(R.id.viewPager2Urgencias)
+
+        val tabLayout: TabLayout = root.findViewById(R.id.tabLayoutUrgencias)
+
+        val tab1 = tabLayout.newTab().apply {
+            customView = layoutInflater.inflate(R.layout.tabitemlayout, null).apply {
+                findViewById<ImageView>(R.id.icon).setImageResource(R.drawable.ic_fuego)
+            }
+        }
+        tabLayout.addTab(tab1)
+
+        val tab2 = tabLayout.newTab().apply {
+            customView = layoutInflater.inflate(R.layout.tabitemlayout, null).apply {
+                findViewById<ImageView>(R.id.icon).setImageResource(R.drawable.ic_derrumbe)
+            }
+        }
+        tabLayout.addTab(tab2)
+
+        val tab3 = tabLayout.newTab().apply {
+            customView = layoutInflater.inflate(R.layout.tabitemlayout, null).apply {
+                findViewById<ImageView>(R.id.icon).setImageResource(R.drawable.ic_inundacion)
+            }
+        }
+        tabLayout.addTab(tab3)
+
+
 
         viewPager2.adapter = fragmentAdaptadorUrgencias(childFragmentManager, lifecycle)
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{

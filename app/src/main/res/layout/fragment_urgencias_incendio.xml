@@ -34,11 +34,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="28dp"
-                android:fontFamily="@font/cabin"
+                android:fontFamily="@font/cabin_bold"
                 android:text="¿Qué puedes hacer en caso de incendios?"
                 android:textAlignment="center"
                 android:textColor="#F1724D"
-                android:textSize="24sp"
+                android:textSize="28sp"
                 android:textStyle="bold" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
