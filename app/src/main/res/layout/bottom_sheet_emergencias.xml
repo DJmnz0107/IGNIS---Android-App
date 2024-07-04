@@ -30,12 +30,12 @@
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="20dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_line"
         app:layout_constraintBottom_toTopOf="@+id/textView16"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -51,7 +51,7 @@
         app:cornerRadius="30dp"
         app:layout_constraintBottom_toTopOf="@+id/button8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.619"
+        app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toEndOf="@+id/button6" />
 
     <Button
@@ -72,7 +72,7 @@
         android:id="@+id/button"
         android:layout_width="145dp"
         android:layout_height="55dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="48dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="#F1724D"
         android:drawableRight="@drawable/peligro_vector"
@@ -197,15 +197,15 @@
         android:textColorHint="#777575"
         app:layout_constraintBottom_toTopOf="@+id/spGravedad"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.913"
+        app:layout_constraintHorizontal_bias="0.978"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView16"
         android:layout_width="323dp"
         android:layout_height="144dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="352dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="348dp"
         android:fontFamily="@font/cabin_bold"
         android:text="Selecciona el tipo de emergencia estas experimentando"
         android:textAlignment="center"
