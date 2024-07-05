@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -57,7 +58,20 @@ class EstacionesMaps : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_estaciones_maps, container, false)
+        val root = inflater.inflate(R.layout.fragment_estaciones_maps, container, false)
+
+        val imgBack = root.findViewById<ImageView>(R.id.imgBack)
+
+        imgBack.setOnClickListener {
+
+            val fragmentManager = childFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            val fragmentUbicaciones = UbicacionesIgnis()
+            fragmentTransaction.replace(R.id.mapEstaciones, fragmentUbicaciones)
+            fragmentTransaction.commit()
+        }
+
+        return root
     }
 
     companion object {

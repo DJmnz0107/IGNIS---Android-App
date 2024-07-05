@@ -14,8 +14,8 @@
 
         <View
             android:id="@+id/view11"
-            android:layout_width="388dp"
-            android:layout_height="167dp"
+            android:layout_width="393dp"
+            android:layout_height="168dp"
             android:background="@drawable/s5e27fdsw1bffffff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -103,7 +103,7 @@
                     android:layout_height="45dp"
                     android:backgroundTint="#8D0202"
                     android:drawableLeft="@drawable/ver_ubicaciones_bombero"
-                    android:text="Ver ubicacones"
+                    android:text="Ver ubicaciones"
                     android:textSize="12sp"
                     app:cornerRadius="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -161,13 +161,16 @@
                     android:id="@+id/button13"
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
+                    android:layout_marginBottom="4dp"
                     android:backgroundTint="#8D0202"
                     android:drawableRight="@drawable/ver_ubicaciones_bombero"
-                    android:text="Ver ubicacones"
+                    android:text="Ver ubicaciones"
                     android:textSize="12sp"
                     app:cornerRadius="20dp"
-                    tools:layout_editor_absoluteX="4dp"
-                    tools:layout_editor_absoluteY="129dp" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.034"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/textView6"
