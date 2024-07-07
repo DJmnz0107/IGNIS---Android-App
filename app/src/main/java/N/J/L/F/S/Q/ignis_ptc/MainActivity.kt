@@ -8,7 +8,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import N.J.L.F.S.Q.ignis_ptc.databinding.ActivityMainBinding
+import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
 import android.view.Window
+import androidx.core.graphics.drawable.DrawableCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,4 +39,5 @@ class MainActivity : AppCompatActivity() {
         )
         navView.setupWithNavController(navController)
     }
+    
 }
