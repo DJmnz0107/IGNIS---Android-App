@@ -97,6 +97,7 @@ class activity_Register : AppCompatActivity() {
             //guardar campos en la base de datos
             if (validacion){
 
+
             } else {
 
             }
