@@ -1,11 +1,14 @@
 package N.J.L.F.S.Q.ignis_ptc
 
+import N.J.L.F.S.Q.ignis_ptc.databinding.FragmentUbicacionesBomberosBinding
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -62,13 +65,15 @@ class EstacionesMaps : Fragment(), OnMapReadyCallback {
 
         val imgBack = root.findViewById<ImageView>(R.id.imgBack)
 
-        imgBack.setOnClickListener {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.haciaUbicaciones)
 
-            val fragmentManager = childFragmentManager
-            val fragmentTransaction = fragmentManager.beginTransaction()
-            val fragmentUbicaciones = UbicacionesIgnis()
-            fragmentTransaction.replace(R.id.mapEstaciones, fragmentUbicaciones)
-            fragmentTransaction.commit()
+            }
+        })
+
+        imgBack.setOnClickListener {
+            findNavController().navigate(R.id.haciaUbicaciones)
         }
 
         return root
