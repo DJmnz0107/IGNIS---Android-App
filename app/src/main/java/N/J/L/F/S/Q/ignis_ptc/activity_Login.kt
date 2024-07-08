@@ -29,6 +29,7 @@ class activity_Login : AppCompatActivity() {
 
         val btnLogin = findViewById<Button>(R.id.btnLogin)
 
+        val txtUsuario = findViewById<EditText>(R.id.txtUsuario)
         val txtPassword = findViewById<EditText>(R.id.txtPassword)
 
         val imgShow = findViewById<ImageView>(R.id.imgShow)
@@ -60,17 +61,42 @@ class activity_Login : AppCompatActivity() {
         }
 
         btnLogin.setOnClickListener {
-            val randomNumber = Random.nextInt(2)
 
-            if (randomNumber == 0) {
-                val pantallaBombero = Intent(this, activity_bomberos::class.java)
-                startActivity(pantallaBombero)
-            }
-            else {
-                val pantallaMain = Intent(this, MainActivity::class.java)
-                startActivity(pantallaMain)
+
+            var usuario = txtUsuario.text.toString()
+            var password = txtPassword.text.toString()
+
+            var validacion = false
+
+            //validacion de campos
+            if (txtUsuario.text.isEmpty()) {
+                txtUsuario.error = "Usuario requerido"
+                validacion = true
+            } else {
+                txtUsuario.error = null
             }
 
+            if (txtPassword.text.isEmpty()) {
+                txtPassword.error = "Contraseña requerida"
+                validacion = true
+            } else {
+                txtPassword.error = null
+            }
+
+            if (validacion){
+
+            } else {
+                val randomNumber = Random.nextInt(2)
+
+                if (randomNumber == 0) {
+                    val pantallaBombero = Intent(this, activity_bomberos::class.java)
+                    startActivity(pantallaBombero)
+                }
+                else {
+                    val pantallaMain = Intent(this, MainActivity::class.java)
+                    startActivity(pantallaMain)
+                }
+            }
         }
 
 

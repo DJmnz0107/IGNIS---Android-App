@@ -87,13 +87,17 @@ class activity_Register : AppCompatActivity() {
             }
 
             if (!password.matches(Regex("^(?=.*[A-Z])(?=.*[!@#\$%^&*(),.?\":{}|<>]).{8,}$"))) {
-                txtPassword.error = "La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un símbolo especial"
+                txtPassword.error =
+                    "La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un símbolo especial"
                 validacion = true
             } else {
                 txtPassword.error = null
             }
 
-            if (!password.matches(Regex("[a-zA-Z]+"))) {
+            //guardar campos en la base de datos
+            if (validacion){
+
+            } else {
 
             }
         }

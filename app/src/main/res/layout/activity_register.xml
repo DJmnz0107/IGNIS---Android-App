@@ -245,13 +245,4 @@
         app:layout_constraintTop_toTopOf="@+id/txtPasswordRegister"
         app:srcCompat="@drawable/orange_hide" />
 
-    <EditText
-        android:id="@+id/editTextNumber3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        tools:layout_editor_absoluteX="76dp"
-        tools:layout_editor_absoluteY="101dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
