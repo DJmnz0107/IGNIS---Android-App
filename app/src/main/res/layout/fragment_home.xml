@@ -34,8 +34,8 @@
 
     <Button
         android:id="@+id/button1"
-        android:layout_width="145dp"
-        android:layout_height="46dp"
+        android:layout_width="146dp"
+        android:layout_height="55dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="#F5B24A"
         android:letterSpacing="0"
@@ -95,10 +95,32 @@
         app:srcCompat="@drawable/baseline_arrow_downward_24" />
 
     <View
+        android:id="@+id/view7"
+        android:layout_width="188dp"
+        android:layout_height="186dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/fondobutton1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button5" />
+
+    <View
+        android:id="@+id/view8"
+        android:layout_width="210dp"
+        android:layout_height="208dp"
+        android:layout_marginTop="88dp"
+        android:background="@drawable/fondobutton2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button5" />
+
+    <View
         android:id="@+id/view9"
         android:layout_width="232dp"
         android:layout_height="230dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="76dp"
         android:background="@drawable/fondobutton3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -109,7 +131,7 @@
         android:id="@+id/view10"
         android:layout_width="252dp"
         android:layout_height="250dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="68dp"
         android:background="@drawable/fondobutton4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -120,7 +142,7 @@
         android:id="@+id/btnEmergencia"
         android:layout_width="160dp"
         android:layout_height="167dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="108dp"
         android:backgroundTint="#8E0202"
         android:letterSpacing="0"
         android:text="I"
@@ -142,46 +164,27 @@
         app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="@+id/btnEmergencia"
         app:layout_constraintTop_toTopOf="@+id/btnEmergencia"
-        app:layout_constraintVertical_bias="0.487"
+        app:layout_constraintVertical_bias="0.536"
         app:srcCompat="@drawable/personbutton" />
-
-    <View
-        android:id="@+id/view7"
-        android:layout_width="188dp"
-        android:layout_height="186dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/fondobutton1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button5" />
-
-    <View
-        android:id="@+id/view8"
-        android:layout_width="210dp"
-        android:layout_height="208dp"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/fondobutton2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button5" />
 
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/circuloblanco"
-        tools:layout_editor_absoluteY="588dp" />
+        app:layout_constraintTop_toBottomOf="@+id/view10"
+        app:layout_constraintVertical_bias="0.603"
+        app:srcCompat="@drawable/circuloblanco" />
 
     <TextView
         android:id="@+id/textView11"
         android:layout_width="256dp"
         android:layout_height="61dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="48dp"
         android:fontFamily="@font/cabin_bold"
         android:text="Recuerda usarlo solo en situaciones que lo ameriten."
         android:textColor="#FFFFFF"
