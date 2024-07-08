@@ -59,4 +59,9 @@
         android:name="N.J.L.F.S.Q.ignis_ptc.urgencias_derrumbes"
         android:label="fragment_urgencias_derrumbes"
         tools:layout="@layout/fragment_urgencias_derrumbes" />
+    <fragment
+        android:id="@+id/fragmentZonasMaps"
+        android:name="N.J.L.F.S.Q.ignis_ptc.fragmentZonasMaps"
+        android:label="fragment_zonas_maps"
+        tools:layout="@layout/fragment_zonas_maps" />
 </navigation>
