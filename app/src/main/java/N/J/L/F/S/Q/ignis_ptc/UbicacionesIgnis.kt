@@ -49,6 +49,12 @@ class UbicacionesIgnis : Fragment() {
             findNavController().navigate(R.id.haciaEstaciones)
         }
 
+        val btnUbiZonas = root.findViewById<Button>(R.id.VerUbiZona)
+
+        btnUbiZonas.setOnClickListener {
+            findNavController().navigate(R.id.haciaZonas)
+        }
+
         return root
     }
 

@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -52,7 +54,19 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
     ): View? {
         // Inflate the layout for this fragment
         val root = inflater.inflate(R.layout.fragment_zonas_maps, container, false)
-        
+
+        val imgBack = root.findViewById<ImageView>(R.id.imgBack)
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.haciaUbicaciones)
+
+            }
+        })
+
+        imgBack.setOnClickListener {
+            findNavController().navigate(R.id.haciaUbicaciones)
+        }
 
         return root
     }

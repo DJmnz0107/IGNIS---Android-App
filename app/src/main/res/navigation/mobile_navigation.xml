@@ -44,6 +44,13 @@
             app:popEnterAnim="@anim/entrada"
             app:popExitAnim="@anim/salida"
         />
+        <action android:id="@+id/haciaZonas"
+            app:destination="@+id/fragmentZonasMaps"
+            app:enterAnim="@anim/entrada"
+            app:exitAnim="@anim/salida"
+            app:popEnterAnim="@anim/entrada"
+            app:popExitAnim="@anim/salida"
+            />
     </fragment>
 
     <fragment
@@ -80,5 +87,14 @@
         android:id="@+id/fragmentZonasMaps"
         android:name="N.J.L.F.S.Q.ignis_ptc.fragmentZonasMaps"
         android:label="fragment_zonas_maps"
-        tools:layout="@layout/fragment_zonas_maps" />
+        tools:layout="@layout/fragment_zonas_maps">
+    <action android:id="@+id/haciaUbicaciones"
+        app:destination="@+id/ubicacionesIgnis"
+        app:enterAnim="@anim/entrada"
+        app:exitAnim="@anim/salida"
+        app:popEnterAnim="@anim/entrada"
+        app:popExitAnim="@anim/salida"
+        />
+
+    </fragment>
 </navigation>
