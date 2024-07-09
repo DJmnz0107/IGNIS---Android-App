@@ -17,4 +17,6 @@ class activity_contrasena : AppCompatActivity() {
             insets
         }
     }
+
+    val btnEnviar = findViewById<Button>()
 }
