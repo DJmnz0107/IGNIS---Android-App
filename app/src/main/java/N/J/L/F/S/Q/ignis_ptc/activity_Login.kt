@@ -1,5 +1,8 @@
 package N.J.L.F.S.Q.ignis_ptc
 
+import Modelo.ClaseConexion
+import Modelo.Usuarios
+import Modelo.dataClassUsuarios
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -9,10 +12,16 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.sql.Connection
 import kotlin.random.Random
 
 class activity_Login : AppCompatActivity() {
@@ -59,16 +68,12 @@ class activity_Login : AppCompatActivity() {
             startActivity(pantallaRegister)
 
         }
-
         btnLogin.setOnClickListener {
-
-
-            var usuario = txtUsuario.text.toString()
-            var password = txtPassword.text.toString()
+            val nombreUsuario = txtUsuario.text.toString()
+            val password = txtPassword.text.toString()
 
             var validacion = false
 
-            //validacion de campos
             if (txtUsuario.text.isEmpty()) {
                 txtUsuario.error = "Usuario requerido"
                 validacion = true
@@ -83,23 +88,65 @@ class activity_Login : AppCompatActivity() {
                 txtPassword.error = null
             }
 
-            if (validacion){
+            if (!validacion) {
+                GlobalScope.launch(Dispatchers.IO) {
+                    try {
+                        val Usuarios = Usuarios()
 
-            } else {
-                val randomNumber = Random.nextInt(2)
+                        val nivelUsuario = Usuarios.obtenerNivelUsuario(nombreUsuario, password)
 
-                if (randomNumber == 0) {
-                    val pantallaBombero = Intent(this, activity_bomberos::class.java)
-                    startActivity(pantallaBombero)
-                }
-                else {
-                    val pantallaMain = Intent(this, MainActivity::class.java)
-                    startActivity(pantallaMain)
+                        val objConexion = ClaseConexion().cadenaConexion()
+
+                        val revisarUsuario = objConexion?.prepareStatement("SELECT * FROM Usuarios WHERE nombre_usuario = ? AND contrasena_usuario = ?")!!
+
+                        revisarUsuario.setString(1, nombreUsuario)
+                        revisarUsuario.setString(2, password)
+
+                        val resultado = revisarUsuario.executeQuery()
+
+                        if (resultado.next()) {
+                            if(nivelUsuario != null) {
+                                if (nivelUsuario == 2) {
+                                    val pantallaMain = Intent(this@activity_Login, MainActivity::class.java)
+                                    startActivity(pantallaMain)
+                                }else if (nivelUsuario == 3) {
+                                    val pantallaBombero = Intent(this@activity_Login, Inicio_Bombero::class.java)
+                                    startActivity(pantallaBombero)
+                                }
+                                else {
+                                    withContext(Dispatchers.Main) {
+                                        Toast.makeText(this@activity_Login, "Revisar si existe algun registro en la base de datos", Toast.LENGTH_LONG).show()
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(this@activity_Login, "Usuario o contraseña incorrectos", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    } catch (e: Exception) {
+                        println("El error es: ${e.message}")
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@activity_Login, "Ha ocurrido un error al intentar iniciar sesión", Toast.LENGTH_LONG).show()
+                        }
+                    }
                 }
             }
         }
 
 
 
+
+
+
+
+
+
+
+
+
+
     }
+
 }

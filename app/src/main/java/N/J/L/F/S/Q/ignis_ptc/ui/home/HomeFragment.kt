@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import N.J.L.F.S.Q.ignis_ptc.databinding.FragmentHomeBinding
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -69,10 +70,6 @@ class HomeFragment : Fragment() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_emergencias, null)
         bottomSheetDialog.setContentView(bottomSheetView)
 
-        val behavior = BottomSheetBehavior.from(bottomSheetView.parent as View)
-        behavior.isFitToContents = true
-        behavior.state = BottomSheetBehavior.STATE_EXPANDED
-
         val spGravedad = bottomSheetView.findViewById<Spinner>(R.id.spGravedad)
         val listadoGravedad = arrayOf("Baja", "Media", "Alta")
         val adapterSpinner = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, listadoGravedad)
@@ -88,20 +85,24 @@ class HomeFragment : Fragment() {
 
         val toggleButtons = listOf(btnIncendio, btnRescate, btnDerrumbe, btnInundacion, btnDerrame)
 
-        val gravedadSeleccionada = spGravedad.selectedItem.toString()
+        spGravedad.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedItem = parent?.getItemAtPosition(position).toString()
 
-        var textTipoEmergencia = ""
-
-        toggleButtons.forEach { toggleButton ->
-            toggleButton.setOnClickListener {
-                if (toggleButton.isChecked) {
-                    toggleButtons.filter { it != toggleButton }.forEach { it.isChecked = false }
-                    txtTipoEmergencia.isEnabled = false
-                } else {
-                    txtTipoEmergencia.isEnabled = true
-                    textTipoEmergencia = txtTipoEmergencia.toString()
-
+                toggleButtons.forEach { toggleButton ->
+                    toggleButton.setOnClickListener {
+                        if (toggleButton.isChecked) {
+                            toggleButtons.filter { it != toggleButton }.forEach { it.isChecked = false }
+                            txtTipoEmergencia.isEnabled = false
+                            txtTipoEmergencia.setText(toggleButton.text.toString())
+                        } else {
+                            txtTipoEmergencia.isEnabled = true
+                        }
+                    }
                 }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
 
@@ -119,12 +120,12 @@ class HomeFragment : Fragment() {
 
                     if (ubicacion.isNotBlank()) {
                         val objConexion = ClaseConexion().cadenaConexion()
-                        val insertEmergencia = objConexion?.prepareStatement("INSERT INTO Emergencias (ubicacion_emergencia, descripcion_emergencia, gravedad_emergencia, tipo_emergencia, respuesta_notificacion, estado_emergencia) VALUES (?, ?, ?, ?, ? ,?)")!!
+                        val insertEmergencia = objConexion?.prepareStatement("INSERT INTO Emergencias (ubicacion_emergencia, descripcion_emergencia, gravedad_emergencia, tipo_emergencia, respuesta_notificacion, estado_emergencia) VALUES (?, ?, ?, ?, ?, ?)")!!
 
                         insertEmergencia.setString(1, ubicacion)
                         insertEmergencia.setString(2, descripcion)
-                        insertEmergencia.setString(3, gravedadSeleccionada)
-                        insertEmergencia.setString(4, textTipoEmergencia)
+                        insertEmergencia.setString(3, spGravedad.selectedItem.toString())
+                        insertEmergencia.setString(4, txtTipoEmergencia.text.toString())
                         insertEmergencia.setString(5, "En espera")
                         insertEmergencia.setString(6, "En proceso")
 
@@ -135,17 +136,17 @@ class HomeFragment : Fragment() {
                             txtDescripcion.text.clear()
                             txtTipoEmergencia.text.clear()
                         }
-
-
                     } else {
+                        // Manejo si la ubicación está en blanco
                     }
-
                 } catch (e: Exception) {
                     println("El error es: $e")
                 }
             }
         }
     }
+
+
 
 
 
