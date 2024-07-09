@@ -9,16 +9,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import N.J.L.F.S.Q.ignis_ptc.databinding.ActivityMainBinding
-import android.Manifest
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.view.Window
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,7 +43,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -68,4 +59,3 @@ class MainActivity : AppCompatActivity() {
 
 
 }
-

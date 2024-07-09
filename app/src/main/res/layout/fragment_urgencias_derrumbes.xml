@@ -9,8 +9,8 @@
     tools:context=".urgenciasIncendio" >
 
     <ScrollView
-        android:layout_width="380dp"
-        android:layout_height="590dp"
+        android:layout_width="352dp"
+        android:layout_height="538dp"
         android:background="@drawable/backgroundwhite"
         android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
