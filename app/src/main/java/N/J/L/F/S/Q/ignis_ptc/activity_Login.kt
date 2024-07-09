@@ -95,6 +95,8 @@ class activity_Login : AppCompatActivity() {
 
                         val nivelUsuario = Usuarios.obtenerNivelUsuario(nombreUsuario, password)
 
+                        println("El nivel de usuario es $nivelUsuario")
+
                         val objConexion = ClaseConexion().cadenaConexion()
 
                         val revisarUsuario = objConexion?.prepareStatement("SELECT * FROM Usuarios WHERE nombre_usuario = ? AND contrasena_usuario = ?")!!
@@ -106,11 +108,11 @@ class activity_Login : AppCompatActivity() {
 
                         if (resultado.next()) {
                             if(nivelUsuario != null) {
-                                if (nivelUsuario == 2) {
+                                if (nivelUsuario == 1) {
                                     val pantallaMain = Intent(this@activity_Login, MainActivity::class.java)
                                     startActivity(pantallaMain)
-                                }else if (nivelUsuario == 3) {
-                                    val pantallaBombero = Intent(this@activity_Login, Inicio_Bombero::class.java)
+                                }else if (nivelUsuario == 2) {
+                                    val pantallaBombero = Intent(this@activity_Login, activity_bomberos::class.java)
                                     startActivity(pantallaBombero)
                                 }
                                 else {
