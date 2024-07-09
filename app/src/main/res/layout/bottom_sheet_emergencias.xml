@@ -10,22 +10,6 @@
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
 
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="145dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="28dp"
-        android:backgroundTint="#F1724D"
-        android:drawableRight="@drawable/peligro_vector"
-        android:fontFamily="@font/cabin_semibold"
-        android:text="Derrame de sustancias"
-        android:textSize="10sp"
-        app:cornerRadius="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView14"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.06"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
@@ -36,66 +20,6 @@
         app:layout_constraintBottom_toTopOf="@+id/textView16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.489"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="145dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="#F1724D"
-        android:drawableRight="@drawable/peligro_vector"
-        android:fontFamily="@font/cabin_semibold"
-        android:text="Inundación"
-        android:textSize="10.5sp"
-        app:cornerRadius="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/button8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.54"
-        app:layout_constraintStart_toEndOf="@+id/button6" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="145dp"
-        android:layout_height="55dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="#F1724D"
-        android:drawableRight="@drawable/peligro_vector"
-        android:fontFamily="@font/cabin_semibold"
-        android:text="Rescate"
-        app:cornerRadius="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/button7"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="145dp"
-        android:layout_height="55dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="#F1724D"
-        android:drawableRight="@drawable/peligro_vector"
-        android:fontFamily="@font/cabin_semibold"
-        android:text="Incendio"
-        android:textSize="13sp"
-        app:cornerRadius="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/button6"
-        app:layout_constraintEnd_toStartOf="@+id/button4" />
-
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="145dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="#F1724D"
-        android:drawableRight="@drawable/peligro_vector"
-        android:fontFamily="@font/cabin_semibold"
-        android:text="Derrumbe"
-        android:textSize="12sp"
-        app:cornerRadius="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/button8"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -130,19 +54,19 @@
         android:text="Descripción de la emergencia"
         android:textColor="#000000"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextText3"
+        app:layout_constraintBottom_toTopOf="@+id/txtDescripcion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.101"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editTextText3"
+        android:id="@+id/txtDescripcion"
         android:layout_width="378dp"
         android:layout_height="118dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="76dp"
         android:background="@drawable/round_edittextorange"
-        android:ems="10"
 
+        android:ems="10"
         android:hint="Describe tu emergencia (opcional)"
         android:paddingLeft="20dp"
         android:paddingBottom="12dp"
@@ -150,13 +74,13 @@
         android:shadowDy="3"
         android:textAllCaps="false"
         android:textColorHint="#404040"
-        app:layout_constraintBottom_toTopOf="@+id/button9"
+        app:layout_constraintBottom_toBottomOf="@+id/btnEnviar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button9"
+        android:id="@+id/btnEnviar"
         android:layout_width="163dp"
         android:layout_height="71dp"
         android:layout_marginBottom="20dp"
@@ -165,12 +89,12 @@
         android:textSize="20sp"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button10"
+        app:layout_constraintEnd_toStartOf="@+id/btnAtras"
         app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button10"
+        android:id="@+id/btnAtras"
         android:layout_width="163dp"
         android:layout_height="71dp"
         android:layout_marginEnd="28dp"
@@ -183,10 +107,10 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:id="@+id/editTextText4"
+        android:id="@+id/txtTipoEmergencia"
         android:layout_width="227dp"
         android:layout_height="63dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="28dp"
         android:background="@drawable/round_edittextorange"
         android:ems="10"
         android:fontFamily="@font/cabin_semibold"
@@ -197,22 +121,117 @@
         android:textColorHint="#777575"
         app:layout_constraintBottom_toTopOf="@+id/spGravedad"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.978"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView16"
         android:layout_width="323dp"
         android:layout_height="144dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="348dp"
+        android:layout_marginBottom="368dp"
         android:fontFamily="@font/cabin_bold"
         android:text="Selecciona el tipo de emergencia estas experimentando"
         android:textAlignment="center"
         android:textColor="#EF8A4C"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextText3"
-        app:layout_constraintEnd_toEndOf="@+id/button4" />
+        app:layout_constraintBottom_toTopOf="@+id/txtDescripcion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/tbtnIncendio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/cambiarboton"
+        android:checked="false"
+        android:drawableRight="@drawable/peligro_vector"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:text="Incendio"
+        android:textColor="#FFFFFF"
+        android:textOff="Incendio"
+        android:textOn="Incendio"
+        app:layout_constraintBottom_toTopOf="@+id/tbtnDerrumbe"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView16"
+        app:layout_constraintVertical_bias="0.7" />
+
+    <ToggleButton
+        android:id="@+id/tbtnRescate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/cambiarboton"
+        android:checked="false"
+        android:drawableRight="@drawable/peligro_vector"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:text="Rescate"
+        android:textColor="#FFFFFF"
+        android:textOff="Rescate"
+        android:textOn="Rescate"
+        app:layout_constraintBottom_toTopOf="@+id/tbtnInundacion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toEndOf="@+id/tbtnIncendio" />
+
+    <ToggleButton
+        android:id="@+id/tbtnDerrumbe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/cambiarboton"
+        android:checked="false"
+        android:drawableRight="@drawable/peligro_vector"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:text="Derrumbe"
+        android:textColor="#FFFFFF"
+        android:textOff="Derrumbe"
+        android:textOn="Derrumbe"
+        app:layout_constraintBottom_toTopOf="@+id/tbtnDerrame"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/tbtnInundacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/cambiarboton"
+        android:checked="false"
+        android:drawableRight="@drawable/peligro_vector"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:text="Inundación"
+        android:textColor="#FFFFFF"
+        android:textOff="Inundación"
+        android:textOn="Inundación"
+        app:layout_constraintBottom_toTopOf="@+id/txtTipoEmergencia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toEndOf="@+id/tbtnDerrumbe" />
+
+    <ToggleButton
+        android:id="@+id/tbtnDerrame"
+        android:layout_width="147dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="56dp"
+        android:background="@drawable/cambiarboton"
+        android:checked="false"
+        android:drawableRight="@drawable/peligro_vector"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:text="Derrame de sustacias"
+        android:textColor="#FFFFFF"
+        android:textOff="Derrame de sustacias"
+        android:textOn="Derrame de sustacias"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView14"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

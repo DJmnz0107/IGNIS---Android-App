@@ -5,7 +5,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
-import android.health.connect.datatypes.ExerciseRoute.Location
 import android.location.LocationManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -16,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -58,12 +58,22 @@ class LocationService(private val activity: MainActivity) {
         }
     }
 
-    private fun onPermissionsGranted() {
+     suspend fun getUbicacionAsync(activity: Context): String {
+        return withContext(Dispatchers.Main) {
+            val location = getUserLocation(activity)
+            location?.let {
+                return@withContext "${it.latitude} ${it.longitude}"
+            }
+            return@withContext "Ubicación no disponible"
+        }
+    }
+
+     private fun onPermissionsGranted() {
         CoroutineScope(Dispatchers.Main).launch {
             val location = getUserLocation(activity)
             location?.let {
-                val location = "Latitud: ${it.latitude}, Longitud: ${it.longitude}"
-                showToast("Ubicación obtenida: $location")
+                val ubicacion = "Latitud: ${it.latitude}, Longitud: ${it.longitude}"
+                showToast("Ubicación obtenida: $ubicacion")
             }
         }
     }
@@ -75,6 +85,7 @@ class LocationService(private val activity: MainActivity) {
     private fun showToast(message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
     }
+
 
 
     @SuppressLint("MissingPermission")
