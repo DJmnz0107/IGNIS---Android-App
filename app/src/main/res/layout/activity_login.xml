@@ -116,9 +116,9 @@
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="144dp"
-        android:layout_height="65dp"
-        android:backgroundTint="#8E0202"
+        android:layout_width="160dp"
+        android:layout_height="63dp"
+        android:background="@drawable/button_login"
         android:fontFamily="@font/cabin_bold"
         android:letterSpacing="0"
         android:text="Iniciar Sesion"
@@ -184,11 +184,14 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="261dp"
-        android:layout_height="51dp"
+        android:layout_width="307dp"
+        android:layout_height="48dp"
         android:layout_marginBottom="208dp"
+        android:background="@drawable/button_google"
         android:backgroundTint="#E8D7D7"
         android:drawableLeft="@drawable/yayaya"
+        android:paddingLeft="20dp"
+        android:paddingRight="40dp"
         android:fontFamily="@font/cabin_bold"
         android:text="Continuar con google"
         android:textAllCaps="false"
@@ -241,28 +244,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
         app:layout_constraintVertical_bias="0.982" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="142dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#F5B24A"
-        android:fontFamily="@font/cabin_bold"
-        android:letterSpacing="0"
-        android:rotationX="4"
-        android:text="Modo bombero"
-        android:textAllCaps="false"
-        android:textColor="#000000"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.94"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view"
-        app:layout_constraintVertical_bias="1.0"
-        app:strokeColor="#F0EB51"
-        app:strokeWidth="1dp" />
 
     <ImageView
         android:id="@+id/imgShow"

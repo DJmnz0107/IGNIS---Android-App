@@ -56,7 +56,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.664" />
+        app:layout_constraintVertical_bias="0.761" />
 
     <View
         android:id="@+id/view18"
@@ -95,8 +95,8 @@
 
     <View
         android:id="@+id/view19"
-        android:layout_width="277dp"
-        android:layout_height="64dp"
+        android:layout_width="294dp"
+        android:layout_height="62dp"
         android:layout_marginTop="404dp"
         android:background="@drawable/inicio_bomberos_4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,22 +106,22 @@
 
     <TextView
         android:id="@+id/textView22"
-        android:layout_width="245dp"
-        android:layout_height="49dp"
+        android:layout_width="261dp"
+        android:layout_height="51dp"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/cabin_semibold"
         android:text="En el informe podrás añadir un registro más completo sobre los resultados de la misión que te fue encargada."
         android:textColor="#FFFFFF"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/view19"
         app:layout_constraintTop_toTopOf="@+id/view19" />
 
     <View
         android:id="@+id/view20"
-        android:layout_width="286dp"
-        android:layout_height="77dp"
+        android:layout_width="299dp"
+        android:layout_height="78dp"
         android:layout_marginTop="480dp"
         android:background="@drawable/inicio_bomberos_5"
         app:layout_constraintEnd_toEndOf="parent"
@@ -131,8 +131,8 @@
 
     <TextView
         android:id="@+id/textView23"
-        android:layout_width="244dp"
-        android:layout_height="51dp"
+        android:layout_width="256dp"
+        android:layout_height="50dp"
         android:layout_marginEnd="52dp"
         android:fontFamily="@font/cabin_semibold"
         android:text="En las ubicaciones podrás observar la ubicación de la emergencia que estás tratando y de los hidrantes cercanos."
@@ -140,10 +140,10 @@
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="@+id/view20"
         app:layout_constraintEnd_toStartOf="@+id/imageView9"
-        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view20"
-        app:layout_constraintVertical_bias="0.269" />
+        app:layout_constraintVertical_bias="0.285" />
 
     <ImageView
         android:id="@+id/imageView8"
@@ -168,7 +168,7 @@
         app:layout_constraintHorizontal_bias="0.553"
         app:layout_constraintStart_toEndOf="@+id/view20"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.704" />
+        app:layout_constraintVertical_bias="0.775" />
 
     <Button
         android:id="@+id/button"
@@ -179,10 +179,10 @@
         app:cornerRadius="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.089"
+        app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.85"
+        app:layout_constraintVertical_bias="0.939"
         app:strokeColor="#F0EB51"
         app:strokeWidth="2dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
