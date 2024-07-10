@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import androidx.navigation.fragment.findNavController
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,8 +36,19 @@ class Ubicaciones_Bomberos : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        val root = inflater.inflate(R.layout.fragment_ubicaciones__bomberos, container, false)
+
+        val btnHidrantesBomberos = root.findViewById<Button>(R.id.btnHidrantesBomberos)
+
+        btnHidrantesBomberos.setOnClickListener {
+            findNavController().navigate(R.id.haciaHidrantesBomberos)
+        }
+
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ubicaciones__bomberos, container, false)
+        return root
     }
 
     companion object {
