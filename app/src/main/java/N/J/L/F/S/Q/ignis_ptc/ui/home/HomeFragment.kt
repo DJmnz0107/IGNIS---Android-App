@@ -4,6 +4,7 @@ import Modelo.ClaseConexion
 import Modelo.LocationService
 import N.J.L.F.S.Q.ignis_ptc.MainActivity
 import N.J.L.F.S.Q.ignis_ptc.R
+import N.J.L.F.S.Q.ignis_ptc.activity_Login
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import N.J.L.F.S.Q.ignis_ptc.databinding.FragmentHomeBinding
+import android.content.Intent
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -18,6 +20,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import android.widget.ToggleButton
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
@@ -50,10 +53,38 @@ class HomeFragment : Fragment() {
 
         val btnEmergencia = root.findViewById<Button>(R.id.btnEmergencia)
 
+        val btnCerrarSesion = root.findViewById<Button>(R.id.btnCerrarSesion)
+
         btnEmergencia.setOnClickListener {
 
             showBottomSheet()
 
+        }
+
+        btnCerrarSesion.setOnClickListener {
+            val context = requireContext()
+
+            val builder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
+            val customLayout = layoutInflater.inflate(R.layout.logout_personalizado, null)
+            builder.setView(customLayout)
+
+            val positiveButton: Button = customLayout.findViewById(R.id.positiveButton)
+            val negativeButton: Button = customLayout.findViewById(R.id.negativeButton)
+
+            val dialog = builder.create()
+
+            positiveButton.setOnClickListener {
+                val pantallaLogin = Intent(requireActivity(), activity_Login::class.java)
+                startActivity(pantallaLogin)
+                requireActivity().finish()
+                dialog.dismiss()
+            }
+
+            negativeButton.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            dialog.show()
         }
 
 
@@ -106,11 +137,22 @@ class HomeFragment : Fragment() {
             }
         }
 
+        var textDescripcion = txtDescripcion.text.toString()
+
+        if (txtDescripcion.text.isEmpty()) {
+            textDescripcion = "Descripción no brindada."
+        }
+
+        val btnAtras = bottomSheetView.findViewById<Button>(R.id.btnAtras)
+
         bottomSheetDialog.show()
+
+        btnAtras.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
 
         val btnEnviar = bottomSheetView.findViewById<Button>(R.id.btnEnviar)
         btnEnviar.setOnClickListener {
-            val descripcion = txtDescripcion.text.toString()
 
             CoroutineScope(Dispatchers.IO).launch {
                 try {
@@ -123,7 +165,7 @@ class HomeFragment : Fragment() {
                         val insertEmergencia = objConexion?.prepareStatement("INSERT INTO Emergencias (ubicacion_emergencia, descripcion_emergencia, gravedad_emergencia, tipo_emergencia, respuesta_notificacion, estado_emergencia) VALUES (?, ?, ?, ?, ?, ?)")!!
 
                         insertEmergencia.setString(1, ubicacion)
-                        insertEmergencia.setString(2, descripcion)
+                        insertEmergencia.setString(2, textDescripcion)
                         insertEmergencia.setString(3, spGravedad.selectedItem.toString())
                         insertEmergencia.setString(4, txtTipoEmergencia.text.toString())
                         insertEmergencia.setString(5, "En espera")
@@ -137,7 +179,7 @@ class HomeFragment : Fragment() {
                             txtTipoEmergencia.text.clear()
                         }
                     } else {
-                        // Manejo si la ubicación está en blanco
+                        Toast.makeText(requireContext(),"Porfavor, activa los permisos de ubicación para poder conocer donde se encuentra la emergencia.", Toast.LENGTH_LONG).show()
                     }
                 } catch (e: Exception) {
                     println("El error es: $e")

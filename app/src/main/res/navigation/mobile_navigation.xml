@@ -47,9 +47,8 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="N.J.L.F.S.Q.ignis_ptc.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:id="@+id/fragment_seguimiento"
+        android:label="fragment_seguimiento"
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/uregnciasInundacion"
@@ -76,4 +75,9 @@
         android:name="N.J.L.F.S.Q.ignis_ptc.urgencias_derrumbes"
         android:label="fragment_urgencias_derrumbes"
         tools:layout="@layout/fragment_urgencias_derrumbes" />
+    <fragment
+        android:id="@+id/fragment_seguimiento1"
+        android:name="N.J.L.F.S.Q.ignis_ptc.fragment_seguimiento1"
+        android:label="fragment_seguimiento1"
+        tools:layout="@layout/fragment_seguimiento1" />
 </navigation>

@@ -51,6 +51,8 @@ dependencies {
     implementation(libs.androidx.activity)
     testImplementation(libs.junit)
     implementation("com.google.android.material:material:<version>")
+    implementation("me.relex:circleindicator:2.1.6")
+    implementation("org.imaginativeworld.whynotimagecarousel:whynotimagecarousel:2.1.0")
     implementation("com.google.android.gms:play-services-maps:18.1.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")
     implementation("com.google.android.gms:play-services-location:21.0.1")
