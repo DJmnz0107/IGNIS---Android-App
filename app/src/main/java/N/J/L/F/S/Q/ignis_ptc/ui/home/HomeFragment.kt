@@ -20,7 +20,9 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import android.widget.ToggleButton
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
@@ -60,6 +62,34 @@ class HomeFragment : Fragment() {
             showBottomSheet()
 
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val context = requireContext()
+
+                val builder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
+                val customLayout = layoutInflater.inflate(R.layout.logout_personalizado, null)
+                builder.setView(customLayout)
+
+                val positiveButton: Button = customLayout.findViewById(R.id.positiveButton)
+                val negativeButton: Button = customLayout.findViewById(R.id.negativeButton)
+
+                val dialog = builder.create()
+
+                positiveButton.setOnClickListener {
+                    val pantallaLogin = Intent(requireActivity(), activity_Login::class.java)
+                    startActivity(pantallaLogin)
+                    requireActivity().finish()
+                    dialog.dismiss()
+                }
+
+                negativeButton.setOnClickListener {
+                    dialog.dismiss()
+                }
+
+                dialog.show()
+            }
+        })
 
         btnCerrarSesion.setOnClickListener {
             val context = requireContext()
