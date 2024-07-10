@@ -19,5 +19,29 @@
         android:id="@+id/ubicaciones_Bomberos"
         android:name="N.J.L.F.S.Q.ignis_ptc.Ubicaciones_Bomberos"
         android:label="fragment_ubicaciones__bomberos"
-        tools:layout="@layout/fragment_ubicaciones__bomberos" />
+        tools:layout="@layout/fragment_ubicaciones__bomberos">
+    <action android:id="@+id/haciaHidrantesBomberos"
+        app:destination="@+id/hidrantesBomberos"
+        app:enterAnim="@anim/entrada"
+        app:exitAnim="@anim/salida"
+        app:popEnterAnim="@anim/entrada"
+        app:popExitAnim="@anim/salida"
+        />
+    </fragment>
+
+    <fragment
+        android:id="@+id/hidrantesBomberos"
+        android:name="N.J.L.F.S.Q.ignis_ptc.HidrantesBomberos"
+        android:label="fragment_hidrantes_bomberos"
+        tools:layout="@layout/fragment_hidrantes_bomberos">
+
+        <action android:id="@+id/haciaUbicaciones"
+            app:destination="@+id/ubicaciones_Bomberos"
+            app:enterAnim="@anim/entrada"
+            app:exitAnim="@anim/salida"
+            app:popEnterAnim="@anim/entrada"
+            app:popExitAnim="@anim/salida"
+            />
+
+    </fragment>
 </navigation>
