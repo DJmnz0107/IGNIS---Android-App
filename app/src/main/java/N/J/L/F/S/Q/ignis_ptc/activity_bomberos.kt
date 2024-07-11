@@ -29,20 +29,14 @@ class activity_bomberos : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_bomberos)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
+        binding = ActivityBomberosBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
         val navController = findNavController(R.id.nav_host_fragment_container)
 
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.nav_bomberos)
-
-        bottomNavigationView.setupWithNavController(navController)
+        binding.navBomberos.setupWithNavController(navController)
 
     }
 }

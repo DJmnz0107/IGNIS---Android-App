@@ -15,7 +15,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.android.gms.maps.GoogleMap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -33,7 +32,6 @@ class activity_Register : AppCompatActivity() {
             insets
         }
 
-
         val txtUsuario = findViewById<EditText>(R.id.txtUserRegister)
         val txtPassword = findViewById<EditText>(R.id.txtPasswordRegister)
         val txtEdad = findViewById<EditText>(R.id.txtEdadRegister)
@@ -46,7 +44,6 @@ class activity_Register : AppCompatActivity() {
         }
 
         val imgShow = findViewById<ImageView>(R.id.imgShow1)
-
         val imgHide = findViewById<ImageView>(R.id.imgHide1)
 
         imgHide.visibility = View.GONE
@@ -85,8 +82,6 @@ class activity_Register : AppCompatActivity() {
 
         txtEdad.filters = arrayOf(InputFilter.LengthFilter(3))
 
-        txtEdad.filters = arrayOf(InputFilter.LengthFilter(3))
-
         txtEdad.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -97,8 +92,10 @@ class activity_Register : AppCompatActivity() {
                     if (edadInt != null && edadInt >= 13) {
                         if (edadText.length > 3) {
                             txtEdad.error = "La edad no puede contener más de 3 caracteres"
+                            btnRegistrarse.isEnabled = false
                         } else {
                             txtEdad.error = null
+                            btnRegistrarse.isEnabled = true
 
                             if (edadInt >= 18) {
                                 txtDUI.isEnabled = true
@@ -108,18 +105,22 @@ class activity_Register : AppCompatActivity() {
                         }
                     } else {
                         txtEdad.error = "La edad debe ser mayor o igual a 13"
+                        btnRegistrarse.isEnabled = false
                     }
                 } else {
+                    btnRegistrarse.isEnabled = false
                 }
             }
 
-            override fun afterTextChanged(s: Editable?) {}
+            override fun afterTextChanged(s: Editable?) {
+                if (s != null) {
+                    val edadInt = s.toString().toIntOrNull()
+                    btnRegistrarse.isEnabled = edadInt != null && edadInt >= 13
+                }
+            }
         })
 
-
-
-
-        //validacion de campos
+        // Validación de campos
         btnRegistrarse.setOnClickListener {
             val nombre = txtUsuario.text.toString()
             val password = txtPassword.text.toString()
@@ -130,6 +131,9 @@ class activity_Register : AppCompatActivity() {
 
             if (nombre.isEmpty()) {
                 txtUsuario.error = "Nombre obligatorio"
+                validacion = true
+            } else if (nombre.contains(" ")) {
+                txtUsuario.error = "El nombre no puede contener espacios"
                 validacion = true
             } else {
                 txtUsuario.error = null
@@ -148,15 +152,6 @@ class activity_Register : AppCompatActivity() {
                 validacion = true
             } else {
                 txtEdad.error = null
-                if (txtEdad.text.toString().toInt() >= 13 && txtEdad.text.toString().toInt() <= 18) {
-                    txtDUI.error = null
-                } else {
-                    if (!dui.matches(Regex("[0-9]{8}-[0-9]"))) {
-                        txtDUI.error = "El DUI no tiene un formato válido. Ej: 12345678-9"
-                    } else {
-                        txtDUI.error = null
-                    }
-                }
             }
 
             if (!edad.matches(Regex("[0-9]+"))) {
@@ -166,49 +161,41 @@ class activity_Register : AppCompatActivity() {
                 validacion = true
             } else {
                 txtEdad.error = null
-
             }
 
             if (!password.matches(Regex("^(?=.*[A-Z])(?=.*[!@#\$%^&*(),.?_\":{}|<>]).{8,}$"))) {
-                txtPassword.error =
-                    "La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un símbolo especial"
+                txtPassword.error = "La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un símbolo especial"
                 validacion = true
             } else {
                 txtPassword.error = null
             }
 
-
-
-
-            //guardar campos en la base de datos
-            if (validacion){
-
-
-            } else {
+            // Guardar campos en la base de datos
+            if (!validacion) {
                 try {
                     GlobalScope.launch(Dispatchers.IO) {
                         val objConexion = ClaseConexion().cadenaConexion()
 
-                        val password = hashSHA256(txtPassword.text.toString())
+                        val passwordHashed = hashSHA256(txtPassword.text.toString())
                         val nivel = 1
 
                         if (txtEdad.text.toString().toInt() >= 18 && txtDUI.text.toString().isEmpty()) {
-                            withContext(Dispatchers.Main){
+                            withContext(Dispatchers.Main) {
                                 Toast.makeText(this@activity_Register, "Es necesario añadir un DUI si la edad es mayor a 18", Toast.LENGTH_LONG).show()
                             }
                         } else {
                             val crearUsuario = objConexion?.prepareStatement("INSERT INTO Usuarios (nombre_usuario, contrasena_usuario, edad_usuario, dui_usuario, id_nivelUsuario) VALUES (?, ?, ?, ?, ?)")!!
                             crearUsuario.setString(1, txtUsuario.text.toString())
-                            crearUsuario.setString(2, password)
+                            crearUsuario.setString(2, passwordHashed)
                             crearUsuario.setInt(3, txtEdad.text.toString().toInt())
 
-                            val dui = if (txtDUI.text.toString().isEmpty()) {
+                            val duiText = if (txtDUI.text.toString().isEmpty()) {
                                 null
                             } else {
                                 txtDUI.text.toString()
                             }
 
-                            crearUsuario.setString(4, dui)
+                            crearUsuario.setString(4, duiText)
                             crearUsuario.setInt(5, nivel)
                             crearUsuario.executeUpdate()
                             withContext(Dispatchers.Main) {
@@ -219,18 +206,11 @@ class activity_Register : AppCompatActivity() {
                                 txtDUI.setText("")
                             }
                         }
-
                     }
-                }catch (e:Exception) {
+                } catch (e: Exception) {
                     println("El error es: $e")
                 }
-
-
-
             }
         }
-
-
-
     }
 }
