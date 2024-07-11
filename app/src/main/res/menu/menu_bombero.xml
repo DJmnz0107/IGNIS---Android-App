@@ -3,11 +3,11 @@
 
     <item
         android:id="@+id/inicio_Bombero"
-        android:icon="@drawable/yayaya"
+        android:icon="@drawable/baseline_arrow_downward_24"
         android:title="Inicio" />
     <item
         android:id="@+id/informe_Bomberos"
-        android:icon="@drawable/ojo"
+        android:icon="@drawable/baseline_arrow_downward_24"
         android:title="Informe" />
 
     <item

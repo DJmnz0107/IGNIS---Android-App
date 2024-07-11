@@ -53,8 +53,8 @@
     <View
         android:id="@+id/cuadrado1"
         android:layout_width="380dp"
-        android:layout_height="175dp"
-        android:layout_marginTop="12dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="35dp"
         android:background="@drawable/ubi_cuadrado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
@@ -64,25 +64,23 @@
     <View
         android:id="@+id/cuadrado3"
         android:layout_width="380dp"
-        android:layout_height="175dp"
-        android:layout_marginBottom="4dp"
+        android:layout_height="160dp"
         android:background="@drawable/ubi_cuadrado"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cuadrado2" />
 
     <View
         android:id="@+id/cuadrado2"
         android:layout_width="380dp"
-        android:layout_height="175dp"
+        android:layout_height="160dp"
+
         android:background="@drawable/ubi_cuadrado"
-        app:layout_constraintBottom_toTopOf="@+id/cuadrado3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cuadrado1"
-        app:layout_constraintVertical_bias="0.52" />
+        app:layout_constraintTop_toBottomOf="@+id/cuadrado1" />
 
     <TextView
         android:id="@+id/textView11"
@@ -119,20 +117,20 @@
 
     <View
         android:id="@+id/redondo_ubi1"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="12dp"
         android:background="@drawable/ubi_redondo"
         app:layout_constraintEnd_toEndOf="@+id/cuadrado1"
-        app:layout_constraintHorizontal_bias="0.918"
+        app:layout_constraintHorizontal_bias="0.878"
         app:layout_constraintStart_toEndOf="@+id/textView12"
         app:layout_constraintTop_toTopOf="@+id/cuadrado1" />
 
     <ImageView
         android:id="@+id/imgHidrante"
-        android:layout_width="80dp"
-        android:layout_height="77dp"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="20dp"
         android:src="@drawable/aguacero"
         app:layout_constraintBottom_toBottomOf="@+id/redondo_ubi1"
@@ -142,8 +140,8 @@
 
     <View
         android:id="@+id/redondo_ubi2"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="28dp"
         android:background="@drawable/ubi_redondo"
@@ -152,8 +150,8 @@
 
     <View
         android:id="@+id/redondo_ubi3"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:layout_marginStart="36dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/ubi_redondo"
@@ -179,16 +177,15 @@
 
     <TextView
         android:id="@+id/textView13"
-        android:layout_width="221dp"
-        android:layout_height="76dp"
-        android:layout_marginBottom="40dp"
+        android:layout_width="216dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="36dp"
         android:fontFamily="@font/cabin_semibold"
         android:text="Mira cuales son los hidrantes que se encuentran en tus alrededores."
         android:textColor="#FFFFFF"
         android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="@+id/cuadrado1"
-        app:layout_constraintEnd_toStartOf="@+id/ubiHidrantes"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/cuadrado1" />
 
     <Button
@@ -196,7 +193,7 @@
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginEnd="12dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:backgroundTint="#FF8E0202"
         android:drawableLeft="@drawable/ubi_pregunta"
         android:fontFamily="@font/cabin_bold"
@@ -227,7 +224,7 @@
         android:id="@+id/textView15"
         android:layout_width="191dp"
         android:layout_height="82dp"
-        android:layout_marginEnd="28dp"
+        android:layout_marginEnd="20dp"
         android:fontFamily="@font/cabin_semibold"
         android:text="Asegurate de que estaciones de bomberos operan cerca de tu zona."
 
@@ -238,7 +235,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/cuadrado2"
         app:layout_constraintEnd_toEndOf="@+id/cuadrado2"
         app:layout_constraintTop_toTopOf="@+id/cuadrado2"
-        app:layout_constraintVertical_bias="0.484" />
+        app:layout_constraintVertical_bias="0.514" />
 
     <Button
         android:id="@+id/VerUbi"
@@ -261,31 +258,32 @@
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/cabin_bold"
         android:text="Zonas de Peligro"
         android:textColor="#FFFFFF"
         android:textSize="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView17"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.085"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cuadrado3"
-        app:layout_constraintVertical_bias="0.181" />
+        app:layout_constraintHorizontal_bias="0.066"
+        app:layout_constraintStart_toStartOf="@+id/cuadrado3"
+        app:layout_constraintTop_toTopOf="@+id/cuadrado3" />
 
     <TextView
         android:id="@+id/textView17"
         android:layout_width="210dp"
         android:layout_height="71dp"
         android:layout_marginStart="20dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="48dp"
         android:fontFamily="@font/cabin_semibold"
         android:text="Revisa que zonas pueden estar atentando contra la seguridad ciudadana."
         android:textColor="#FFFFFF"
         android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="@+id/cuadrado3"
         app:layout_constraintEnd_toStartOf="@+id/VerUbiZona"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/cuadrado3" />
+        app:layout_constraintHorizontal_bias="0.416"
+        app:layout_constraintStart_toStartOf="@+id/cuadrado3"
+        app:layout_constraintTop_toBottomOf="@+id/textView16"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/VerUbiZona"
@@ -305,8 +303,8 @@
 
     <ImageView
         android:id="@+id/imgEstaciones"
-        android:layout_width="83dp"
-        android:layout_height="66dp"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
         android:layout_marginTop="24dp"
         android:src="@drawable/baseimg"
         app:layout_constraintEnd_toEndOf="@+id/redondo_ubi3"
@@ -316,9 +314,9 @@
 
     <ImageView
         android:id="@+id/imgPeligro"
-        android:layout_width="75dp"
-        android:layout_height="80dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="60dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="10dp"
         android:src="@drawable/alertaubiimg"
         app:layout_constraintBottom_toBottomOf="@+id/redondo_ubi2"
         app:layout_constraintEnd_toEndOf="@+id/redondo_ubi2"
