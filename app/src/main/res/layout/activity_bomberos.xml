@@ -12,8 +12,6 @@
         android:id="@+id/nav_bomberos"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginBottom="4dp"
         android:background="@drawable/rectangulo"
         app:itemIconTint="@drawable/colordelitem"
         app:itemTextColor="@drawable/colortexto"
@@ -34,4 +32,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/navigation_bomberos" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
