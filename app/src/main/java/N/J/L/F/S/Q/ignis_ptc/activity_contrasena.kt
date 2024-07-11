@@ -1,5 +1,6 @@
 package N.J.L.F.S.Q.ignis_ptc
 
+import Modelo.ClaseConexion
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -29,6 +30,12 @@ class activity_contrasena : AppCompatActivity() {
             val userrecu = txtUsuario.text.toString()
 
 
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val nombreuser :String? =null
+                val objConexion = ClaseConexion().cadenaConexion()
+
+            }
 
             if(){
 
