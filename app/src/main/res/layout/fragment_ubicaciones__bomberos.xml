@@ -76,7 +76,7 @@
                     android:layout_height="100dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/circuloblanco"
-                    app:layout_constraintBottom_toTopOf="@+id/button11"
+                    app:layout_constraintBottom_toTopOf="@+id/btnHidrantesBomberos"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.551" />
@@ -98,7 +98,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <Button
-                    android:id="@+id/button11"
+                    android:id="@+id/btnHidrantesBomberos"
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
                     android:backgroundTint="#8D0202"

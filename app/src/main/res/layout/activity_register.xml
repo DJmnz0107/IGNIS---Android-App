@@ -152,7 +152,7 @@
         android:backgroundTint="#F4B14A"
         android:ems="10"
         android:fontFamily="@font/cabin_semibold"
-        android:inputType="number"
+        android:inputType="text"
         android:textColor="#EE894C"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/btnRegistrarse"

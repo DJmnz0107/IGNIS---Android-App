@@ -1,15 +1,22 @@
 package N.J.L.F.S.Q.ignis_ptc
 
+import Modelo.ClaseConexion
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.security.MessageDigest
 
 class activity_Register : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +34,11 @@ class activity_Register : AppCompatActivity() {
         val txtEdad = findViewById<EditText>(R.id.txtEdadRegister)
         val txtDUI = findViewById<EditText>(R.id.txtDuiRegister)
         val btnRegistrarse = findViewById<Button>(R.id.btnRegistrarse)
+
+        fun hashSHA256(password: String): String {
+            val bytes = MessageDigest.getInstance("SHA-256").digest(password.toByteArray())
+            return bytes.joinToString("") { "%02x".format(it) }
+        }
 
         val imgShow = findViewById<ImageView>(R.id.imgShow1)
 
@@ -94,11 +106,46 @@ class activity_Register : AppCompatActivity() {
                 txtPassword.error = null
             }
 
+            if (!dui.matches(Regex("[0-9]{8}-[0-9]"))) {
+                txtDUI.error = "El DUI no tiene un formato válido. Ej: 12345678-9"
+            } else {
+                txtDUI.error = null
+            }
+
             //guardar campos en la base de datos
             if (validacion){
 
 
             } else {
+                GlobalScope.launch(Dispatchers.IO) {
+                    val objConexion = ClaseConexion().cadenaConexion()
+
+                    val password = hashSHA256(txtPassword.text.toString())
+                    val nivel = 1
+
+                    val crearUsuario = objConexion?.prepareStatement("INSERT INTO Usuarios (nombre_usuario, contrasena_usuario, edad_usuario, dui_usuario, id_nivelUsuario) VALUES (?, ?, ?, ?, ?)")!!
+                    crearUsuario.setString(1, txtUsuario.text.toString())
+                    crearUsuario.setString(2, password)
+                    crearUsuario.setInt(3, txtEdad.text.toString().toInt())
+
+                    val dui = if (txtDUI.text.toString().isEmpty()) {
+                        "menor"
+                    } else {
+                        txtDUI.text.toString()
+                    }
+
+                    crearUsuario.setString(4, dui)
+                    crearUsuario.setInt(5, nivel)
+                    crearUsuario.executeUpdate()
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@activity_Register, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
+                        txtUsuario.setText("")
+                        txtPassword.setText("")
+                        txtEdad.setText("")
+                        txtDUI.setText("")
+                    }
+                }
+
 
             }
         }
