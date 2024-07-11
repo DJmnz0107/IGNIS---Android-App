@@ -19,5 +19,18 @@
         android:id="@+id/ubicaciones_Bomberos"
         android:name="N.J.L.F.S.Q.ignis_ptc.Ubicaciones_Bomberos"
         android:label="fragment_ubicaciones__bomberos"
-        tools:layout="@layout/fragment_ubicaciones__bomberos" />
+        tools:layout="@layout/fragment_ubicaciones__bomberos" >
+        <action
+            android:id="@+id/haciaEmergencias"
+            app:destination="@id/ubicaciones_emergencias" />
+    </fragment>
+    <fragment
+        android:id="@+id/ubicaciones_emergencias"
+        android:name="N.J.L.F.S.Q.ignis_ptc.Ubicaciones_emergencias"
+        android:label="fragment_ubicaciones_emergencias"
+        tools:layout="@layout/fragment_ubicaciones_emergencias" >
+        <action
+            android:id="@+id/emergenciaAbomberos"
+            app:destination="@id/ubicaciones_Bomberos" />
+    </fragment>
 </navigation>
