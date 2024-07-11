@@ -135,17 +135,17 @@
         android:ems="10"
         android:fontFamily="@font/cabin_semibold"
         android:hint="En caso de ser mayor de edad ingresar DUI"
-        android:inputType="text"
+        android:inputType="number"
         android:textColor="#EE894C"
         android:textColorHint="#EE894C"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/txtDuiRegistro"
+        app:layout_constraintBottom_toTopOf="@+id/txtDuiRegister"
         app:layout_constraintEnd_toEndOf="@+id/view6"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="@+id/view6" />
 
     <EditText
-        android:id="@+id/txtDuiRegistro"
+        android:id="@+id/txtDuiRegister"
         android:layout_width="287dp"
         android:layout_height="43dp"
         android:layout_marginBottom="24dp"
@@ -167,7 +167,7 @@
         android:fontFamily="@font/cabin_semibold"
         android:text="Dui"
         android:textColor="#EE894C"
-        app:layout_constraintBottom_toTopOf="@+id/txtDuiRegistro"
+        app:layout_constraintBottom_toTopOf="@+id/txtDuiRegister"
         app:layout_constraintEnd_toEndOf="@+id/view6"
         app:layout_constraintHorizontal_bias="0.086"
         app:layout_constraintStart_toStartOf="@+id/view6"
@@ -178,14 +178,15 @@
         android:id="@+id/btnRecuperarContra"
         android:layout_width="167dp"
         android:layout_height="61dp"
-        android:layout_marginBottom="68dp"
+        android:layout_marginBottom="84dp"
         android:backgroundTint="#8D0202"
         android:text="Registrarse"
         android:textColor="@color/white"
+        android:background="@drawable/button_register"
         app:cornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="@+id/view6"
         app:layout_constraintEnd_toEndOf="@+id/view6"
-        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="@+id/view6"
         app:strokeColor="#EE894C"
         app:strokeWidth="2dp" />
@@ -206,8 +207,8 @@
 
     <EditText
         android:id="@+id/txtPasswordRegister"
-        android:layout_width="287dp"
-        android:layout_height="47dp"
+        android:layout_width="256dp"
+        android:layout_height="42dp"
         android:layout_marginTop="32dp"
         android:backgroundTint="#F4B14A"
         android:ems="10"
@@ -217,31 +218,32 @@
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/txtEdadRegister"
         app:layout_constraintEnd_toEndOf="@+id/view6"
-        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="@+id/view6"
         app:layout_constraintTop_toBottomOf="@+id/txtUserRegister"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0.111" />
 
     <ImageView
         android:id="@+id/imgShow1"
         android:layout_width="29dp"
         android:layout_height="26dp"
-        android:layout_marginTop="340dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.835"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPasswordRegister"
+        app:layout_constraintEnd_toEndOf="@+id/view6"
+        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintStart_toEndOf="@+id/txtPasswordRegister"
+        app:layout_constraintTop_toTopOf="@+id/txtPasswordRegister"
         app:srcCompat="@drawable/orange_show" />
 
     <ImageView
         android:id="@+id/imgHide1"
         android:layout_width="29dp"
         android:layout_height="26dp"
-        android:layout_marginTop="340dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.835"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="3dp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPasswordRegister"
+        app:layout_constraintEnd_toEndOf="@+id/view6"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/txtPasswordRegister"
+        app:layout_constraintTop_toTopOf="@+id/txtPasswordRegister"
         app:srcCompat="@drawable/orange_hide" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

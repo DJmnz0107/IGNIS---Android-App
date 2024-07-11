@@ -6,19 +6,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import N.J.L.F.S.Q.ignis_ptc.databinding.ActivityMainBinding
-import android.Manifest
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.view.Window
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.urgencias_principal
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.fragment_seguimiento, R.id.urgencias_principal
             )
         )
         navView.setupWithNavController(navController)
@@ -51,7 +42,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -68,4 +58,3 @@ class MainActivity : AppCompatActivity() {
 
 
 }
-

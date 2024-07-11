@@ -9,11 +9,11 @@
     <fragment
         android:id="@+id/mapEstaciones"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="394dp"
-        android:layout_height="446dp"
+        android:layout_width="395dp"
+        android:layout_height="428dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.588"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
@@ -21,8 +21,8 @@
 
     <View
         android:id="@+id/view16"
-        android:layout_width="374dp"
-        android:layout_height="241dp"
+        android:layout_width="371dp"
+        android:layout_height="236dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/estaciones_maps_drawable"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,13 +30,13 @@
         app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mapEstaciones"
-        app:layout_constraintVertical_bias="0.116" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <View
         android:id="@+id/view25"
-        android:layout_width="396dp"
-        android:layout_height="80dp"
-        android:background="#80270C0A"
+        android:layout_width="393dp"
+        android:layout_height="67dp"
+        android:background="#AB270C0A"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -45,7 +45,7 @@
         android:id="@+id/textView24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/cabin_bold"
         android:text="Estaciones cercanas"
         android:textColor="#FFFFFF"
@@ -56,13 +56,37 @@
 
     <ImageView
         android:id="@+id/imgBack"
-        android:layout_width="43dp"
-        android:layout_height="49dp"
+        android:layout_width="37dp"
+        android:layout_height="40dp"
         android:layout_marginTop="12dp"
         app:layout_constraintEnd_toStartOf="@+id/textView24"
         app:layout_constraintHorizontal_bias="0.232"
         app:layout_constraintStart_toStartOf="@+id/view25"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/back" />
+
+    <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+        android:id="@+id/carousel"
+        android:layout_width="307dp"
+        android:layout_height="177dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="229dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/cabin_bold"
+        android:text="Estaciones cercanas"
+        android:textColor="#F2844C"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.274"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view16" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

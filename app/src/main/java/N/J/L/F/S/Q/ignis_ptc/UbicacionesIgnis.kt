@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.navigation.fragment.findNavController
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,19 +46,18 @@ class UbicacionesIgnis : Fragment() {
         val btnUbiEstaciones = root.findViewById<Button>(R.id.VerUbi)
 
         btnUbiEstaciones.setOnClickListener {
-            abrirFragmentoEstaciones()
+            findNavController().navigate(R.id.haciaEstaciones)
+        }
+
+        val btnUbiZonas = root.findViewById<Button>(R.id.VerUbiZona)
+
+        btnUbiZonas.setOnClickListener {
+            findNavController().navigate(R.id.haciaZonas)
         }
 
         return root
     }
 
-    private fun abrirFragmentoEstaciones() {
-        val EstacionesFragment = EstacionesMaps()
-        val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, EstacionesFragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
-    }
 
     companion object {
         /**
