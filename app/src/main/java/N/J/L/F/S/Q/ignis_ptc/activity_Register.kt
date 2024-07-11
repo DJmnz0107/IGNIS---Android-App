@@ -144,9 +144,19 @@ class activity_Register : AppCompatActivity() {
 
             if (edad.isEmpty()) {
                 txtEdad.error = "Edad obligatoria"
+                txtDUI.error = null
                 validacion = true
             } else {
                 txtEdad.error = null
+                if (txtEdad.text.toString().toInt() >= 13 && txtEdad.text.toString().toInt() <= 18) {
+                    txtDUI.error = null
+                } else {
+                    if (!dui.matches(Regex("[0-9]{8}-[0-9]"))) {
+                        txtDUI.error = "El DUI no tiene un formato válido. Ej: 12345678-9"
+                    } else {
+                        txtDUI.error = null
+                    }
+                }
             }
 
             if (!edad.matches(Regex("[0-9]+"))) {
@@ -167,15 +177,7 @@ class activity_Register : AppCompatActivity() {
                 txtPassword.error = null
             }
 
-            if (txtEdad.text.toString().toInt() >= 13 && txtEdad.text.toString().toInt() <= 18) {
-                txtDUI.error = null
-            } else {
-                if (!dui.matches(Regex("[0-9]{8}-[0-9]"))) {
-                    txtDUI.error = "El DUI no tiene un formato válido. Ej: 12345678-9"
-                } else {
-                    txtDUI.error = null
-                }
-            }
+
 
 
             //guardar campos en la base de datos
