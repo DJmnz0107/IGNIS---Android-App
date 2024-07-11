@@ -26,6 +26,7 @@
         android:id="@+id/view26"
         android:layout_width="375dp"
         android:layout_height="531dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/cuadrado_contrasena"
         app:layout_constraintBottom_toTopOf="@+id/view30"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +57,7 @@
         android:textColor="#FFFFFF"
         android:textSize="31sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,7 +80,7 @@
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="32dp"
 
 
         android:fontFamily="@font/cabin_semibold"
@@ -95,22 +96,22 @@
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="32dp"
         android:fontFamily="@font/cabin_semibold"
         android:text="Escribe tu correo electronico"
 
 
         android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/txtCorreoRecu"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.217"
+        app:layout_constraintHorizontal_bias="0.175"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/txtNombreUsuarioRecu"
         android:layout_width="319dp"
         android:layout_height="42dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="44dp"
         android:backgroundTint="#8E0202"
         android:ems="10"
         android:fontFamily="@font/cabin_semibold"
@@ -128,39 +129,88 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/txtCorreoRecu"
         android:layout_width="322dp"
         android:layout_height="33dp"
         android:backgroundTint="#8E0202"
         android:ems="10"
         android:fontFamily="@font/cabin_semibold"
+
+
         android:inputType="textEmailAddress"
-
-
         android:text=""
-        android:textColor="#EE894C"
 
+        android:textColor="#EE894C"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnRegistrarse"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.438"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="400dp" />
 
     <Button
-        android:id="@+id/btnRegistrarse"
+        android:id="@+id/EnviarCorreo"
         android:layout_width="167dp"
         android:layout_height="61dp"
         android:layout_marginBottom="20dp"
+        android:backgroundTint="#8D0202"
+        android:text="Enviar Correo"
+        android:textColor="@color/white"
+
+        app:cornerRadius="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/view30"
+        app:layout_constraintStart_toStartOf="@+id/txtCorreoRecu"
+        app:strokeColor="#EE894C"
+        app:strokeWidth="2dp" />
+
+    <Button
+        android:id="@+id/btnRecuperarContra"
+        android:layout_width="167dp"
+        android:layout_height="61dp"
         android:backgroundTint="#8D0202"
         android:text="Recuperar Contraseña"
         android:textColor="@color/white"
 
         app:cornerRadius="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/view30"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextEmailAddress"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextEmailAddress"
+
         app:strokeColor="#EE894C"
-        app:strokeWidth="2dp" />
+        app:strokeWidth="2dp"
+        tools:layout_editor_absoluteX="214dp"
+        tools:layout_editor_absoluteY="546dp" />
+
+    <EditText
+        android:id="@+id/CodigoEnviado"
+        android:layout_width="322dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="#8E0202"
+        android:ems="10"
+
+
+        android:fontFamily="@font/cabin_semibold"
+        android:inputType="textEmailAddress"
+
+        android:text=""
+        android:textColor="#EE894C"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnRecuperarContra"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.415"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/cabin_semibold"
+
+
+        android:text="Escribe tu codigo de verificación"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/CodigoEnviado"
+        app:layout_constraintEnd_toEndOf="@+id/view26"
+        app:layout_constraintHorizontal_bias="0.123"
+        app:layout_constraintStart_toStartOf="@+id/view26" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

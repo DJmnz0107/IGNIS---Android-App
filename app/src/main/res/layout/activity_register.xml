@@ -155,7 +155,7 @@
         android:inputType="text"
         android:textColor="#EE894C"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnRegistrarse"
+        app:layout_constraintBottom_toTopOf="@+id/btnRecuperarContra"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent" />
@@ -175,7 +175,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/btnRegistrarse"
+        android:id="@+id/btnRecuperarContra"
         android:layout_width="167dp"
         android:layout_height="61dp"
         android:layout_marginBottom="68dp"
