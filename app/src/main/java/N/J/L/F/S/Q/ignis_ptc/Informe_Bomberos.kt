@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,8 +35,20 @@ class Informe_Bomberos : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_informe__bomberos, container, false)
+       val root = inflater.inflate(R.layout.fragment_informe__bomberos, container, false)
+
+
+        val listadoDeResultados = arrayOf("Exitosa", "Fallida")
+
+        val adaptadorResultado = ArrayAdapter (requireContext(),android.R.layout.simple_spinner_dropdown_item, listadoDeResultados)
+
+        val spResultados: Spinner = root.findViewById(R.id.spResultados)
+
+        spResultados.adapter = adaptadorResultado
+
+
+        return root
+
     }
 
     companion object {
