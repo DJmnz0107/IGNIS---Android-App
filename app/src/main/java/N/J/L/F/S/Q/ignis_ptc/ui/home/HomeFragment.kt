@@ -167,11 +167,11 @@ class HomeFragment : Fragment() {
             }
         }
 
-        var textDescripcion = txtDescripcion.text.toString()
+        val textDescripcion = txtDescripcion.text.toString()
 
-        if (txtDescripcion.text.isEmpty()) {
-            textDescripcion = "Descripción no brindada."
-        }
+        val txtTipo = txtTipoEmergencia.text.toString()
+
+
 
         val btnAtras = bottomSheetView.findViewById<Button>(R.id.btnAtras)
 
@@ -184,37 +184,56 @@ class HomeFragment : Fragment() {
         val btnEnviar = bottomSheetView.findViewById<Button>(R.id.btnEnviar)
         btnEnviar.setOnClickListener {
 
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    val ubicacion = withContext(Dispatchers.IO) {
-                        LocationService(context as MainActivity).getUbicacionAsync(context)
-                    }
+            var validacion = false
 
-                    if (ubicacion.isNotBlank()) {
-                        val objConexion = ClaseConexion().cadenaConexion()
-                        val insertEmergencia = objConexion?.prepareStatement("INSERT INTO Emergencias (ubicacion_emergencia, descripcion_emergencia, gravedad_emergencia, tipo_emergencia, respuesta_notificacion, estado_emergencia) VALUES (?, ?, ?, ?, ?, ?)")!!
+            val descripcion = txtDescripcion.text.toString()
+            val tipo = txtTipoEmergencia.text.toString()
 
-                        insertEmergencia.setString(1, ubicacion)
-                        insertEmergencia.setString(2, textDescripcion)
-                        insertEmergencia.setString(3, spGravedad.selectedItem.toString())
-                        insertEmergencia.setString(4, txtTipoEmergencia.text.toString())
-                        insertEmergencia.setString(5, "En espera")
-                        insertEmergencia.setString(6, "En proceso")
+            if (descripcion.isEmpty()) {
+                txtDescripcion.error = "Descripción obligatoria"
+                validacion = true
+            } else {
+                txtDescripcion.error = null
+            }
 
-                        insertEmergencia.executeUpdate()
-
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(requireContext(), "Información ingresada correctamente", Toast.LENGTH_LONG).show()
-                            txtDescripcion.text.clear()
-                            txtTipoEmergencia.text.clear()
+            if(!validacion) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        val ubicacion = withContext(Dispatchers.IO) {
+                            LocationService(context as MainActivity).getUbicacionAsync(context)
                         }
-                    } else {
-                        Toast.makeText(requireContext(),"Porfavor, activa los permisos de ubicación para poder conocer donde se encuentra la emergencia.", Toast.LENGTH_LONG).show()
+
+                        if (ubicacion.isNotBlank()) {
+                            val objConexion = ClaseConexion().cadenaConexion()
+                            val insertEmergencia = objConexion?.prepareStatement("INSERT INTO Emergencias (ubicacion_emergencia, descripcion_emergencia, gravedad_emergencia, tipo_emergencia, respuesta_notificacion, estado_emergencia) VALUES (?, ?, ?, ?, ?, ?)")!!
+
+                            insertEmergencia.setString(1, ubicacion)
+                            insertEmergencia.setString(2, textDescripcion)
+                            insertEmergencia.setString(3, spGravedad.selectedItem.toString())
+                            insertEmergencia.setString(4,txtTipoEmergencia.text.toString())
+                            insertEmergencia.setString(5, "En espera")
+                            insertEmergencia.setString(6, "En proceso")
+
+                            insertEmergencia.executeUpdate()
+
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(requireContext(), "Información ingresada correctamente", Toast.LENGTH_LONG).show()
+                                txtDescripcion.text.clear()
+                                txtTipoEmergencia.text.clear()
+                            }
+                        } else {
+                            Toast.makeText(requireContext(),"Porfavor, activa los permisos de ubicación para poder conocer donde se encuentra la emergencia.", Toast.LENGTH_LONG).show()
+                        }
+                    } catch (e: Exception) {
+                        println("El error es: $e")
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(requireContext(), "Revisa si están todos los campos  o si seleccionaste/escribiste el tipo de emergencia.", Toast.LENGTH_LONG).show()
+                        }
                     }
-                } catch (e: Exception) {
-                    println("El error es: $e")
                 }
             }
+
+
         }
     }
 

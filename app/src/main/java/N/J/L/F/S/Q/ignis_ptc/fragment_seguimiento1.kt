@@ -1,16 +1,23 @@
 package N.J.L.F.S.Q.ignis_ptc
 
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import org.w3c.dom.Text
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,6 +58,86 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
     ): View? {
         // Inflate the layout for this fragment
         val root =inflater.inflate(R.layout.fragment_seguimiento1, container, false)
+
+        val mapContainer = root.findViewById<ConstraintLayout>(R.id.mapContainer)
+
+        val mapFragment = childFragmentManager.findFragmentById(R.id.mapSeguimiento) as SupportMapFragment?
+
+        val btnSeguimiento = root.findViewById<Button>(R.id.btnSeguimiento)
+
+        val vBackground = root.findViewById<View>(R.id.vBackgorund)
+
+        val vCircular = root.findViewById<View>(R.id.vCircular)
+
+        val lblEstimado = root.findViewById<TextView>(R.id.lblTiempoEstimado)
+
+        val lblTiempo = root.findViewById<TextView>(R.id.lblTiempo)
+
+        val lblMensaje = root.findViewById<TextView>(R.id.lblMensaje)
+
+        val lblUrgencia = root.findViewById<TextView>(R.id.lblUrgencia)
+
+        val imgVolver = root.findViewById<ImageView>(R.id.imgVolverMapa)
+
+        imgVolver.visibility = View.GONE
+
+        val originalLayoutParams = mapFragment?.view?.layoutParams
+        val width = originalLayoutParams?.width
+        val height = originalLayoutParams?.height
+
+
+
+        imgVolver.setOnClickListener {
+            originalLayoutParams?.height = height
+            originalLayoutParams?.width = width
+            mapFragment?.view?.layoutParams = originalLayoutParams
+
+
+            btnSeguimiento.visibility = View.VISIBLE
+
+            vBackground.visibility = View.VISIBLE
+
+            vCircular.visibility = View.VISIBLE
+
+            lblEstimado.visibility = View.VISIBLE
+
+            lblTiempo.visibility = View.VISIBLE
+
+            lblMensaje.visibility = View.VISIBLE
+
+            lblUrgencia.visibility = View.VISIBLE
+
+            imgVolver.visibility = View.GONE
+
+        }
+
+
+
+        btnSeguimiento.setOnClickListener {
+            val layoutParams = mapFragment?.view?.layoutParams
+            layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
+            layoutParams?.width = ViewGroup.LayoutParams.MATCH_PARENT
+            mapFragment?.view?.layoutParams = layoutParams
+
+            btnSeguimiento.visibility = View.GONE
+
+            vBackground.visibility = View.GONE
+
+            vCircular.visibility = View.GONE
+
+            lblEstimado.visibility = View.GONE
+
+            lblTiempo.visibility = View.GONE
+
+            lblMensaje.visibility = View.GONE
+
+            lblUrgencia.visibility = View.GONE
+
+            imgVolver.visibility = View.VISIBLE
+
+
+
+        }
 
         return root
 

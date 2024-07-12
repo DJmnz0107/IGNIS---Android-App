@@ -1,6 +1,7 @@
 package N.J.L.F.S.Q.ignis_ptc
 
 import Modelo.ClaseConexion
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -45,6 +46,13 @@ class activity_Register : AppCompatActivity() {
 
         val imgShow = findViewById<ImageView>(R.id.imgShow1)
         val imgHide = findViewById<ImageView>(R.id.imgHide1)
+
+        val imgVolver = findViewById<ImageView>(R.id.imgRegresarLogin)
+
+        imgVolver.setOnClickListener {
+            val pantallaLogin = Intent(this, activity_Login::class.java)
+            startActivity(pantallaLogin)
+        }
 
         imgHide.visibility = View.GONE
         imgShow.visibility = View.VISIBLE

@@ -2,14 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout3"
+    android:id="@+id/mapContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F2844C"
     tools:context=".fragment_seguimiento1" >
 
     <Button
-        android:id="@+id/button8"
+        android:id="@+id/btnSeguimiento"
         android:layout_width="162dp"
         android:layout_height="55dp"
         android:layout_marginTop="44dp"
@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView29" />
+        app:layout_constraintTop_toBottomOf="@+id/lblMensaje" />
 
     <fragment
         android:id="@+id/mapSeguimiento"
@@ -35,7 +35,7 @@
         tools:context=".fragment_seguimiento1" />
 
     <View
-        android:id="@+id/view27"
+        android:id="@+id/vBackgorund"
         android:layout_width="370dp"
         android:layout_height="244dp"
         android:layout_marginTop="16dp"
@@ -46,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/mapSeguimiento" />
 
     <View
-        android:id="@+id/view26"
+        android:id="@+id/vCircular"
         android:layout_width="161dp"
         android:layout_height="155dp"
         android:layout_marginTop="328dp"
@@ -67,7 +67,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView27"
+        android:id="@+id/lblTiempoEstimado"
         android:layout_width="124dp"
         android:layout_height="55dp"
         android:layout_marginTop="36dp"
@@ -78,10 +78,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view26" />
+        app:layout_constraintTop_toTopOf="@+id/vCircular" />
 
     <TextView
-        android:id="@+id/textView28"
+        android:id="@+id/lblTiempo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="84dp"
@@ -91,10 +91,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view26" />
+        app:layout_constraintTop_toTopOf="@+id/vCircular" />
 
     <TextView
-        android:id="@+id/textView29"
+        android:id="@+id/lblMensaje"
         android:layout_width="354dp"
         android:layout_height="85dp"
         android:layout_marginTop="4dp"
@@ -103,13 +103,13 @@
         android:textAlignment="center"
         android:textColor="#EF8A4C"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/view27"
+        app:layout_constraintEnd_toEndOf="@+id/vBackgorund"
         app:layout_constraintHorizontal_bias="0.544"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view26" />
+        app:layout_constraintTop_toBottomOf="@+id/vCircular" />
 
     <TextView
-        android:id="@+id/textView30"
+        android:id="@+id/lblUrgencia"
         android:layout_width="76dp"
         android:layout_height="31dp"
         android:layout_marginBottom="20dp"
@@ -117,10 +117,10 @@
         android:text="Urgencia"
         android:textColor="#EF574E"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/button8"
+        app:layout_constraintBottom_toTopOf="@+id/btnSeguimiento"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.475"
-        app:layout_constraintStart_toStartOf="@+id/view27" />
+        app:layout_constraintStart_toStartOf="@+id/vBackgorund" />
 
     <TextView
         android:id="@+id/textView31"
@@ -136,6 +136,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imgVolverMapa"
+        android:layout_width="31dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/back"
+        app:layout_constraintEnd_toEndOf="@+id/view25"
+        app:layout_constraintHorizontal_bias="0.041"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

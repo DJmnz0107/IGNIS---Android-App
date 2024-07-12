@@ -122,6 +122,9 @@ class activity_Login : AppCompatActivity() {
                        } else if(nivelUsuario2 == 2) {
                            revisarUsuario.setString(1, nombreUsuario)
                            revisarUsuario.setString(2, password)
+                       } else {
+                           revisarUsuario.setString(1, nombreUsuario)
+                           revisarUsuario.setString(2, contrasenaEncriptada)
                        }
 
 

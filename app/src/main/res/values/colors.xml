@@ -14,6 +14,7 @@
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
     <color name="custom_indicator_color">#FFFFFF</color>
+    <color name="colorBottom">#F5B24A</color>
 
 
 </resources>

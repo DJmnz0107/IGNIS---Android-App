@@ -12,13 +12,13 @@
         android:id="@+id/view2"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="48dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/register_element_circle1"
         app:layout_constraintBottom_toTopOf="@+id/view4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.116" />
+        app:layout_constraintVertical_bias="0.43" />
 
     <View
         android:id="@+id/view3"
@@ -245,5 +245,26 @@
         app:layout_constraintStart_toEndOf="@+id/txtPasswordRegister"
         app:layout_constraintTop_toTopOf="@+id/txtPasswordRegister"
         app:srcCompat="@drawable/orange_hide" />
+
+    <ImageView
+        android:id="@+id/imageView14"
+        android:layout_width="115dp"
+        android:layout_height="133dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.544"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ignis" />
+
+    <ImageView
+        android:id="@+id/imgRegresarLogin"
+        android:layout_width="42dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.028"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
