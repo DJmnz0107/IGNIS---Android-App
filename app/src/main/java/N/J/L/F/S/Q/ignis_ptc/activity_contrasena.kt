@@ -72,7 +72,7 @@ class activity_contrasena : AppCompatActivity() {
                                 enviarCorreo(
                                     correoUser,
                                     "Recuperacion de CONTRASEÑA",
-                                    "Hola usuario${userrecu}, Te saluda el grupo de ignis tu codigo es: ${codigoRecu}"
+                                    "Hola usuario ${userrecu}, Te saluda el grupo de ignis tu codigo es: ${codigoRecu}"
                                 )
 
                                 txtCORREORECU.setText("")

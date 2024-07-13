@@ -35,26 +35,27 @@ class activity_recucontra : AppCompatActivity() {
             insets
         }
 
-
-
-
-
         val txtcodigo = findViewById<EditText>(R.id.txtCodigoRecu)
-
-        val codigoColocado = txtcodigo.text.toString().toInt()
-
         val btnCodigoreco = findViewById<Button>(R.id.btnCambiarContra)
 
         btnCodigoreco.setOnClickListener {
+            val codigoText = txtcodigo.text.toString().trim()
 
-           
-
-            if (codigoColocado == activity_contrasena.codigoRecu){
-              mostrarDialogoActualizarContrasena()
-
+            if (codigoText.isEmpty()) {
+                Toast.makeText(this@activity_recucontra, "Por favor ingrese el código", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
             }
-            else{Toast.makeText(this@activity_recucontra,"Codigo Incorrecto",Toast.LENGTH_LONG).show()}
 
+            try {
+                val codigoColocado = codigoText.toInt()
+                if (codigoColocado == activity_contrasena.codigoRecu) {
+                    mostrarDialogoActualizarContrasena()
+                } else {
+                    Toast.makeText(this@activity_recucontra, "Código Incorrecto", Toast.LENGTH_LONG).show()
+                }
+            } catch (e: NumberFormatException) {
+                Toast.makeText(this@activity_recucontra, "Código no válido", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -67,53 +68,41 @@ class activity_recucontra : AppCompatActivity() {
 
         builder.setView(dialogLayout)
             .setTitle("Actualizar Contraseña")
-            .setPositiveButton("Actualizar", object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface?, which: Int) {
-                    val newPassword = etNewPassword.text.toString()
+            .setPositiveButton("Actualizar") { dialog, _ ->
+                val newPassword = etNewPassword.text.toString()
+                val confirmPassword = etConfirmPassword.text.toString()
+
+                if (newPassword == confirmPassword) {
                     val contraEncriptada = hashSHA256(newPassword)
-                    val confirmPassword = etConfirmPassword.text.toString()
-
-                    if (newPassword == confirmPassword) {
-
-                        actualizarContrasena(contraEncriptada)
-                    } else {
-
-                        etConfirmPassword.error = "Las contraseñas no coinciden"
-                    }
-                    dialog?.dismiss()
+                    actualizarContrasena(contraEncriptada)
+                } else {
+                    Toast.makeText(this@activity_recucontra, "Las contraseñas no coinciden", Toast.LENGTH_LONG).show()
                 }
-            })
-            .setNegativeButton("Cancelar", object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface?, which: Int) {
-                    dialog?.dismiss()
-                }
-            })
+                dialog?.dismiss()
+            }
+            .setNegativeButton("Cancelar") { dialog, _ ->
+                dialog?.dismiss()
+            }
             .create()
             .show()
     }
 
     private fun actualizarContrasena(nuevaContrasena: String) {
-       try {
-          val nombreUsuario = activity_contrasena.nombreUser
-           CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val nombreUsuario = activity_contrasena.nombreUser
+            CoroutineScope(Dispatchers.IO).launch {
+                val objConexion = ClaseConexion().cadenaConexion()
+                val updateContra = objConexion?.prepareStatement("UPDATE Usuarios SET contrasena_usuario = ? WHERE nombre_usuario = ?")!!
+                updateContra.setString(1, nuevaContrasena)
+                updateContra.setString(2, nombreUsuario)
+                updateContra.executeUpdate()
 
-               val objConexion = ClaseConexion().cadenaConexion()
-
-               val UpdateContra = objConexion?.prepareStatement("UPDATE Usuarios SET contrasena_usuario = ? WHERE nombre_usuario = ?")!!
-
-
-               UpdateContra.setString(1,nuevaContrasena)
-               UpdateContra.setString(2,nombreUsuario)
-               UpdateContra.executeUpdate()
-
-               withContext(Dispatchers.Main){
-
-                   Toast.makeText(this@activity_recucontra,"Contraseña acutalizada con exito",Toast.LENGTH_LONG).show()
-               }
-           }
-       }catch (e:Exception){
-           println("El error fue ${e}")}
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@activity_recucontra, "Contraseña actualizada con éxito", Toast.LENGTH_LONG).show()
+                }
+            }
+        } catch (e: Exception) {
+            println("El error fue $e")
+        }
     }
-
-
 }
