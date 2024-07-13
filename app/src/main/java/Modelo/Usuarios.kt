@@ -4,7 +4,7 @@ import java.sql.Connection
 import java.sql.ResultSet
 
 class Usuarios() {
-    fun obtenerNivelUsuario(nombreUsuario: String, contrasena: String): Int? {
+    fun     obtenerNivelUsuario(nombreUsuario: String, contrasena: String): Int? {
         var nivelUsuario: Int? = null
         val objConexion = ClaseConexion().cadenaConexion()
 

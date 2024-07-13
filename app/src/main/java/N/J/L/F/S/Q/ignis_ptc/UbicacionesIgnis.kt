@@ -45,6 +45,12 @@ class UbicacionesIgnis : Fragment() {
 
         val btnUbiEstaciones = root.findViewById<Button>(R.id.VerUbi)
 
+        val ubiHidrantes = root.findViewById<Button>(R.id.ubiHidrantes)
+
+        ubiHidrantes.setOnClickListener {
+            findNavController().navigate(R.id.haciaHidrantes)
+        }
+
         btnUbiEstaciones.setOnClickListener {
             findNavController().navigate(R.id.haciaEstaciones)
         }
