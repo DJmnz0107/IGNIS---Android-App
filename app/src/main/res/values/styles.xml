@@ -11,4 +11,10 @@
         <item name="android:windowMinWidthMinor">90%</item>
     </style>
 
+    <style name="CustomAlertDialogButtons" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="colorPrimary">#F2844C</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="backgroundColor">#F2844C</item>
+    </style>
+
 </resources>

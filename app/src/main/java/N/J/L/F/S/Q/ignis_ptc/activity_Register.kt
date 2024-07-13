@@ -141,7 +141,7 @@ class activity_Register : AppCompatActivity() {
                 txtUsuario.error = "Nombre obligatorio"
                 validacion = true
             } else if (nombre.contains(" ")) {
-                txtUsuario.error = "El nombre no puede contener espacios"
+                txtUsuario.error = "El nombre de usuario no puede contener espacios"
                 validacion = true
             } else {
                 txtUsuario.error = null
@@ -192,7 +192,7 @@ class activity_Register : AppCompatActivity() {
                         val objConexion = ClaseConexion().cadenaConexion()
 
                         val passwordHashed = hashSHA256(txtPassword.text.toString())
-                        val nivel = 2
+                        val nivel = 1
 
                         if (txtEdad.text.toString().toInt() >= 18 && txtDUI.text.toString().isEmpty()) {
                             withContext(Dispatchers.Main) {

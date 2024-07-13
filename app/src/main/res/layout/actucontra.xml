@@ -3,37 +3,105 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#F2844C"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/white">
+    android:padding="24dp">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nueva contraseña"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="16dp">
 
-        app:endIconMode="password_toggle">
+        <ImageView
+            android:layout_width="98dp"
+            android:layout_height="98dp"
+            android:src="@drawable/ignis" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etNewPassword"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/lblActualizar"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/cabin_bold"
+            android:text="Actualizar Contraseña"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <TextView
+        android:id="@+id/lblNueva"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Confirmar contraseña"
+        android:fontFamily="@font/cabin_semibold"
+        android:paddingTop="8dp"
+        android:text="Nueva contraseña"
+        android:textColor="#ffffff" />
 
-        app:endIconMode="password_toggle"
-        android:layout_marginTop="16dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etConfirmPassword"
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/txtNuevaContra"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:inputType="textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:background="@drawable/fondo_edittext"
+            android:fontFamily="@font/cabin_semibold"
+            android:hint="Introduce nueva contraseña"
+            android:inputType="textPassword"
+            android:padding="12dp" />
+
+        <ImageView
+            android:id="@+id/imgVerContra"
+            android:layout_width="45dp"
+            android:layout_height="40dp"
+            android:contentDescription="Toggle password visibility"
+            android:onClick="togglePasswordVisibility"
+            android:padding="8dp"
+            android:src="@drawable/eye_show" />
+    </LinearLayout>
+
+    <!-- Confirmar contraseña -->
+    <TextView
+        android:id="@+id/lblConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cabin_semibold"
+        android:paddingTop="16dp"
+        android:text="Confirmar contraseña"
+        android:textColor="#ffffff" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/txtConfirmar"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/fondo_edittext"
+            android:fontFamily="@font/cabin_semibold"
+            android:hint="Confirma tu contraseña"
+            android:inputType="textPassword"
+            android:padding="12dp" />
+
+        <ImageView
+            android:id="@+id/imgVerConfirmar"
+            android:layout_width="45dp"
+            android:layout_height="40dp"
+            android:contentDescription="Toggle password visibility"
+            android:onClick="togglePasswordVisibility"
+            android:padding="8dp"
+            android:src="@drawable/eye_show" />
+    </LinearLayout>
 
 </LinearLayout>
