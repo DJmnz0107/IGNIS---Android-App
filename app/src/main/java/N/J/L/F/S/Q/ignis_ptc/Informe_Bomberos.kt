@@ -1,12 +1,21 @@
 package N.J.L.F.S.Q.ignis_ptc
 
+import Modelo.ClaseConexion
+import Modelo.dataClassMisiones
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,6 +54,84 @@ class Informe_Bomberos : Fragment() {
         val spResultados: Spinner = root.findViewById(R.id.spResultados)
 
         spResultados.adapter = adaptadorResultado
+
+        val spMision = root.findViewById<Spinner>(R.id.spMision)
+
+        fun obtenerMisiones():List<dataClassMisiones>{
+            try {
+                val objConexion = ClaseConexion().cadenaConexion()
+
+                val statment = objConexion?.createStatement()
+
+                val resultSet = statment?.executeQuery("select * from Misiones")!!
+
+                val listadoDeResultados = mutableListOf<dataClassMisiones>()
+
+                while (resultSet.next()){
+                    val idMision = resultSet.getInt("id_mision")
+
+                    val descripcionMision = resultSet.getString("descripcion_mision")
+
+                    val fechaMision = resultSet.getDate("fecha_mision")
+
+                    val idEmergencia = resultSet.getInt("id_emergencia")
+
+                    val misionesCompletas = dataClassMisiones(idMision, descripcionMision, fechaMision, idEmergencia )
+
+                    listadoDeResultados.add(misionesCompletas)
+
+
+                }
+                return listadoDeResultados
+            }catch (e:Exception) {
+
+                println("El error es $e")
+                return emptyList()
+            }
+
+
+        }
+
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                val listadoResultados = obtenerMisiones()
+                val descripcionMision = listadoResultados.map { it.descripcionMision }
+                withContext(Dispatchers.Main){
+                    val miAdaptador = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, descripcionMision )
+                    spMision.adapter = miAdaptador
+                }
+            }
+        }catch (e:Exception){
+            println("El error es $e")
+        }
+
+
+
+        val enviarInforme = root.findViewById<Button>(R.id.btnEnviarInforme)
+
+        val textoInforme = root.findViewById<TextView>(R.id.mtInforme)
+
+        enviarInforme.setOnClickListener {
+            try {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val objConexion = ClaseConexion().cadenaConexion()
+
+                    val mision = obtenerMisiones()
+
+                    val agregarInforme = objConexion?.prepareStatement("insert into Informes(id_mision, resultado_mision, descripcion_mision) values(?,?,?)")!!
+                    agregarInforme.setInt(1,mision[spMision.selectedItemPosition].idMision)
+                    agregarInforme.setString(2,spResultados.selectedItem.toString())
+                    agregarInforme.setString(3,textoInforme.text.toString())
+                    agregarInforme.executeUpdate()
+                    withContext(Dispatchers.Main){
+                        textoInforme.setText("")
+                        Toast.makeText(requireContext(), "El informe se ha agregado correctamente", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }catch (e:Exception){
+                println("El error es $e")
+            }
+        }
 
 
         return root
