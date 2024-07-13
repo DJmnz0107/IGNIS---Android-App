@@ -12,8 +12,8 @@
     <fragment
         android:id="@+id/mapHidrantesBomberos"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="410dp"
-        android:layout_height="512dp"
+        android:layout_width="395dp"
+        android:layout_height="428dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -23,7 +23,7 @@
         tools:context=".EstacionesMaps" />
 
     <View
-        android:id="@+id/view27"
+        android:id="@+id/vBackgorund"
         android:layout_width="411dp"
         android:layout_height="82dp"
         android:background="#80270C0A"
@@ -37,14 +37,14 @@
         android:layout_width="228dp"
         android:layout_height="38dp"
         android:fontFamily="@font/cabin_bold"
-        android:text="Zonas de peligro"
+        android:text="Hidrantes de incendio"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/view27"
-        app:layout_constraintEnd_toEndOf="@id/view27"
+        app:layout_constraintBottom_toBottomOf="@+id/vBackgorund"
+        app:layout_constraintEnd_toEndOf="@id/vBackgorund"
         app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="@id/view27"
+        app:layout_constraintStart_toStartOf="@id/vBackgorund"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.514" />
 
@@ -53,9 +53,9 @@
         android:layout_width="43dp"
         android:layout_height="49dp"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/view27"
-        app:layout_constraintStart_toStartOf="@+id/view27"
-        app:layout_constraintTop_toTopOf="@id/view27"
+        app:layout_constraintBottom_toBottomOf="@+id/vBackgorund"
+        app:layout_constraintStart_toStartOf="@+id/vBackgorund"
+        app:layout_constraintTop_toTopOf="@id/vBackgorund"
         app:layout_constraintVertical_bias="0.451"
         app:srcCompat="@drawable/back" />
 
@@ -71,6 +71,30 @@
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mapHidrantesBomberos"
-        app:layout_constraintVertical_bias="0.645" />
+        app:layout_constraintVertical_bias="0.347" />
+
+    <View
+        android:id="@+id/view28"
+        android:layout_width="299dp"
+        android:layout_height="142dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/drawable_hidrantes_bomberos"
+        app:layout_constraintBottom_toBottomOf="@+id/view16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView35"
+        android:layout_width="285dp"
+        android:layout_height="94dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/cabin_bold"
+        android:text="Visualiza los hidrantes más cercanos a tu ubicación actual "
+        android:textAlignment="center"
+        android:textColor="#F2844C"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view28" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

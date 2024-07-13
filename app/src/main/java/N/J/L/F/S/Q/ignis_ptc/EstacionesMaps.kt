@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
+import androidx.constraintlayout.helper.widget.Carousel
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -16,6 +17,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import org.imaginativeworld.whynotimagecarousel.ImageCarousel
+import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -64,6 +67,35 @@ class EstacionesMaps : Fragment(), OnMapReadyCallback {
         val root = inflater.inflate(R.layout.fragment_estaciones_maps, container, false)
 
         val imgBack = root.findViewById<ImageView>(R.id.imgBack)
+
+        val carrusel:ImageCarousel = root.findViewById(R.id.carousel)
+
+        carrusel.registerLifecycle(lifecycle)
+
+        val list = mutableListOf<CarouselItem>()
+
+        list.add(
+            CarouselItem(
+                imageUrl = "https://www.gobernacion.gob.sv/wp-content/uploads/2021/11/WhatsApp-Image-2021-11-03-at-13.06.33.jpeg"
+            )
+        )
+
+        list.add(
+            CarouselItem(
+                imageUrl = "https://pbs.twimg.com/media/FYyz7iJXkAIuDhW.jpg:large"
+            )
+        )
+
+        list.add(
+            CarouselItem(
+                imageUrl = "https://lh3.googleusercontent.com/p/AF1QipO9m76LMcIC5L4Rdn7c7e1Rn2EYGRLxq0xnn2F4=s680-w680-h510"
+            )
+        )
+
+        carrusel.setData(list)
+
+
+
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

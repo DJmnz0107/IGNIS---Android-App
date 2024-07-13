@@ -5,8 +5,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".ui.notifications.NotificationsFragment">
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    tools:context=".ui.notifications.NotificationsFragment"/>
 

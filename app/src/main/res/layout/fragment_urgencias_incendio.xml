@@ -5,8 +5,8 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F1724D"
-    tools:context=".urgenciasIncendio" >
+    android:background="#F2844C"
+    tools:context=".urgenciasIncendio">
 
     <ScrollView
         android:layout_width="352dp"
@@ -228,7 +228,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/view6"
                     app:layout_constraintStart_toStartOf="@+id/view6"
                     app:layout_constraintTop_toTopOf="@+id/view6"
-                    app:layout_constraintVertical_bias="0.0"/>
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
                     android:id="@+id/textView15"
@@ -300,7 +300,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/view9"
                     app:layout_constraintStart_toStartOf="@+id/view9"
                     app:layout_constraintTop_toTopOf="@+id/view9"
-                    app:layout_constraintVertical_bias="0.0"/>
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
                     android:id="@+id/textView18"
@@ -372,7 +372,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/view10"
                     app:layout_constraintStart_toStartOf="@+id/view10"
                     app:layout_constraintTop_toTopOf="@+id/view10"
-                    app:layout_constraintVertical_bias="0.0"/>
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
                     android:id="@+id/textView19"
