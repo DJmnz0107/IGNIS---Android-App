@@ -19,6 +19,7 @@ class Adaptador (var Datos: List<dataClassEmergencias>): RecyclerView.Adapter<Vi
 
         val item = Datos[position]
         holder.txtNombreDescripcion.text = item.descripcionEmergencia
+        holder.txtEstadoDescripcion.text = item.estadoEmergencia
     }
 
 

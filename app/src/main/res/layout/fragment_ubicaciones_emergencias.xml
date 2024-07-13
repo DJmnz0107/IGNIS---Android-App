@@ -21,9 +21,9 @@
 
     <View
         android:id="@+id/view28"
-        android:layout_width="351dp"
-        android:layout_height="206dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="405dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/descripcionemerg"
         android:elevation="1dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,12 +83,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvEmergencia"
-        android:layout_width="349dp"
-        android:layout_height="204dp"
+        android:layout_width="390dp"
+        android:layout_height="240dp"
         android:elevation="2dp"
+        android:layout_marginLeft="-2dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintBottom_toBottomOf="@+id/view28"
         app:layout_constraintEnd_toEndOf="@+id/view28"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="@+id/view28"
         app:layout_constraintTop_toTopOf="@+id/view28"
         app:layout_constraintVertical_bias="0.0" />
