@@ -49,34 +49,48 @@ class activity_contrasena : AppCompatActivity() {
              nombreUser = userrecu
 
 
-            CoroutineScope(Dispatchers.IO).launch {
+            try {
 
-                codigoRecu  = (100000..999999).random()
-                val nombreuser :String? =null
-                val objConexion = ClaseConexion().cadenaConexion()
-                 val revisarUsuarioContra = objConexion?.prepareStatement("SELECT * FROM Usuarios WHERE nombre_usuario = ?")!!
-                 revisarUsuarioContra.setString(1,userrecu)
-                val result = revisarUsuarioContra?.executeQuery()
-                if(result!!.next()){
 
-                    if (correoUser.isNotEmpty()){
+                CoroutineScope(Dispatchers.IO).launch {
 
-                        CoroutineScope(Dispatchers.Main).launch{
+                    codigoRecu = (100000..999999).random()
 
-                            enviarCorreo(
-                                correoUser,
-                                "Recuperacion de CONTRASEÑA",
-                                "Hola usuario${userrecu}, Te saluda el grupo de ignis tu codigo es: ${codigoRecu}"
-                            )
+                    val objConexion = ClaseConexion().cadenaConexion()
+                    val revisarUsuarioContra =
+                        objConexion?.prepareStatement("SELECT * FROM Usuarios WHERE nombre_usuario = ?")!!
+                    revisarUsuarioContra.setString(1, userrecu)
+                    val result = revisarUsuarioContra.executeQuery()
+                    println("El usuario es:$userrecu")
+                    println("El correo es: $correoUser")
+                    if (result.next()) {
+
+                        if (correoUser.isNotEmpty()) {
+
+                            CoroutineScope(Dispatchers.Main).launch {
+
+                                enviarCorreo(
+                                    correoUser,
+                                    "Recuperacion de CONTRASEÑA",
+                                    "Hola usuario${userrecu}, Te saluda el grupo de ignis tu codigo es: ${codigoRecu}"
+                                )
+
+                                txtCORREORECU.setText("")
+                                txtUsuario.setText("")
+
+
+                            }
+
+                        } else {
+                            txtCORREORECU.error = "Introduce un campo valido"
 
                         }
-
-                    } else{
-                        txtCORREORECU.error = "Introduce un campo valido"
-
-                    }
-                }else(print("Ocurrio un Error"))
+                    } else {
+                        println("Ocurrio un Error")}
+                }
             }
+            catch (e:Exception){
+                println("El error es $e")}
         }
 
 
