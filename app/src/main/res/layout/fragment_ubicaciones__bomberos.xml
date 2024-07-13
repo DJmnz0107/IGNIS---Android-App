@@ -82,7 +82,7 @@
                     app:layout_constraintVertical_bias="0.551" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/lblOlvidarContraseña"
                     android:layout_width="217dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="76dp"
@@ -119,7 +119,7 @@
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/textView4"
+                    app:layout_constraintBottom_toTopOf="@+id/lblOlvidarContraseña"
                     app:layout_constraintEnd_toStartOf="@+id/view22"
                     app:layout_constraintHorizontal_bias="0.25"
                     app:layout_constraintStart_toStartOf="parent"
