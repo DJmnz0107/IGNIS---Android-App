@@ -177,7 +177,7 @@ class activity_Register : AppCompatActivity() {
                         val objConexion = ClaseConexion().cadenaConexion()
 
                         val passwordHashed = hashSHA256(txtPassword.text.toString())
-                        val nivel = 1
+                        val nivel = 2
 
                         if (txtEdad.text.toString().toInt() >= 18 && txtDUI.text.toString().isEmpty()) {
                             withContext(Dispatchers.Main) {

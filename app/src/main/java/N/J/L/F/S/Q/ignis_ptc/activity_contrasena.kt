@@ -1,6 +1,7 @@
 package N.J.L.F.S.Q.ignis_ptc
 
 import Modelo.ClaseConexion
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -13,6 +14,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class activity_contrasena : AppCompatActivity() {
+
+    companion object numAleatorio{
+         var codigoRecu: Int = 0
+        lateinit var nombreUser : String
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -22,41 +30,58 @@ class activity_contrasena : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val btnEnviar = findViewById<Button>(R.id.btnRecuperarContra)
+        val btnEnviar = findViewById<Button>(R.id.EnviarCorreo)
         val txtCORREORECU = findViewById<EditText>(R.id.txtCorreoRecu)
         val txtUsuario = findViewById<EditText>(R.id.txtNombreUsuarioRecu)
+        val btnRecuperar = findViewById<Button>(R.id.btnRegistrarse)
+
+
+
+        btnRecuperar.setOnClickListener {
+
+            val pantallaRecucontra = Intent(this,activity_recucontra::class.java)
+            startActivity(pantallaRecucontra)
+        }
+
         btnEnviar.setOnClickListener {
               val correoUser = txtCORREORECU.text.toString().trim()
             val userrecu = txtUsuario.text.toString()
-
+             nombreUser = userrecu
 
 
             CoroutineScope(Dispatchers.IO).launch {
+
+                codigoRecu  = (100000..999999).random()
                 val nombreuser :String? =null
                 val objConexion = ClaseConexion().cadenaConexion()
+                 val revisarUsuarioContra = objConexion?.prepareStatement("SELECT * FROM Usuarios WHERE nombre_usuario = ?")!!
+                 revisarUsuarioContra.setString(1,userrecu)
+                val result = revisarUsuarioContra?.executeQuery()
+                if(result!!.next()){
 
-            }
+                    if (correoUser.isNotEmpty()){
 
-            if(){
+                        CoroutineScope(Dispatchers.Main).launch{
 
-                if (correoUser.isNotEmpty()){
+                            enviarCorreo(
+                                correoUser,
+                                "Recuperacion de CONTRASEÑA",
+                                "Hola usuario${userrecu}, Te saluda el grupo de ignis tu codigo es: ${codigoRecu}"
+                            )
 
-                    CoroutineScope(Dispatchers.Main).launch{
-                        val codigoRecu = (100000..999999).random()
-                        enviarCorreo(
-                            correoUser,
-                            "Recuperacion de CONTRASEÑA",
-                            "Hola usuario${userrecu}, Te saluda el grupo de ignis tu codigo es: ${codigoRecu}"
-                        )
+                        }
+
+                    } else{
+                        txtCORREORECU.error = "Introduce un campo valido"
 
                     }
-
-                } else{
-                    txtCORREORECU.error = "Introduce un campo valido"
-
-                }
-            }else()
+                }else(print("Ocurrio un Error"))
+            }
         }
+
+
+
+
     }
 
 

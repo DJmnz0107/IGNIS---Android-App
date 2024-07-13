@@ -37,7 +37,7 @@ class activity_Login : AppCompatActivity() {
             insets
         }
 
-
+      val lBlOlvidar = findViewById<TextView>(R.id.lblOlvidarContraseña)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
 
         val txtUsuario = findViewById<EditText>(R.id.txtUsuario)
@@ -46,6 +46,10 @@ class activity_Login : AppCompatActivity() {
         val imgShow = findViewById<ImageView>(R.id.imgShow)
 
         val imgHide = findViewById<ImageView>(R.id.imgHide)
+
+        lBlOlvidar.setOnClickListener { val pantallacontraseña = Intent(this,activity_contrasena::class.java)
+           startActivity(pantallacontraseña)
+        }
 
         fun hashSHA256(password: String): String {
             val bytes = java.security.MessageDigest.getInstance("SHA-256").digest(password.toByteArray())
