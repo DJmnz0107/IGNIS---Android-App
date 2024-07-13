@@ -51,6 +51,13 @@
             app:popEnterAnim="@anim/entrada"
             app:popExitAnim="@anim/salida"
             />
+        <action android:id="@+id/haciaHidrantes"
+            app:destination="@+id/hidrantesIgnis"
+            app:enterAnim="@anim/entrada"
+            app:exitAnim="@anim/salida"
+            app:popEnterAnim="@anim/entrada"
+            app:popExitAnim="@anim/salida"
+            />
     </fragment>
 
     <fragment
@@ -101,5 +108,19 @@
             app:popExitAnim="@anim/salida"
             />
 
+    </fragment>
+    <fragment
+        android:id="@+id/hidrantesIgnis"
+        android:name="N.J.L.F.S.Q.ignis_ptc.HidrantesIgnis"
+        android:label="fragment_hidrantes_ignis"
+        tools:layout="@layout/fragment_hidrantes_ignis">
+        <action
+            android:id="@+id/haciaUbicaciones"
+            app:destination="@id/ubicacionesIgnis"
+            app:enterAnim="@anim/entrada"
+            app:exitAnim="@anim/salida"
+            app:popEnterAnim="@anim/entrada"
+            app:popExitAnim="@anim/salida"
+            />
     </fragment>
 </navigation>
