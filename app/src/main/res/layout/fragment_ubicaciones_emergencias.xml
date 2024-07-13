@@ -13,24 +13,33 @@
         android:layout_width="412dp"
         android:layout_height="304dp"
         android:background="@drawable/emergenciaest"
+        android:elevation="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:elevation="1dp"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
+
+    <View
+        android:id="@+id/view28"
+        android:layout_width="351dp"
+        android:layout_height="206dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/descripcionemerg"
+        android:elevation="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view26" />
 
     <View
         android:id="@+id/view27"
         android:layout_width="413dp"
         android:layout_height="90dp"
         android:background="@drawable/labelemergencia"
+        android:elevation="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:elevation="1dp"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <fragment
         android:id="@+id/mapEstaciones2"
@@ -44,218 +53,13 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:context=".Ubicaciones_emergencias" />
 
-    <ScrollView
-        android:layout_width="385dp"
-        android:layout_height="260dp"
-        android:background="@drawable/descripcionemerg"
-        app:layout_constraintBottom_toBottomOf="@+id/view26"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view26"
-        app:layout_constraintVertical_bias="0.211"
-        android:elevation="2dp"
-        >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="10dp">
-
-                <View
-                    android:id="@+id/view28"
-                    android:layout_width="365dp"
-                    android:layout_height="90dp"
-                    android:background="@drawable/opcioneemergencia"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/view29"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="28dp"
-                    android:background="@drawable/sirena"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/view28"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView26"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="Estado"
-                    app:layout_constraintStart_toEndOf="@+id/view29"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView27"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/cabin_bold"
-                    android:text="Descripcion"
-                    android:textColor="#000000"
-                    app:layout_constraintBottom_toBottomOf="@+id/view28"
-                    app:layout_constraintStart_toEndOf="@+id/view29"
-                    app:layout_constraintTop_toBottomOf="@+id/textView26"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="25dp"
-                    android:layout_height="30dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/alertaemergen"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="10dp">
-
-                <View
-                    android:id="@+id/view30"
-                    android:layout_width="365dp"
-                    android:layout_height="90dp"
-                    android:background="@drawable/opcioneemergencia"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/view31"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="16dp"
-                    android:background="@drawable/sirena"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView28"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="Estado"
-                    app:layout_constraintStart_toEndOf="@+id/view31"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView29"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="24dp"
-                    android:fontFamily="@font/cabin_bold"
-                    android:text="Descripcion"
-                    android:textColor="#000000"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/view31"
-                    app:layout_constraintTop_toBottomOf="@+id/textView28"
-                    app:layout_constraintVertical_bias="0.4" />
-
-                <ImageView
-                    android:id="@+id/imageView1"
-                    android:layout_width="25dp"
-                    android:layout_height="30dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/alertaemergen"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="10dp">
-
-                <View
-                    android:id="@+id/view32"
-                    android:layout_width="365dp"
-                    android:layout_height="90dp"
-                    android:background="@drawable/opcioneemergencia"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/view33"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="16dp"
-                    android:background="@drawable/sirena"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView30"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="16dp"
-                    android:text="Estado"
-                    app:layout_constraintStart_toEndOf="@+id/view33"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView31"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/cabin_bold"
-                    android:text="Descripcion"
-                    android:textColor="#000000"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/view33"
-                    app:layout_constraintTop_toBottomOf="@+id/textView30"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="25dp"
-                    android:layout_height="30dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/alertaemergen"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </LinearLayout>
-    </ScrollView>
 
     <TextView
         android:id="@+id/textView32"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:elevation="2dp"
         android:fontFamily="@font/cabin_bold"
         android:text="Ubicaciones de emergencia"
         android:textColor="#FFFFFF"
@@ -263,22 +67,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.352"
         app:layout_constraintStart_toEndOf="@+id/imgvolverEmergencias"
-        app:layout_constraintTop_toTopOf="@+id/view27"
-        android:elevation="2dp"
-        />
+        app:layout_constraintTop_toTopOf="@+id/view27" />
 
     <ImageView
         android:id="@+id/imgvolverEmergencias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:elevation="2dp"
         android:src="@drawable/volveratrasss"
         app:layout_constraintBottom_toBottomOf="@+id/view27"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.533"
+        app:layout_constraintVertical_bias="0.533" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvEmergencia"
+        android:layout_width="349dp"
+        android:layout_height="204dp"
         android:elevation="2dp"
-        />
+        app:layout_constraintBottom_toBottomOf="@+id/view28"
+        app:layout_constraintEnd_toEndOf="@+id/view28"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/view28"
+        app:layout_constraintTop_toTopOf="@+id/view28"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
