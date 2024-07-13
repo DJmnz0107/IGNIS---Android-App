@@ -171,7 +171,7 @@
         app:layout_constraintVertical_bias="0.775" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnLogOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#F5B24A"

@@ -208,7 +208,7 @@ class HomeFragment : Fragment() {
                             val insertEmergencia = objConexion?.prepareStatement("INSERT INTO Emergencias (ubicacion_emergencia, descripcion_emergencia, gravedad_emergencia, tipo_emergencia, respuesta_notificacion, estado_emergencia) VALUES (?, ?, ?, ?, ?, ?)")!!
 
                             insertEmergencia.setString(1, ubicacion)
-                            insertEmergencia.setString(2, textDescripcion)
+                            insertEmergencia.setString(2, txtDescripcion.text.toString())
                             insertEmergencia.setString(3, spGravedad.selectedItem.toString())
                             insertEmergencia.setString(4,txtTipoEmergencia.text.toString())
                             insertEmergencia.setString(5, "En espera")
