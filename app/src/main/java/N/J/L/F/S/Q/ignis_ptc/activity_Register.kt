@@ -154,6 +154,13 @@ class activity_Register : AppCompatActivity() {
                 txtPassword.error = null
             }
 
+            if(!dui.matches(Regex("[0-9]{8}-[0-9]"))) {
+                txtDUI.error = "El DUI no tiene el formato válido. Ej: 12345678-9"
+                validacion = true
+            }else {
+                txtDUI.error = null
+            }
+
             if (edad.isEmpty()) {
                 txtEdad.error = "Edad obligatoria"
                 txtDUI.error = null
