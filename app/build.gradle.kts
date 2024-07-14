@@ -53,6 +53,7 @@ dependencies {
     implementation(files("libs\\additionnal.jar"))
     implementation(files("libs\\mail.jar"))
     testImplementation(libs.junit)
+    implementation ("com.google.android.material:material:1.6.0")
     implementation("com.google.android.material:material:<version>")
     implementation("me.relex:circleindicator:2.1.6")
     implementation("org.imaginativeworld.whynotimagecarousel:whynotimagecarousel:2.1.0")
