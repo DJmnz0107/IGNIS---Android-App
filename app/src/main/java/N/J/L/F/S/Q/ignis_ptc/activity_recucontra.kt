@@ -47,7 +47,7 @@ class activity_recucontra : AppCompatActivity() {
 
         btnCodigoreco.setOnClickListener {
 
-           
+
 
             if (codigoColocado == activity_contrasena.codigoRecu){
               mostrarDialogoActualizarContrasena()
