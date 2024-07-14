@@ -8,6 +8,9 @@
     android:background="#F2844C"
     tools:context=".fragment_seguimiento1" >
 
+
+
+
     <Button
         android:id="@+id/btnSeguimiento"
         android:layout_width="162dp"
@@ -51,10 +54,31 @@
         android:layout_height="155dp"
         android:layout_marginTop="328dp"
         android:background="@drawable/circular_seguimiento"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/mapSeguimiento" />
+        app:layout_constraintTop_toTopOf="@+id/mapSeguimiento"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="408dp"
+        android:layout_height="477dp"
+
+        android:layout_marginStart="161dp"
+        android:layout_marginEnd="155dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.524"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view25"
+        app:layout_constraintVertical_bias="0.542"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/carga2">
+
+    </com.airbnb.lottie.LottieAnimationView>
 
     <View
         android:id="@+id/view25"
@@ -76,7 +100,7 @@
         android:textAlignment="center"
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/vCircular" />
 

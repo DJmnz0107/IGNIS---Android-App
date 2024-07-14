@@ -11,6 +11,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable;
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -18,6 +20,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import org.w3c.dom.Text
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,6 +44,9 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+
+
 
     }
 
@@ -79,12 +85,18 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
 
         val imgVolver = root.findViewById<ImageView>(R.id.imgVolverMapa)
 
+        val animationView: LottieAnimationView = root.findViewById(R.id.lottieAnimationView)
+
+        animationView.repeatCount = LottieDrawable.INFINITE
+
+        animationView.playAnimation()
+
         imgVolver.visibility = View.GONE
 
         val originalLayoutParams = mapFragment?.view?.layoutParams
         val width = originalLayoutParams?.width
         val height = originalLayoutParams?.height
-
+        
 
 
         imgVolver.setOnClickListener {
@@ -138,6 +150,7 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
 
 
         }
+
 
         return root
 
