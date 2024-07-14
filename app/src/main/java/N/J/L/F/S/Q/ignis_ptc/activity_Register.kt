@@ -135,6 +135,7 @@ class activity_Register : AppCompatActivity() {
             val edad = txtEdad.text.toString()
             val dui = txtDUI.text.toString()
 
+
             var validacion = false
 
             if (nombre.isEmpty()) {
@@ -154,11 +155,34 @@ class activity_Register : AppCompatActivity() {
                 txtPassword.error = null
             }
 
-            if(!dui.matches(Regex("[0-9]{8}-[0-9]"))) {
-                txtDUI.error = "El DUI no tiene el formato válido. Ej: 12345678-9"
+
+
+            val edadTexto = txtEdad.text.toString()
+
+            if (edadTexto.isNotEmpty()) {
+                val edadInt = edadTexto.toInt()
+
+                if (edadInt in 13..17) {
+                    if (dui.isEmpty()) {
+                        txtDUI.error = null
+                    } else {
+                        validacion = true
+                    }
+                } else {
+                    if (!dui.matches(Regex("[0-9]{8}-[0-9]"))) {
+                        txtDUI.error = "El DUI no tiene el formato válido. Ej: 12345678-9"
+                        validacion = true
+                    } else {
+                        txtDUI.error = null
+                    }
+
+                    if (dui.isEmpty()) {
+                        txtDUI.error = "Debe ingresar un DUI válido."
+                    }
+                }
+            } else {
+                txtEdad.error = "Edad obligatoria"
                 validacion = true
-            }else {
-                txtDUI.error = null
             }
 
             if (edad.isEmpty()) {
