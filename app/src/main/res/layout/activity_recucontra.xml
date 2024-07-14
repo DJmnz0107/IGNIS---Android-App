@@ -30,34 +30,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <TextView
         android:id="@+id/textView"
-        android:layout_width="325dp"
-        android:layout_height="41dp"
+        android:layout_width="284dp"
+        android:layout_height="48dp"
 
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="56dp"
         android:fontFamily="@font/cabin_bold"
         android:text="Ingresa tu código"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="31sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imgVolverLogin"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imgVolverLogin"
-        android:layout_width="33dp"
-        android:layout_height="72dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/view26"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/back" />
-
 
     <TextView
         android:id="@+id/textView9"
@@ -67,7 +54,7 @@
 
         android:layout_marginTop="20dp"
         android:fontFamily="@font/cabin_bold"
-        android:text="Recuerda tu contraseña"
+        android:text="Actualizar tu contraseña"
         android:textColor="#8E0202"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/view26"
@@ -112,7 +99,6 @@
         android:backgroundTint="#8D0202"
         android:fontFamily="@font/cabin_semibold"
         android:text="Verificar"
-        android:maxLength="6"
         android:textColor="@color/white"
         app:cornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="@+id/view26"
@@ -131,4 +117,15 @@
         app:layout_constraintStart_toStartOf="@+id/view26"
         app:layout_constraintTop_toTopOf="@+id/view26"
         app:srcCompat="@drawable/ignisssssss" />
+
+    <ImageView
+        android:id="@+id/imgVolverRecu"
+        android:layout_width="46dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.64"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back" />
 </androidx.constraintlayout.widget.ConstraintLayout>

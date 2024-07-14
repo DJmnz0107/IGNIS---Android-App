@@ -4,12 +4,14 @@ import Modelo.ClaseConexion
 import Modelo.dataClassEmergencias
 import N.J.L.F.S.Q.ignis_ptc.R
 import android.app.AlertDialog
-import android.app.Dialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -54,19 +56,24 @@ class Adaptador (var Datos: List<dataClassEmergencias>): RecyclerView.Adapter<Vi
         val ListaDatos=Datos.toMutableList()
         ListaDatos.removeAt(posicion)
 
-        GlobalScope.launch(Dispatchers.IO){
-            val objConexion=ClaseConexion().cadenaConexion()
+        try {
+            GlobalScope.launch(Dispatchers.IO){
+                val objConexion=ClaseConexion().cadenaConexion()
 
-            val deleteEmergencia= objConexion?.prepareStatement("DELETE EMERGENCIAS WHERE descripcion_emergencia = ?")!!
-            deleteEmergencia.setString(1, descripcionEmergencias)
-            deleteEmergencia.executeUpdate()
+                val deleteEmergencia= objConexion?.prepareStatement("DELETE EMERGENCIAS WHERE descripcion_emergencia = ?")!!
+                deleteEmergencia.setString(1, descripcionEmergencias)
+                deleteEmergencia.executeUpdate()
 
-            val commit = objConexion.prepareStatement("commit")
-            commit.executeUpdate()
+                val commit = objConexion.prepareStatement("commit")
+                commit.executeUpdate()
+            }
+            Datos = ListaDatos.toList()
+            notifyItemRemoved(posicion)
+            notifyDataSetChanged()
+        } catch (e:Exception) {
+            println("El error es $e")
         }
-        Datos = ListaDatos.toList()
-        notifyItemRemoved(posicion)
-        notifyDataSetChanged()
+
     }
 
 
@@ -85,29 +92,33 @@ class Adaptador (var Datos: List<dataClassEmergencias>): RecyclerView.Adapter<Vi
         val item = Datos[position]
         holder.txtNombreDescripcion.text = item.descripcionEmergencia
         holder.txtEstadoDescripcion.text = item.estadoEmergencia
+
+
         holder.imgBorrar.setOnClickListener {
             val context = holder.itemView.context
-            val Builder = AlertDialog.Builder(context)
+            val builder = MaterialAlertDialogBuilder(context)
+            val inflater = LayoutInflater.from(context)
+            val dialogView = inflater.inflate(R.layout.eliminar_diseno, null)
 
-            Builder.setTitle("Confirmar eliminación")
-            Builder.setMessage("¿Desea eliminar la emergencia")
-            Builder.setPositiveButton("Si"){dialog,which ->
-                EliminarDatos(item.descripcionEmergencia,position)
-                Builder.setPositiveButton("Si") { dialog, which ->
+            val btnSi = dialogView.findViewById<Button>(R.id.btnAceptarEliminacion)
+            val btnNo = dialogView.findViewById<Button>(R.id.btnDenegar)
 
-                    EliminarDatos(item.descripcionEmergencia, position)
-                }
 
-                Builder.setNegativeButton("No") { dialog, which ->
-                    dialog.dismiss()
-                }
-                val dialog = Builder.create()
-                dialog.show()
+            builder.setView(dialogView)
+            val dialog = builder.create()
+
+            btnSi.setOnClickListener {
+                EliminarDatos(item.descripcionEmergencia, position)
+                dialog.dismiss()
             }
 
+            btnNo.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            dialog.show()
+
         }
-
-
 
 
 

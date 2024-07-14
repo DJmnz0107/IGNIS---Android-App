@@ -164,7 +164,7 @@
                     android:layout_marginBottom="4dp"
                     android:backgroundTint="#8D0202"
                     android:drawableRight="@drawable/ver_ubicaciones_bombero"
-                    android:text="Ver ubicaciones"
+                    android:text="Ver emergencias"
                     android:textSize="12sp"
                     app:cornerRadius="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"

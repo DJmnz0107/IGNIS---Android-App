@@ -1,6 +1,7 @@
 package N.J.L.F.S.Q.ignis_ptc
 
 import Modelo.ClaseConexion
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
@@ -40,6 +41,13 @@ class activity_recucontra : AppCompatActivity() {
             insets
         }
 
+        val imgVolver = findViewById<ImageView>(R.id.imgVolverRecu)
+
+        imgVolver.setOnClickListener {
+            val pantallaContra = Intent(this, activity_contrasena::class.java)
+            startActivity(pantallaContra)
+        }
+
         val txtcodigo = findViewById<EditText>(R.id.txtCodigoRecu)
         val btnCodigoreco = findViewById<Button>(R.id.btnCambiarContra)
 
@@ -54,6 +62,7 @@ class activity_recucontra : AppCompatActivity() {
             try {
                 val codigoColocado = codigoText.toInt()
                 if (codigoColocado == activity_contrasena.codigoRecu) {
+                    txtcodigo.text.clear()
                     ActualizarContra()
                 } else {
                     Toast.makeText(this@activity_recucontra, "Código Incorrecto", Toast.LENGTH_LONG).show()

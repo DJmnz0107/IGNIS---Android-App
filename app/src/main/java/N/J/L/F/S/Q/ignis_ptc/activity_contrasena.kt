@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class activity_contrasena : AppCompatActivity() {
 
@@ -36,6 +38,13 @@ class activity_contrasena : AppCompatActivity() {
         val txtUsuario = findViewById<EditText>(R.id.txtNombreUsuarioRecu)
         val btnRecuperar = findViewById<Button>(R.id.btnRegistrarse)
 
+        val imgVolver = findViewById<ImageView>(R.id.imgVolverLogin)
+
+        imgVolver.setOnClickListener {
+            val pantallaLogin = Intent(this, activity_Login::class.java)
+            startActivity(pantallaLogin)
+        }
+
 
 
         btnRecuperar.setOnClickListener {
@@ -45,53 +54,66 @@ class activity_contrasena : AppCompatActivity() {
         }
 
         btnEnviar.setOnClickListener {
-              val correoUser = txtCORREORECU.text.toString().trim()
+            val correoUser = txtCORREORECU.text.toString().trim()
             val userrecu = txtUsuario.text.toString()
-             nombreUser = userrecu
+            var validacion = false
+            nombreUser = userrecu
+
+            val patronEmail = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")
+
+            if (!correoUser.matches(patronEmail)) {
+                txtCORREORECU.error = "El correo no tiene un formato válido"
+                validacion = true
+            } else {
+                txtCORREORECU.error = null
+            }
+
+            if(!validacion) {
+                try {
+                    CoroutineScope(Dispatchers.IO).launch {
+
+                        codigoRecu = (100000..999999).random()
+
+                        val objConexion = ClaseConexion().cadenaConexion()
+                        val revisarUsuarioContra =
+                            objConexion?.prepareStatement("SELECT * FROM Usuarios WHERE nombre_usuario = ?")!!
+                        revisarUsuarioContra.setString(1, userrecu)
+                        val result = revisarUsuarioContra.executeQuery()
+                        println("El usuario es:$userrecu")
+                        println("El correo es: $correoUser")
+                        if (result.next()) {
+
+                            if (correoUser.isNotEmpty()) {
+
+                                CoroutineScope(Dispatchers.Main).launch {
+
+                                    enviarCorreo(
+                                        correoUser,
+                                        "Recuperacion de CONTRASEÑA",
+                                        "Hola usuario ${userrecu}, Te saluda el grupo de ignis tu codigo es: ${codigoRecu}"
+                                    )
+                                    Toast.makeText(this@activity_contrasena, "Correo enviado satisfactoriamente", Toast.LENGTH_SHORT).show();
+                                    txtCORREORECU.setText("")
+                                    txtUsuario.setText("")
 
 
-            try {
+                                }
 
-
-                CoroutineScope(Dispatchers.IO).launch {
-
-                    codigoRecu = (100000..999999).random()
-
-                    val objConexion = ClaseConexion().cadenaConexion()
-                    val revisarUsuarioContra =
-                        objConexion?.prepareStatement("SELECT * FROM Usuarios WHERE nombre_usuario = ?")!!
-                    revisarUsuarioContra.setString(1, userrecu)
-                    val result = revisarUsuarioContra.executeQuery()
-                    println("El usuario es:$userrecu")
-                    println("El correo es: $correoUser")
-                    if (result.next()) {
-
-                        if (correoUser.isNotEmpty()) {
-
-                            CoroutineScope(Dispatchers.Main).launch {
-
-                                enviarCorreo(
-                                    correoUser,
-                                    "Recuperacion de CONTRASEÑA",
-                                    "Hola usuario ${userrecu}, Te saluda el grupo de ignis tu codigo es: ${codigoRecu}"
-                                )
-                                Toast.makeText(this@activity_contrasena, "Correo enviado satisfactoriamente", Toast.LENGTH_SHORT).show();
-                                txtCORREORECU.setText("")
-                                txtUsuario.setText("")
-
+                            } else {
+                                txtCORREORECU.error = "Introduce un campo valido"
 
                             }
-
                         } else {
-                            txtCORREORECU.error = "Introduce un campo valido"
+                           withContext(Dispatchers.Main) {
+                               Toast.makeText(this@activity_contrasena, "Error al enviar el correo, revisa tu usuario o correo", Toast.LENGTH_LONG ).show()
 
+                           }
                         }
-                    } else {
-                        println("Ocurrio un Error")}
+                    }
                 }
+                catch (e:Exception){
+                    println("El error es $e")}
             }
-            catch (e:Exception){
-                println("El error es $e")}
         }
 
 

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#F2844C"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/lblTituloDialogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cabin_bold"
+        android:gravity="center"
+        android:paddingBottom="16dp"
+        android:text="Confirmar eliminación"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/imgEliminarEmergencia"
+        android:layout_width="73dp"
+        android:layout_height="69dp"
+        android:paddingBottom="16dp"
+        android:src="@drawable/deleteforever" />
+
+    <TextView
+        android:id="@+id/lblPreguntaDialogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cabin_semibold"
+        android:gravity="center"
+        android:paddingBottom="16dp"
+        android:text="¿Deseas eliminar la emergencia?"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="24dp">
+
+        <Button
+            android:id="@+id/btnDenegar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#F5B24A"
+            android:text="No"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btnAceptarEliminacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#F5B24A"
+            android:text="Si"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</LinearLayout>

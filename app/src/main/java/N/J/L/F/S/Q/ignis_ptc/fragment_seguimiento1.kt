@@ -119,6 +119,8 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
 
             lblUrgencia.visibility = View.VISIBLE
 
+            animationView.visibility = View.VISIBLE
+
             imgVolver.visibility = View.GONE
 
         }
@@ -144,6 +146,8 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
             lblMensaje.visibility = View.GONE
 
             lblUrgencia.visibility = View.GONE
+
+            animationView.visibility = View.GONE
 
             imgVolver.visibility = View.VISIBLE
 

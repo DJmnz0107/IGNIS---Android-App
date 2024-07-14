@@ -49,11 +49,11 @@
         <EditText
             android:id="@+id/txtNuevaContra"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/fondo_edittext"
             android:fontFamily="@font/cabin_semibold"
-            android:hint="Introduce nueva contraseña"
+            android:hint="Nueva contraseña"
             android:inputType="textPassword"
             android:padding="12dp" />
 

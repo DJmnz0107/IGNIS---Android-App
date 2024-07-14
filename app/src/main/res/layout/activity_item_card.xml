@@ -12,8 +12,8 @@
         app:contentPadding="15dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="122dp"
+        android:layout_width="329dp"
+        android:layout_height="118dp"
         android:orientation="horizontal">
 
         <TextView
@@ -40,23 +40,22 @@
             android:id="@+id/imageView"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:srcCompat="@drawable/sirenaitem"
             android:layout_marginLeft="-120dp"
             android:layout_marginTop="3dp"
-            />
+            app:srcCompat="@drawable/sirenaitem" />
 
         <ImageView
             android:id="@+id/imgBorrar"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="37dp"
+            android:layout_height="48dp"
             android:layout_marginLeft="240dp"
             android:layout_marginTop="6dp"
             app:srcCompat="@drawable/basurerorgoo" />
 
         <ImageView
             android:id="@+id/imgEditar"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="39dp"
+            android:layout_height="47dp"
             android:layout_marginLeft="-85dp"
             android:layout_marginTop="7dp"
             app:srcCompat="@drawable/editetetet" />

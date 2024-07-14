@@ -39,25 +39,25 @@
 
     <View
         android:id="@+id/view1"
-        android:layout_width="438dp"
-        android:layout_height="180dp"
+        android:layout_width="422dp"
+        android:layout_height="166dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/login_element1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintHorizontal_bias="0.545"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imgVolverLogin"
-        android:layout_width="125dp"
-        android:layout_height="160dp"
+        android:layout_width="135dp"
+        android:layout_height="169dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.531"
+        app:layout_constraintHorizontal_bias="0.532"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.521"
+        app:layout_constraintVertical_bias="0.478"
         app:srcCompat="@drawable/igniss" />
 
     <TextView
@@ -73,7 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view1"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintVertical_bias="0.232" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

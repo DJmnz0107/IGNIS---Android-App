@@ -21,8 +21,8 @@
 
     <View
         android:id="@+id/view28"
-        android:layout_width="380dp"
-        android:layout_height="285dp"
+        android:layout_width="387dp"
+        android:layout_height="290dp"
         android:layout_marginTop="9dp"
         android:background="@drawable/estaciones_maps_drawable"
         android:elevation="1dp"
@@ -61,11 +61,11 @@
         android:layout_marginTop="32dp"
         android:elevation="2dp"
         android:fontFamily="@font/cabin_bold"
-        android:text="Ubicaciones de emergencia"
+        android:text="Ubicaciones de emergencias"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.352"
+        app:layout_constraintHorizontal_bias="0.448"
         app:layout_constraintStart_toEndOf="@+id/imgvolverEmergencias"
         app:layout_constraintTop_toTopOf="@+id/view27" />
 
@@ -83,11 +83,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvEmergencia"
-        android:layout_width="390dp"
-        android:layout_height="277dp"
-        android:elevation="2dp"
+        android:layout_width="369dp"
+        android:layout_height="269dp"
         android:layout_marginLeft="-2dp"
         android:layout_marginTop="4dp"
+        android:elevation="2dp"
         app:layout_constraintBottom_toBottomOf="@+id/view28"
         app:layout_constraintEnd_toEndOf="@+id/view28"
         app:layout_constraintHorizontal_bias="0.47"
