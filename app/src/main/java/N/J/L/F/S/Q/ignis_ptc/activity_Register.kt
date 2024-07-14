@@ -166,6 +166,8 @@ class activity_Register : AppCompatActivity() {
                     if (dui.isEmpty()) {
                         txtDUI.error = null
                     } else {
+                        Toast.makeText(this@activity_Register, "Error: No se puede ingresar un DUI si es menor de edad", Toast.LENGTH_LONG).show()
+                        txtDUI.text.clear()
                         validacion = true
                     }
                 } else {
