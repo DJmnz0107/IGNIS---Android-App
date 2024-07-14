@@ -44,12 +44,25 @@
             app:popEnterAnim="@anim/entrada"
             app:popExitAnim="@anim/salida"
         />
+        <action android:id="@+id/haciaZonas"
+            app:destination="@+id/fragmentZonasMaps"
+            app:enterAnim="@anim/entrada"
+            app:exitAnim="@anim/salida"
+            app:popEnterAnim="@anim/entrada"
+            app:popExitAnim="@anim/salida"
+            />
+        <action android:id="@+id/haciaHidrantes"
+            app:destination="@+id/hidrantesIgnis"
+            app:enterAnim="@anim/entrada"
+            app:exitAnim="@anim/salida"
+            app:popEnterAnim="@anim/entrada"
+            app:popExitAnim="@anim/salida"
+            />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="N.J.L.F.S.Q.ignis_ptc.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:id="@+id/fragment_seguimiento"
+        android:label="fragment_seguimiento"
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/uregnciasInundacion"
@@ -76,4 +89,38 @@
         android:name="N.J.L.F.S.Q.ignis_ptc.urgencias_derrumbes"
         android:label="fragment_urgencias_derrumbes"
         tools:layout="@layout/fragment_urgencias_derrumbes" />
+    <fragment
+        android:id="@+id/fragment_seguimiento1"
+        android:name="N.J.L.F.S.Q.ignis_ptc.fragment_seguimiento1"
+        android:label="fragment_seguimiento1"
+        tools:layout="@layout/fragment_seguimiento1" />
+
+    <fragment
+        android:id="@+id/fragmentZonasMaps"
+        android:name="N.J.L.F.S.Q.ignis_ptc.fragmentZonasMaps"
+        android:label="fragment_zonas_maps"
+        tools:layout="@layout/fragment_zonas_maps">
+        <action android:id="@+id/haciaUbicaciones"
+            app:destination="@+id/ubicacionesIgnis"
+            app:enterAnim="@anim/entrada"
+            app:exitAnim="@anim/salida"
+            app:popEnterAnim="@anim/entrada"
+            app:popExitAnim="@anim/salida"
+            />
+
+    </fragment>
+    <fragment
+        android:id="@+id/hidrantesIgnis"
+        android:name="N.J.L.F.S.Q.ignis_ptc.HidrantesIgnis"
+        android:label="fragment_hidrantes_ignis"
+        tools:layout="@layout/fragment_hidrantes_ignis">
+        <action
+            android:id="@+id/haciaUbicaciones"
+            app:destination="@id/ubicacionesIgnis"
+            app:enterAnim="@anim/entrada"
+            app:exitAnim="@anim/salida"
+            app:popEnterAnim="@anim/entrada"
+            app:popExitAnim="@anim/salida"
+            />
+    </fragment>
 </navigation>

@@ -20,6 +20,17 @@
             android:name=".item_card"
             android:exported="false" />
 
+            <activity
+            android:name=".activity_recucontra"
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"/>
+
+        <activity
+            android:name=".activity_contrasena"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -45,7 +56,8 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.IGNIS_PTC"></activity>
+            android:theme="@style/Theme.IGNIS_PTC">
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"

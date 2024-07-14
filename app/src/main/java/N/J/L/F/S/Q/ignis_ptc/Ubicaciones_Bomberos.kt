@@ -35,14 +35,21 @@ class Ubicaciones_Bomberos : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val root = inflater.inflate(R.layout.fragment_ubicaciones__bomberos, container, false)
+
+        val btnHidrantesBomberos = root.findViewById<Button>(R.id.btnHidrantesBomberos)
+
+        btnHidrantesBomberos.setOnClickListener {
+            findNavController().navigate(R.id.haciaHidrantesBomberos)
+        }
 
         val btnUbiEmergencia = root.findViewById<Button>(R.id.btnEmergenciaBombero)
 
         btnUbiEmergencia.setOnClickListener {
             findNavController().navigate(R.id.haciaEmergencias)
         }
+
         return root
     }
 

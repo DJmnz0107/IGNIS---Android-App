@@ -5,22 +5,22 @@
     android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F1724D"
+    android:background="#F2844C"
     tools:context=".urgencias_principal">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayoutUrgencias"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        app:tabIndicatorColor="@color/custom_indicator_color"
-        app:tabIndicator="@drawable/tab_indicator"
         android:background="@drawable/rectanglerounded"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.0"
+        app:tabIndicator="@drawable/tab_indicator"
+        app:tabIndicatorColor="@color/custom_indicator_color">
 
     </com.google.android.material.tabs.TabLayout>
 
@@ -29,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="80dp"
+        android:background="#F2844C"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

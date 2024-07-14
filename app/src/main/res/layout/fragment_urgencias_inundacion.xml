@@ -5,8 +5,8 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F1724D"
-    tools:context=".urgenciasIncendio" >
+    android:background="#F2844C"
+    tools:context=".urgenciasIncendio">
 
     <ScrollView
         android:layout_width="352dp"
@@ -413,10 +413,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -76,13 +76,13 @@
                     android:layout_height="100dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/circuloblanco"
-                    app:layout_constraintBottom_toTopOf="@+id/button11"
+                    app:layout_constraintBottom_toTopOf="@+id/btnHidrantesBomberos"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.551" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/lblOlvidarContraseña"
                     android:layout_width="217dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="76dp"
@@ -98,7 +98,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <Button
-                    android:id="@+id/button11"
+                    android:id="@+id/btnHidrantesBomberos"
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
                     android:backgroundTint="#8D0202"
@@ -119,7 +119,7 @@
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/textView4"
+                    app:layout_constraintBottom_toTopOf="@+id/lblOlvidarContraseña"
                     app:layout_constraintEnd_toStartOf="@+id/view22"
                     app:layout_constraintHorizontal_bias="0.25"
                     app:layout_constraintStart_toStartOf="parent"

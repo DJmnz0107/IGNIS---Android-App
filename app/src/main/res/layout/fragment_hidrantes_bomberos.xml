@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout5"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2844C"
+    tools:context=".HidrantesBomberos">
+
+    <!-- TODO: Update blank fragment layout -->
+    <fragment
+        android:id="@+id/mapHidrantesBomberos"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="395dp"
+        android:layout_height="428dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:context=".EstacionesMaps" />
+
+    <View
+        android:id="@+id/vBackgorund"
+        android:layout_width="411dp"
+        android:layout_height="82dp"
+        android:background="#80270C0A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="228dp"
+        android:layout_height="38dp"
+        android:fontFamily="@font/cabin_bold"
+        android:text="Hidrantes de incendio"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vBackgorund"
+        app:layout_constraintEnd_toEndOf="@id/vBackgorund"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="@id/vBackgorund"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.514" />
+
+    <ImageView
+        android:id="@+id/imgBack"
+        android:layout_width="37dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vBackgorund"
+        app:layout_constraintStart_toStartOf="@+id/vBackgorund"
+        app:layout_constraintTop_toTopOf="@id/vBackgorund"
+        app:layout_constraintVertical_bias="0.451"
+        app:srcCompat="@drawable/back" />
+
+    <View
+        android:id="@+id/view16"
+        android:layout_width="354dp"
+        android:layout_height="226dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/estaciones_maps_drawable"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mapHidrantesBomberos"
+        app:layout_constraintVertical_bias="0.347" />
+
+    <View
+        android:id="@+id/view28"
+        android:layout_width="299dp"
+        android:layout_height="142dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/drawable_hidrantes_bomberos"
+        app:layout_constraintBottom_toBottomOf="@+id/view16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView35"
+        android:layout_width="285dp"
+        android:layout_height="94dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/cabin_bold"
+        android:text="Visualiza los hidrantes más cercanos a tu ubicación actual "
+        android:textAlignment="center"
+        android:textColor="#F2844C"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view28" />
+
+    <ImageView
+        android:id="@+id/imageView18"
+        android:layout_width="32dp"
+        android:layout_height="36dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/location"
+        app:layout_constraintBottom_toTopOf="@+id/view28"
+        app:layout_constraintEnd_toStartOf="@+id/textView37"
+        app:layout_constraintHorizontal_bias="0.809"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView20"
+        android:layout_width="28dp"
+        android:layout_height="31dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/car_vector"
+        app:layout_constraintBottom_toTopOf="@+id/view28"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.871"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView36"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="188dp"
+        android:fontFamily="@font/cabin_bold"
+        android:text="3 km"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view16"
+        app:layout_constraintEnd_toStartOf="@+id/imageView18"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView37"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="188dp"
+        android:fontFamily="@font/cabin_bold"
+        android:text="36 min"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.426"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView19"
+        android:layout_width="34dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/run_personvector"
+        app:layout_constraintBottom_toTopOf="@+id/view28"
+        app:layout_constraintEnd_toStartOf="@+id/textView38"
+        app:layout_constraintHorizontal_bias="0.227"
+        app:layout_constraintStart_toEndOf="@+id/textView37" />
+
+    <TextView
+        android:id="@+id/textView38"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/cabin_bold"
+        android:text="4 min"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/view28"
+        app:layout_constraintEnd_toStartOf="@+id/imageView20"
+        app:layout_constraintHorizontal_bias="0.854"
+        app:layout_constraintStart_toEndOf="@+id/textView37" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

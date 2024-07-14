@@ -3,16 +3,16 @@
 
     <item
         android:id="@+id/inicio_Bombero"
-        android:icon="@drawable/baseline_arrow_downward_24"
+        android:icon="@drawable/home_vector"
         android:title="Inicio" />
     <item
         android:id="@+id/informe_Bomberos"
-        android:icon="@drawable/baseline_arrow_downward_24"
+        android:icon="@drawable/ic_informe"
         android:title="Informe" />
 
     <item
         android:id="@+id/ubicaciones_Bomberos"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/ic_ubicaciones"
         android:title="Ubicaciones" />
 
 </menu>
