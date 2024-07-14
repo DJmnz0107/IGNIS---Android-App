@@ -4,7 +4,8 @@
     <item
         android:id="@+id/inicio_Bombero"
         android:icon="@drawable/home_vector"
-        android:title="Inicio" />
+        android:title="Inicio"
+        />
     <item
         android:id="@+id/informe_Bomberos"
         android:icon="@drawable/ic_informe"
@@ -14,5 +15,7 @@
         android:id="@+id/ubicaciones_Bomberos"
         android:icon="@drawable/ic_ubicaciones"
         android:title="Ubicaciones" />
+
+
 
 </menu>

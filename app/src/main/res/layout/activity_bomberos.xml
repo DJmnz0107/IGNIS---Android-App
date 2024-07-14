@@ -12,6 +12,7 @@
         android:background="@drawable/rectangulo"
         app:itemIconTint="@drawable/colordelitem"
         app:itemTextColor="@drawable/colortexto"
+        app:labelVisibilityMode="selected"
         android:layout_marginHorizontal="10dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"

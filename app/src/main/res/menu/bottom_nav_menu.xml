@@ -16,11 +16,6 @@
         android:icon="@drawable/ic_seguimiento"
         android:title="Seguimiento"/>
 
-    <item
-        android:id="@+id/urgencias_principal"
-        android:icon="@drawable/ic_urgencia"
-        android:title="Urgencias"/>
-
-
+ 
 
 </menu>
