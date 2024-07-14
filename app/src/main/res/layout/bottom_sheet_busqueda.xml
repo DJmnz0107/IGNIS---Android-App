@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/standard_bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2844C"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <View
+        android:id="@+id/view31"
+        android:layout_width="376dp"
+        android:layout_height="534dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/background_busqueda"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txtBuscar"
+        android:layout_width="228dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginBottom="476dp"
+        android:background="@drawable/background_busqueda"
+        android:ems="10"
+        android:fontFamily="@font/cabin_bold"
+        android:hint="Buscar"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="@+id/view31"
+        app:layout_constraintEnd_toStartOf="@+id/imageView22"
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintStart_toStartOf="@+id/view31" />
+
+    <ImageView
+        android:id="@+id/imageView21"
+        android:layout_width="43dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="72dp"
+        app:layout_constraintEnd_toStartOf="@+id/txtBuscar"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/sirena" />
+
+    <ImageView
+        android:id="@+id/imageView22"
+        android:layout_width="39dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtBuscar"
+        app:layout_constraintEnd_toEndOf="@+id/view31"
+        app:layout_constraintTop_toTopOf="@+id/view31"
+        app:layout_constraintVertical_bias="0.629"
+        app:srcCompat="@drawable/close" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="376dp"
+        android:layout_height="440dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view31"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="56dp"
+        app:layout_constraintBottom_toTopOf="@+id/view31"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_line2" />
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="376dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="76dp"
+        android:background="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view31" />
+
+    <ImageView
+        android:id="@+id/imgBuscarEmergencia"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="28dp"
+        app:layout_constraintBottom_toTopOf="@+id/divider4"
+        app:layout_constraintEnd_toStartOf="@+id/imageView22"
+        app:layout_constraintStart_toEndOf="@+id/txtBuscar"
+        app:srcCompat="@drawable/buscar_vector" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.navigation.fragment.findNavController
@@ -19,6 +20,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -71,6 +73,16 @@ class Ubicaciones_emergencias : Fragment(), OnMapReadyCallback {
         val rcvEmergencias = root.findViewById<RecyclerView>(R.id.rcvEmergencia)
         val btnVolverEmergencias = root.findViewById<ImageView>(R.id.imgvolverEmergencias)
 
+        val viewBuscar = root.findViewById<View>(R.id.vBuscar)
+
+        val imgBuscar = root.findViewById<ImageView>(R.id.imgBuscar)
+
+        viewBuscar.setOnClickListener {
+
+            showBottomSheet()
+
+        }
+
         btnVolverEmergencias.setOnClickListener {
             findNavController().navigate(R.id.emergenciaAbomberos)
         }
@@ -122,6 +134,16 @@ class Ubicaciones_emergencias : Fragment(), OnMapReadyCallback {
 
 
 
+    }
+
+    private fun showBottomSheet() {
+        val context = context ?: return
+
+        val bottomSheetDialog = BottomSheetDialog(context)
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_busqueda, null)
+        bottomSheetDialog.setContentView(bottomSheetView)
+
+        bottomSheetDialog.show()
     }
 
     companion object {
