@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#F2844C">
+
+    <TextView
+        android:id="@+id/lblActualizar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/cabin_bold"
+        android:text="Actualizar"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FFFF" />
+
+    <!-- ImageView para mostrar la imagen debajo del texto "Actualizar" -->
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:src="@drawable/actualizarflecha"
+        android:contentDescription="Descripción de la imagen"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/txtIngreseEstado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#FFFF"
+        android:fontFamily="@font/cabin"
+        android:hint="Actualizar estado de emergencia"
+        android:inputType="text"
+        android:textColor="#FFFF"
+        android:textColorHint="#FFFF"
+        android:maxLength="10"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="end"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/btnCancelar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="#FDCA7A"
+            android:fontFamily="@font/cabin_semibold"
+            android:text="Cancelar" />
+
+        <Button
+            android:id="@+id/btnActualizar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="#FDCA7A"
+            android:fontFamily="@font/cabin_semibold"
+            android:text="Actualizar" />
+    </LinearLayout>
+
+</LinearLayout>
+

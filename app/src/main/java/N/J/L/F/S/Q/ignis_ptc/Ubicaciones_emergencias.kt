@@ -78,27 +78,36 @@ class Ubicaciones_emergencias : Fragment(), OnMapReadyCallback {
 
         fun obtenerDescripcion(): List<dataClassEmergencias>{
 
-            val objConexion = ClaseConexion().cadenaConexion()
+            try {
+                val objConexion = ClaseConexion().cadenaConexion()
 
-            val statement = objConexion?.createStatement()
-            val resultSet = statement?.executeQuery("SELECT * FROM Emergencias")!!
+                val statement = objConexion?.createStatement()
+                val resultSet = statement?.executeQuery("SELECT * FROM Emergencias")!!
 
-            val listaEmergencias = mutableListOf<dataClassEmergencias>()
+                val listaEmergencias = mutableListOf<dataClassEmergencias>()
 
-            while (resultSet.next()){
-                val id = resultSet.getInt("id_emergencia")
-                val UbicacionEmergencia = resultSet.getString("ubicacion_emergencia")
-                val descripcionEmergencia = resultSet.getString("descripcion_emergencia")
-                val gravedadEmergencia = resultSet.getString("gravedad_emergencia")
-                val tipoEmergencia = resultSet.getString("tipo_emergencia")
-                val respuestaNotificacion = resultSet.getString("respuesta_notificacion")
-                val estadoEmergencia = resultSet.getString("estado_emergencia")
+                while (resultSet.next()){
+                    val id = resultSet.getInt("id_emergencia")
+                    val UbicacionEmergencia = resultSet.getString("ubicacion_emergencia")
+                    val descripcionEmergencia = resultSet.getString("descripcion_emergencia")
+                    val gravedadEmergencia = resultSet.getString("gravedad_emergencia")
+                    val tipoEmergencia = resultSet.getString("tipo_emergencia")
+                    val respuestaNotificacion = resultSet.getString("respuesta_notificacion")
+                    val estadoEmergencia = resultSet.getString("estado_emergencia")
 
-                val datosCompletos = dataClassEmergencias(id, UbicacionEmergencia, descripcionEmergencia, gravedadEmergencia, tipoEmergencia, respuestaNotificacion, estadoEmergencia)
+                    val datosCompletos = dataClassEmergencias(id, UbicacionEmergencia, descripcionEmergencia, gravedadEmergencia, tipoEmergencia, respuestaNotificacion, estadoEmergencia)
 
-                listaEmergencias.add(datosCompletos)
+                    listaEmergencias.add(datosCompletos)
+                }
+                return listaEmergencias
             }
-            return listaEmergencias
+
+            catch (e: Exception){
+                println("El error es $e")
+                return emptyList()
+            }
+
+
         }
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -108,6 +117,7 @@ class Ubicaciones_emergencias : Fragment(), OnMapReadyCallback {
                 rcvEmergencias.adapter = adapter
             }
         }
+
         return root
 
 
