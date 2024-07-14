@@ -5,12 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable;
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,6 +38,9 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
             param2 = it.getString(ARG_PARAM2)
         }
 
+
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
@@ -51,6 +57,14 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
     ): View? {
         // Inflate the layout for this fragment
         val root =inflater.inflate(R.layout.fragment_seguimiento1, container, false)
+
+        val animationView: LottieAnimationView = root.findViewById(R.id.lottieAnimationView)
+
+        // Configura la animación para que se repita infinitamente
+        animationView.repeatCount = LottieDrawable.INFINITE
+
+        // Inicia la animación
+        animationView.playAnimation()
 
         return root
 

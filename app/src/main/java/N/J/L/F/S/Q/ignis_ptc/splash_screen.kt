@@ -27,8 +27,8 @@ class splash_screen : AppCompatActivity() {
             //Esperar 3 segundos
             delay(3000)
             //Inicio la otra pantalla
-            val pantallaMain = Intent( this@splash_screen, MainActivity::class.java)
-            startActivity(pantallaMain)
+            val pantallaLogin = Intent( this@splash_screen, activity_Login::class.java)
+            startActivity(pantallaLogin)
             finish()
 
         }
