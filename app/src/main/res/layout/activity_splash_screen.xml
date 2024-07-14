@@ -49,7 +49,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgVolverLogin"
         android:layout_width="125dp"
         android:layout_height="160dp"
         app:layout_constraintBottom_toBottomOf="parent"

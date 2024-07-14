@@ -75,7 +75,7 @@
         app:layout_constraintVertical_bias="0.321" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgVolverLogin"
         android:layout_width="58dp"
         android:layout_height="59dp"
         android:layout_marginTop="8dp"
@@ -108,7 +108,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.053"
         app:layout_constraintStart_toStartOf="@+id/view16"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imgVolverLogin" />
 
     <ImageView
         android:id="@+id/imageView12"
