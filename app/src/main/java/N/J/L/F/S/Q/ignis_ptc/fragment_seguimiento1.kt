@@ -96,7 +96,7 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
         val originalLayoutParams = mapFragment?.view?.layoutParams
         val width = originalLayoutParams?.width
         val height = originalLayoutParams?.height
-        
+
 
 
         imgVolver.setOnClickListener {
