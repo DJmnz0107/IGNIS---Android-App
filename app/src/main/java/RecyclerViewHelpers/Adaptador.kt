@@ -4,6 +4,7 @@ import Modelo.ClaseConexion
 import Modelo.dataClassEmergencias
 import N.J.L.F.S.Q.ignis_ptc.R
 import android.app.AlertDialog
+import android.app.Dialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
@@ -49,6 +50,28 @@ class Adaptador (var Datos: List<dataClassEmergencias>): RecyclerView.Adapter<Vi
 
     }
 
+    fun EliminarDatos (descripcionEmergencias:String,posicion:Int){
+        val ListaDatos=Datos.toMutableList()
+        ListaDatos.removeAt(posicion)
+
+        GlobalScope.launch(Dispatchers.IO){
+            val objConexion=ClaseConexion().cadenaConexion()
+
+            val deleteEmergencia= objConexion?.prepareStatement("DELETE EMERGENCIAS WHERE descripcion_emergencia = ?")!!
+            deleteEmergencia.setString(1, descripcionEmergencias)
+            deleteEmergencia.executeUpdate()
+
+            val commit = objConexion.prepareStatement("commit")
+            commit.executeUpdate()
+        }
+        Datos = ListaDatos.toList()
+        notifyItemRemoved(posicion)
+        notifyDataSetChanged()
+    }
+
+
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val vista = LayoutInflater.from(parent.context).inflate(R.layout.activity_item_card, parent, false)
@@ -62,6 +85,27 @@ class Adaptador (var Datos: List<dataClassEmergencias>): RecyclerView.Adapter<Vi
         val item = Datos[position]
         holder.txtNombreDescripcion.text = item.descripcionEmergencia
         holder.txtEstadoDescripcion.text = item.estadoEmergencia
+        holder.imgBorrar.setOnClickListener {
+            val context = holder.itemView.context
+            val Builder = AlertDialog.Builder(context)
+
+            Builder.setTitle("Confirmar eliminación")
+            Builder.setMessage("¿Desea eliminar la emergencia")
+            Builder.setPositiveButton("Si"){dialog,which ->
+                EliminarDatos(item.descripcionEmergencia,position)
+                Builder.setPositiveButton("Si") { dialog, which ->
+
+                    EliminarDatos(item.descripcionEmergencia, position)
+                }
+
+                Builder.setNegativeButton("No") { dialog, which ->
+                    dialog.dismiss()
+                }
+                val dialog = Builder.create()
+                dialog.show()
+            }
+
+        }
 
 
 
