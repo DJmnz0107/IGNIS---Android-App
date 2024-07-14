@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import androidx.navigation.fragment.findNavController
 
 // TODO: Rename parameter arguments, choose names that match
@@ -45,9 +44,12 @@ class Ubicaciones_Bomberos : Fragment() {
             findNavController().navigate(R.id.haciaHidrantesBomberos)
         }
 
+        val btnUbiEmergencia = root.findViewById<Button>(R.id.btnEmergenciaBombero)
 
+        btnUbiEmergencia.setOnClickListener {
+            findNavController().navigate(R.id.haciaEmergencias)
+        }
 
-        // Inflate the layout for this fragment
         return root
     }
 

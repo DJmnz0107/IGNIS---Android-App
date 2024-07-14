@@ -1,22 +1,13 @@
 package N.J.L.F.S.Q.ignis_ptc
 
-
 import N.J.L.F.S.Q.ignis_ptc.databinding.ActivityBomberosBinding
-import N.J.L.F.S.Q.ignis_ptc.databinding.ActivityMainBinding
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Window
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.navigation.Navigation.findNavController
-
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -36,7 +27,18 @@ class activity_bomberos : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_container)
 
-        binding.navBomberos.setupWithNavController(navController)
+        val navView: BottomNavigationView = binding.navBomberos
+
+
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.inicio_Bombero, R.id.informe_Bomberos, R.id.ubicaciones_Bomberos
+            )
+        )
+
+        navView.setupWithNavController(navController)
+
+
 
     }
 }

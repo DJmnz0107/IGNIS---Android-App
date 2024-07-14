@@ -158,7 +158,7 @@
                 android:layout_height="match_parent">
 
                 <Button
-                    android:id="@+id/button13"
+                    android:id="@+id/btnEmergenciaBombero"
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
                     android:layout_marginBottom="4dp"
@@ -208,7 +208,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:background="@drawable/circuloblanco"
-                    app:layout_constraintBottom_toTopOf="@+id/button13"
+                    app:layout_constraintBottom_toTopOf="@+id/btnEmergenciaBombero"
                     app:layout_constraintEnd_toStartOf="@+id/textView6"
                     app:layout_constraintHorizontal_bias="0.175"
                     app:layout_constraintStart_toStartOf="parent"

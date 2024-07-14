@@ -11,7 +11,6 @@ class ClaseConexion {
             val usuario = "STEVEN_DISPO"
             val contrasena = "2007"
 
-
             val conexion = DriverManager.getConnection(ip, usuario, contrasena)
             return conexion
 

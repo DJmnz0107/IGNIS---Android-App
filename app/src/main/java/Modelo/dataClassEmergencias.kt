@@ -7,6 +7,6 @@ data class dataClassEmergencias(
     val gravedadEmergencia:String,
     val tipoEmergencia:String,
     val respuestaNotificacion:String,
-    val estadoEmergencia:String
+    var estadoEmergencia:String
 
 )
