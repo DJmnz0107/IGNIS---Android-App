@@ -81,7 +81,8 @@ class Ubicaciones_emergencias : Fragment(), OnMapReadyCallback {
                 busquedaEmergencia?.setString(1, "%$termino%")
 
                 val resultSet = busquedaEmergencia?.executeQuery()
-                
+
+
 
                 while (resultSet?.next() == true) {
                     val id = resultSet.getInt("id_emergencia")
