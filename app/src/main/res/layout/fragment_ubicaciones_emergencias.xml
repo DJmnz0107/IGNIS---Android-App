@@ -63,9 +63,9 @@
         android:fontFamily="@font/cabin_bold"
         android:text="Ubicaciones de emergencias"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintHorizontal_bias="0.433"
         app:layout_constraintStart_toEndOf="@+id/imgvolverEmergencias"
         app:layout_constraintTop_toTopOf="@+id/view27" />
 
