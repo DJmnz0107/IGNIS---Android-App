@@ -58,6 +58,7 @@
         app:srcCompat="@drawable/close" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvBusqueda"
         android:layout_width="376dp"
         android:layout_height="440dp"
         android:layout_marginBottom="16dp"
