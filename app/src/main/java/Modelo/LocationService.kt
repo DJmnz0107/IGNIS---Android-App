@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -67,6 +68,17 @@ class LocationService(private val activity: MainActivity) {
             return@withContext "Ubicación no disponible"
         }
     }
+
+    suspend fun ubicacionLatLng(activity: Context): LatLng? {
+        return withContext(Dispatchers.Main) {
+            val location = getUserLocation(activity)
+            location?.let {
+                return@withContext LatLng(it.latitude, it.longitude)
+            }
+            return@withContext null
+        }
+    }
+
 
      private fun onPermissionsGranted() {
         CoroutineScope(Dispatchers.Main).launch {

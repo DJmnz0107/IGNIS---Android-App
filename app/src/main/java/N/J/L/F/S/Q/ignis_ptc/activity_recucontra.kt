@@ -15,6 +15,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -23,6 +24,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 
 class activity_recucontra : AppCompatActivity() {
 
@@ -55,7 +58,14 @@ class activity_recucontra : AppCompatActivity() {
             val codigoText = txtcodigo.text.toString().trim()
 
             if (codigoText.isEmpty()) {
-                Toast.makeText(this@activity_recucontra, "Por favor ingrese el código", Toast.LENGTH_LONG).show()
+
+                MotionToast.createColorToast(this@activity_recucontra,
+                    "Verificación de código",
+                    "Por favor, coloca el código que se te envió",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this@activity_recucontra,R.font.cabin_bold))
                 return@setOnClickListener
             }
 
@@ -65,11 +75,21 @@ class activity_recucontra : AppCompatActivity() {
                     txtcodigo.text.clear()
                     ActualizarContra()
                 } else {
-                    Toast.makeText(this@activity_recucontra, "Código Incorrecto", Toast.LENGTH_LONG).show()
-                }
+                    MotionToast.createColorToast(this@activity_recucontra,
+                        "Verificación de código",
+                        "El código es incorrecto",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this@activity_recucontra,R.font.cabin_bold))                }
             } catch (e: NumberFormatException) {
-                Toast.makeText(this@activity_recucontra, "Código no válido", Toast.LENGTH_LONG).show()
-            }
+                MotionToast.createColorToast(this@activity_recucontra,
+                    "Verificación de código",
+                    "El código no es valido",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this@activity_recucontra,R.font.cabin_bold))            }
         }
     }
 

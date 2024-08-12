@@ -196,7 +196,7 @@
         android:text="O"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/btnLoginGoogle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -204,7 +204,7 @@
         app:layout_constraintVertical_bias="0.26" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnLoginGoogle"
         android:layout_width="307dp"
         android:layout_height="48dp"
         android:layout_marginBottom="192dp"
@@ -234,7 +234,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.355"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/btnLoginGoogle" />
 
     <TextView
         android:id="@+id/lblRegistrarse"
@@ -248,7 +248,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.653"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/btnLoginGoogle" />
 
     <TextView
         android:id="@+id/textView8"

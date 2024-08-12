@@ -8,8 +8,15 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import N.J.L.F.S.Q.ignis_ptc.databinding.ActivityMainBinding
+import android.content.Intent
 import android.view.Window
 import android.widget.Toast
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,7 +24,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var locationService: LocationService
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
+
+
+
+
+
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
 
@@ -42,6 +57,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

@@ -9,12 +9,15 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 
 class activity_contrasena : AppCompatActivity() {
 
@@ -92,7 +95,13 @@ class activity_contrasena : AppCompatActivity() {
                                         "Recuperacion de CONTRASEÑA",
                                         "Hola usuario ${userrecu}, Te saluda el grupo de ignis tu codigo es: ${codigoRecu}"
                                     )
-                                    Toast.makeText(this@activity_contrasena, "Correo enviado satisfactoriamente", Toast.LENGTH_SHORT).show();
+                                    MotionToast.createColorToast(this@activity_contrasena,
+                                        "Envio de correo",
+                                        "El correo ha sido enviado, revisa tu bandeja de entrada",
+                                        MotionToastStyle.INFO,
+                                        MotionToast.GRAVITY_BOTTOM,
+                                        MotionToast.LONG_DURATION,
+                                        ResourcesCompat.getFont(this@activity_contrasena,R.font.cabin_bold))
                                     txtCORREORECU.setText("")
                                     txtUsuario.setText("")
 
@@ -105,8 +114,13 @@ class activity_contrasena : AppCompatActivity() {
                             }
                         } else {
                            withContext(Dispatchers.Main) {
-                               Toast.makeText(this@activity_contrasena, "Error al enviar el correo, revisa tu usuario o correo", Toast.LENGTH_LONG ).show()
-
+                               MotionToast.createColorToast(this@activity_contrasena,
+                                   "Envio de correo",
+                                   "Ha habido un error al enviar el correo",
+                                   MotionToastStyle.ERROR,
+                                   MotionToast.GRAVITY_BOTTOM,
+                                   MotionToast.LONG_DURATION,
+                                   ResourcesCompat.getFont(this@activity_contrasena,R.font.cabin_bold))
                            }
                         }
                     }

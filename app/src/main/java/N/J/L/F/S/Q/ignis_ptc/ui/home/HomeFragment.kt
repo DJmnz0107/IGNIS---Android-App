@@ -23,8 +23,15 @@ import android.widget.ToggleButton
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,12 +45,28 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
     private lateinit var locationService: LocationService
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        mAuth = FirebaseAuth.getInstance()
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.id_client))
+            .requestEmail()
+            .build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
+
+        val auth = Firebase.auth
+
+        mAuth = FirebaseAuth.getInstance()
+        val user = auth.currentUser
+
         locationService = LocationService(MainActivity())
 
         val homeViewModel =
@@ -104,9 +127,14 @@ class HomeFragment : Fragment() {
             val dialog = builder.create()
 
             positiveButton.setOnClickListener {
-                val pantallaLogin = Intent(requireActivity(), activity_Login::class.java)
-                startActivity(pantallaLogin)
-                requireActivity().finish()
+                val user = mAuth.currentUser
+                if (user != null) {
+                    handleSignOut(user)
+                }else {
+                    val pantallaLogin = Intent(requireActivity(), activity_Login::class.java)
+                    startActivity(pantallaLogin)
+                    requireActivity().finish()
+                }
                 dialog.dismiss()
             }
 
@@ -120,6 +148,29 @@ class HomeFragment : Fragment() {
 
 
         return root
+    }
+
+
+    private fun handleSignOut(user: FirebaseUser) {
+        user.providerData.forEach { userInfo ->
+            if (userInfo.providerId == "google.com") {
+                signOutAndStartSignInActivity()
+                return
+            }
+        }
+
+
+    }
+
+
+    private fun signOutAndStartSignInActivity() {
+        mAuth.signOut()
+
+        mGoogleSignInClient.signOut().addOnCompleteListener(requireActivity()) {
+            val intent = Intent(requireActivity(), activity_Login::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+        }
     }
 
 

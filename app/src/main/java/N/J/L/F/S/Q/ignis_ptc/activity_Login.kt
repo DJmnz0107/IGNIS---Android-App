@@ -15,19 +15,40 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.maps.GoogleMap
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import oracle.security.crypto.core.MessageDigest
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 import java.sql.Connection
 import kotlin.random.Random
 
 class activity_Login : AppCompatActivity() {
+
+    companion object {
+        private const val RC_SIGN_IN = 9001
+    }
+
+    private lateinit var auth: FirebaseAuth
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
@@ -37,7 +58,17 @@ class activity_Login : AppCompatActivity() {
             insets
         }
 
-      val lBlOlvidar = findViewById<TextView>(R.id.lblOlvidarContraseña)
+        auth = FirebaseAuth.getInstance()
+
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+
+        val lBlOlvidar = findViewById<TextView>(R.id.lblOlvidarContraseña)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
 
         val txtUsuario = findViewById<EditText>(R.id.txtUsuario)
@@ -46,6 +77,14 @@ class activity_Login : AppCompatActivity() {
         val imgShow = findViewById<ImageView>(R.id.imgShow)
 
         val imgHide = findViewById<ImageView>(R.id.imgHide)
+
+        val btnLoginGoogle = findViewById<Button>(R.id.btnLoginGoogle)
+
+        btnLoginGoogle.setOnClickListener {
+            signIn()
+        }
+
+
 
         lBlOlvidar.setOnClickListener { val pantallacontraseña = Intent(this,activity_contrasena::class.java)
            startActivity(pantallacontraseña)
@@ -137,11 +176,31 @@ class activity_Login : AppCompatActivity() {
                         if (resultado.next()) {
                             if(nivelUsuario != null || nivelUsuario2 != null) {
                                 if (nivelUsuario == 1) {
+                                    withContext(Dispatchers.Main) {
+                                        MotionToast.createColorToast(this@activity_Login,
+                                            "Sesión iniciada con éxito",
+                                            "Bienvenido a ignis",
+                                            MotionToastStyle.SUCCESS,
+                                            MotionToast.GRAVITY_BOTTOM,
+                                            MotionToast.LONG_DURATION,
+                                            ResourcesCompat.getFont(this@activity_Login,R.font.cabin_bold))
+                                    }
                                     val pantallaMain = Intent(this@activity_Login, MainActivity::class.java)
                                     startActivity(pantallaMain)
+                                    finish()
                                 }else if (nivelUsuario2 == 2) {
+                                    withContext(Dispatchers.Main) {
+                                        MotionToast.createColorToast(this@activity_Login,
+                                            "Sesión iniciada con éxito",
+                                            "Bienvenido a ignis",
+                                            MotionToastStyle.SUCCESS,
+                                            MotionToast.GRAVITY_BOTTOM,
+                                            MotionToast.LONG_DURATION,
+                                            ResourcesCompat.getFont(this@activity_Login,R.font.cabin_bold))
+                                    }
                                     val pantallaBombero = Intent(this@activity_Login, activity_bomberos::class.java)
                                     startActivity(pantallaBombero)
+                                    finish()
                                 }
                                 else {
                                     withContext(Dispatchers.Main) {
@@ -152,8 +211,13 @@ class activity_Login : AppCompatActivity() {
                         }
                         else {
                             withContext(Dispatchers.Main) {
-                                Toast.makeText(this@activity_Login, "Usuario o contraseña incorrectos", Toast.LENGTH_LONG).show()
-                            }
+                                MotionToast.createColorToast(this@activity_Login,
+                                    "Error al iniciar sesión",
+                                    "Las credenciales ingresadas son incorrectas",
+                                    MotionToastStyle.ERROR,
+                                    MotionToast.GRAVITY_BOTTOM,
+                                    MotionToast.LONG_DURATION,
+                                    ResourcesCompat.getFont(this@activity_Login,R.font.cabin_bold))                            }
                         }
                     } catch (e: Exception) {
                         println("El error es: ${e.message}")
@@ -179,6 +243,52 @@ class activity_Login : AppCompatActivity() {
 
 
 
+
+    }
+    private fun signIn() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.id_client))
+            .requestEmail()
+            .build()
+
+        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+        val signInIntent = googleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: ApiException) {
+                Toast.makeText(this, "Google sign in failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    MotionToast.createColorToast(this,
+                        "Sesión iniciada con éxito",
+                        "Bienvenido a ignis, ${user?.displayName}",
+                        MotionToastStyle.SUCCESS,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this,R.font.cabin_bold))
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                } else {
+                    Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
 }

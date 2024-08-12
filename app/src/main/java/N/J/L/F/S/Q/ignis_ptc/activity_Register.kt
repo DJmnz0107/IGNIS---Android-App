@@ -14,12 +14,15 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 import java.security.MessageDigest
 
 class activity_Register : AppCompatActivity() {
@@ -240,7 +243,13 @@ class activity_Register : AppCompatActivity() {
                             crearUsuario.setInt(5, nivel)
                             crearUsuario.executeUpdate()
                             withContext(Dispatchers.Main) {
-                                Toast.makeText(this@activity_Register, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
+                                MotionToast.createColorToast(this@activity_Register,
+                                    "Usuario creado",
+                                    "El usuario ha sido creado con éxito",
+                                    MotionToastStyle.SUCCESS,
+                                    MotionToast.GRAVITY_BOTTOM,
+                                    MotionToast.LONG_DURATION,
+                                    ResourcesCompat.getFont(this@activity_Register,R.font.cabin_bold))
                                 txtUsuario.setText("")
                                 txtPassword.setText("")
                                 txtEdad.setText("")

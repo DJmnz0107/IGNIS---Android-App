@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "440090322723",
+    "project_id": "ignis-app-50185",
+    "storage_bucket": "ignis-app-50185.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440090322723:android:93c7b1fc979a7a37090e96",
+        "android_client_info": {
+          "package_name": "N.J.L.F.S.Q.ignis_ptc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440090322723-buag0hmfl2pagoha99pi8brqqesleal9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "N.J.L.F.S.Q.ignis_ptc",
+            "certificate_hash": "5e749063f408e70c9fed8338fdb2fac8b0e67290"
+          }
+        },
+        {
+          "client_id": "440090322723-uf0dkdgbq6nv3oe4pca3ijehilagkjm8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZvYS6A8Es6zmCF0ZwPVM03Y1APm5jkIs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440090322723-uf0dkdgbq6nv3oe4pca3ijehilagkjm8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
