@@ -25,6 +25,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
@@ -45,14 +46,16 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
     private val apiKey = "AIzaSyCH9y8qPHiq4nT-te8GE4BYvKNFshV5ZG0"
-    private lateinit var distanceTextView: TextView
-    private lateinit var durationByCarTextView: TextView
-    private lateinit var durationByWalkingTextView: TextView
+    private lateinit var lblDistancia: TextView
+    private lateinit var lblDistanciaAuto: TextView
+    private lateinit var lblDistanciaCaminando: TextView
     private lateinit var imgDistancia: ImageView
     private lateinit var imgCaminar: ImageView
     private lateinit var imgConducir:ImageView
     private val markers = mutableListOf<Marker>()
     private var ubicacion: LatLng? = null
+    private var currentLocationMarker: Marker? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,17 +63,14 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_hidrantes_ignis, container, false)
 
-        // Obtener el fragmento del mapa
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapHidrantes) as? SupportMapFragment
         mapFragment?.getMapAsync(this)
 
-        distanceTextView = root.findViewById(R.id.lblDistancia)
-        durationByCarTextView = root.findViewById(R.id.lblConduciendo)
-        durationByWalkingTextView = root.findViewById(R.id.lblCaminando)
+        lblDistancia = root.findViewById(R.id.lblDistancia)
+        lblDistanciaAuto = root.findViewById(R.id.lblConduciendo)
+        lblDistanciaCaminando = root.findViewById(R.id.lblCaminando)
 
         val imgBack = root.findViewById<ImageView>(R.id.imgBack)
-
-
 
         imgDistancia = root.findViewById(R.id.imgLocation)
 
@@ -115,36 +115,53 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
         }
 
         map.setOnMapClickListener { latLng ->
-            showMarkerDialog(latLng)
+            mostrarAlertDialog(latLng)
+        }
+
+        map.setOnCameraIdleListener {
+            ajustarVisibilidadMarcadores(map.cameraPosition.zoom)
         }
 
         map.setOnMarkerClickListener { marker ->
-            val origin = ubicacion?.let { "${it.latitude},${it.longitude}" } ?: return@setOnMarkerClickListener true
-            val destination = "${marker.position.latitude},${marker.position.longitude}"
+            if (marker != currentLocationMarker) {
+                val origin = ubicacion?.let { "${it.latitude},${it.longitude}" } ?: return@setOnMarkerClickListener true
+                val destination = "${marker.position.latitude},${marker.position.longitude}"
 
-            val directionsApi = DirectionsApi(apiKey)
+                val directionsApi = DirectionsApi(apiKey)
 
-            imgDistancia.visibility = View.VISIBLE
-            imgCaminar.visibility = View.VISIBLE
-            imgConducir.visibility = View.VISIBLE
+                imgDistancia.visibility = View.VISIBLE
+                imgCaminar.visibility = View.VISIBLE
+                imgConducir.visibility = View.VISIBLE
 
-            directionsApi.getDirections(origin, destination, "driving") { distanceText, durationText, error ->
-                if (error == null) {
-                    val distanceInKm = distanceText?.let { convertirMillasAKm(it) }
-                    durationByCarTextView.text = "${durationText ?: "N/A"}"
-                    distanceTextView.text = "${distanceInKm ?: "N/A"} km"
-                } else {
-                    Log.e("DirectionsApi", "Error al obtener direcciones en carro: ${error?.message}")
+                directionsApi.getDirections(origin, destination, "driving") { distanceText, durationText, error ->
+                    if (error == null) {
+                        val distanceInKm = distanceText?.let { convertirMillasAKm(it) }
+                        lblDistanciaAuto.text = "${durationText ?: "N/A"}"
+                        lblDistancia.text = "${distanceInKm ?: "N/A"} km"
+                    } else {
+                        Log.e("DirectionsApi", "Error al obtener direcciones en carro: ${error?.message}")
+                    }
                 }
+
+                directionsApi.getDirections(origin, destination, "walking") { _, durationText, error ->
+                    if (error == null) {
+                        lblDistanciaCaminando.text = "${durationText ?: "N/A"}"
+                    } else {
+                        Log.e("DirectionsApi", "Error al obtener direcciones a pie: ${error?.message}")
+                    }
+                }
+
+            } else {
+
+                imgDistancia.visibility = View.GONE
+                imgCaminar.visibility = View.GONE
+                imgConducir.visibility = View.GONE
+
+                lblDistanciaAuto.text = ""
+                lblDistancia.text = ""
+                lblDistanciaCaminando.text = ""
             }
 
-            directionsApi.getDirections(origin, destination, "walking") { _, durationText, error ->
-                if (error == null) {
-                    durationByWalkingTextView.text = "${durationText ?: "N/A"}"
-                } else {
-                    Log.e("DirectionsApi", "Error al obtener direcciones a pie: ${error?.message}")
-                }
-            }
 
             marker.showInfoWindow()
 
@@ -152,21 +169,49 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
         }
 
         map.setOnInfoWindowClickListener { marker ->
-            showDeleteMarkerDialog(marker)
+            eliminarAlertDialog(marker)
         }
 
 
         CoroutineScope(Dispatchers.IO).launch {
             ubicacion = withContext(Dispatchers.IO) {
-                LocationService(context as MainActivity).ubicacionLatLng(requireContext())
+                LocationService(context as MainActivity).ubicacionLatLng(context as MainActivity)
             }
             withContext(Dispatchers.Main) {
-                posicionActual(ubicacion)
-                animacionMarcador(ubicacion)
-                loadMarkers()
+                mostrarUbicacionActual(ubicacion)
+                cargarMarcadores()
             }
         }
     }
+
+    private fun mostrarUbicacionActual(location: LatLng?) {
+        if (location != null) {
+            val circleOptions = CircleOptions()
+                .center(location)
+                .radius(30.0)
+                .strokeColor(ContextCompat.getColor(requireContext(), R.color.naranjaDos))
+                .fillColor(ContextCompat.getColor(requireContext(), R.color.Amarillo))
+                .strokeWidth(20f)
+            map.addCircle(circleOptions)
+
+            val markerOptions = MarkerOptions()
+                .position(location)
+                .title("Mi Ubicación")
+                .icon(
+                    BitmapDescriptorFactory.fromBitmap(
+                        Bitmap.createBitmap(
+                            1,
+                            1,
+                            Bitmap.Config.ARGB_8888
+                        )
+                    )
+                )
+            currentLocationMarker = map.addMarker(markerOptions)
+
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 18f))
+        }
+    }
+
 
     private fun convertirMillasAKm(distanceText: String): String? {
         val distanciaMillas = distanceText.split(" ")?.firstOrNull()?.toDoubleOrNull()
@@ -176,15 +221,12 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
         }
     }
 
-
-    private fun posicionActual(ubicacion: LatLng?) {
-        if (ubicacion != null) {
-            val markerOption = MarkerOptions().position(ubicacion).title("Mi Ubicación")
-            map.addMarker(markerOption)
-        } else {
-            Log.d("HidrantesIgnis", "Ubicación no válida.")
+    private fun ajustarVisibilidadMarcadores(zoom: Float) {
+        for (marker in markers) {
+            marker.isVisible = zoom >= 15
         }
     }
+
 
     private fun animacionMarcador(coordenadas: LatLng?) {
         if (coordenadas != null) {
@@ -192,7 +234,7 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun showMarkerDialog(latLng: LatLng) {
+    private fun mostrarAlertDialog(latLng: LatLng) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Añadir marcador")
 
@@ -208,7 +250,7 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
                     MarkerOptions()
                         .position(latLng)
                         .title(title)
-                        .icon(getMarkerIconFromDrawable(R.drawable.hidranteicono))
+                        .icon(iconoMarcador(R.drawable.hidranteicono))
                 )
                 if (marker != null) {
                     markers.add(marker)
@@ -216,7 +258,7 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
                     map.moveCamera(CameraUpdateFactory.newLatLng(latLng))
                 }
             } else {
-                showErrorDialog("El nombre del marcador no puede estar vacío.")
+                mostrarAlertDialogError("El nombre del marcador no puede estar vacío.")
             }
         }
         builder.setNegativeButton("Cancelar") { dialog, which -> dialog.cancel() }
@@ -224,7 +266,7 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
         builder.show()
     }
 
-    private fun showErrorDialog(message: String) {
+    private fun mostrarAlertDialogError(message: String) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Error")
         builder.setMessage(message)
@@ -232,7 +274,7 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
         builder.show()
     }
 
-    private fun showDeleteMarkerDialog(marker: Marker) {
+    private fun eliminarAlertDialog(marker: Marker) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Eliminar marcador")
         builder.setMessage("¿Desea eliminar este marcador?")
@@ -251,12 +293,14 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
         val sharedPreferences = requireActivity().getSharedPreferences(MARKERS_PREF, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         val jsonArray = JSONArray()
+        val currentMapId = "mapaHidrantes"
 
         for (marker in markers) {
             val jsonObject = JSONObject()
             jsonObject.put("title", marker.title)
             jsonObject.put("latitude", marker.position.latitude)
             jsonObject.put("longitude", marker.position.longitude)
+            jsonObject.put("mapId", currentMapId)
             jsonArray.put(jsonObject)
         }
 
@@ -264,31 +308,36 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
         editor.apply()
     }
 
-    private fun loadMarkers() {
+    private fun cargarMarcadores() {
         val sharedPreferences = requireActivity().getSharedPreferences(MARKERS_PREF, Context.MODE_PRIVATE)
         val jsonString = sharedPreferences.getString(MARKERS_KEY, null)
-        Log.d("HidrantesIgnis", "Cargando marcadores: $jsonString")
+        val currentMapId = "mapaHidrantes"
 
         if (jsonString != null) {
             val jsonArray = JSONArray(jsonString)
 
             for (i in 0 until jsonArray.length()) {
                 val jsonObject = jsonArray.getJSONObject(i)
-                val title = jsonObject.getString("title")
-                val latitude = jsonObject.getDouble("latitude")
-                val longitude = jsonObject.getDouble("longitude")
-                val latLng = LatLng(latitude, longitude)
-                val marker = map.addMarker(MarkerOptions().position(latLng).title(title).icon(getMarkerIconFromDrawable(R.drawable.hidranteicono)))
-                if (marker != null) {
-                    markers.add(marker)
-                } else {
-                    Log.d("HidrantesIgnis", "Error al añadir marcador desde SharedPreferences.")
+                val mapId = jsonObject.optString("mapId", "")
+
+                if (mapId == currentMapId) {
+                    val title = jsonObject.getString("title")
+                    val latitude = jsonObject.getDouble("latitude")
+                    val longitude = jsonObject.getDouble("longitude")
+                    val latLng = LatLng(latitude, longitude)
+                    val marker = map.addMarker(MarkerOptions().position(latLng).title(title).icon(iconoMarcador(R.drawable.hidranteicono)))
+                    if (marker != null) {
+                        markers.add(marker)
+                    } else {
+                        Log.d("HidrantesIgnis", "Error al añadir marcador desde SharedPreferences.")
+                    }
                 }
+
             }
         }
     }
 
-    private fun getMarkerIconFromDrawable(drawableId: Int): BitmapDescriptor {
+    private fun iconoMarcador(drawableId: Int): BitmapDescriptor {
         val drawable = ContextCompat.getDrawable(requireContext(), drawableId)
         val canvas = Canvas()
         val width = 128

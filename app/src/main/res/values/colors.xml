@@ -15,6 +15,9 @@
     <color name="black_overlay">#66000000</color>
     <color name="custom_indicator_color">#FFFFFF</color>
     <color name="colorBottom">#F5B24A</color>
+    <color name="naranjaDos">#F2844C</color>
+    <color name="Amarillo">#FDCA7A</color>
+
 
 </resources>
 

@@ -1,5 +1,6 @@
 package Modelo
 
+import N.J.L.F.S.Q.ignis_ptc.EstacionesMaps
 import N.J.L.F.S.Q.ignis_ptc.MainActivity
 import android.Manifest
 import android.annotation.SuppressLint
@@ -85,7 +86,8 @@ class LocationService(private val activity: MainActivity) {
             val location = getUserLocation(activity)
             location?.let {
                 val ubicacion = "Latitud: ${it.latitude}, Longitud: ${it.longitude}"
-                showToast("Ubicación obtenida: $ubicacion")
+                val latLng = LatLng(it.latitude, it.longitude)
+                LocationEventBus.postLocationUpdate(latLng)
             }
         }
     }

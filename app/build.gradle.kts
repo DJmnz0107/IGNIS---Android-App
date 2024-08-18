@@ -71,6 +71,12 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("com.google.android.libraries.places:places:3.5.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation ("com.google.firebase:firebase-firestore-ktx:24.5.0")
+
+
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

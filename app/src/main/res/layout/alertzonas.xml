@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/cabin_semibold"
+        android:text="Añadir marcador"
+        android:textColor="#F2844C"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/txtMarcador"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bgedittext"
+        android:hint="Zona peligrosa"
+        android:inputType="text"
+        android:paddingLeft="20dp"/>
+
+    <Spinner
+        android:id="@+id/spTipoEmergenciaZonas"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bgspinner"
+        android:paddingLeft="20dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnCancelarZona"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="#F2844C"
+            android:text="Cancelar"
+            android:textColor="#FFFFFF"
+            app:cornerRadius="20dp" />
+
+        <Button
+            android:id="@+id/btnAgregarZona"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#F2844C"
+            android:text="Agregar"
+            android:textColor="#FFFFFF"
+            app:cornerRadius="20dp" />
+    </LinearLayout>
+</LinearLayout>
