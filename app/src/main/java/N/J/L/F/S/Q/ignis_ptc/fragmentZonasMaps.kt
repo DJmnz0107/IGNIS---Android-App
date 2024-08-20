@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,6 +50,7 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
     private var ubicacion: LatLng? = null
     private var ubicacionActualMaracador: Marker? = null
+    private val firestore = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,7 +109,7 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
 
         map.setOnInfoWindowClickListener { marker ->
             if (marker != ubicacionActualMaracador) {
-                mostrarAlertDialogEliminar(marker)
+                eliminarAlertDialog(marker)
             } else {
 
             }
@@ -119,7 +121,7 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
             }
             withContext(Dispatchers.Main) {
                 mostrarUbicacionActual(ubicacion)
-                loadMarkers()
+                cargarMarcadores()
             }
         }
     }
@@ -152,7 +154,7 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun mostrarAlertDialogEliminar(marker: Marker) {
+    private fun eliminarAlertDialog(marker: Marker) {
         val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
         builder.setTitle("Eliminar marcador")
         builder.setMessage("¿Desea eliminar este marcador?")
@@ -160,36 +162,7 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
         builder.setPositiveButton("Sí") { dialog, which ->
             marker.remove()
             markers.remove(marker)
-
-            val sharedPreferences = requireActivity().getSharedPreferences(MARKERS_PREF, Context.MODE_PRIVATE)
-            val jsonString = sharedPreferences.getString(MARKERS_KEY, null)
-
-            if (jsonString != null) {
-                try {
-                    val jsonArray = JSONArray(jsonString)
-                    val updatedArray = JSONArray()
-
-                    val currentMapId = "mapa1"
-                    val markerTitle = marker.title
-
-                    for (i in 0 until jsonArray.length()) {
-                        val jsonObject = jsonArray.getJSONObject(i)
-                        val mapId = jsonObject.optString("mapId", "")
-                        val title = jsonObject.optString("title", "")
-
-                        if (mapId == currentMapId && title != markerTitle) {
-                            updatedArray.put(jsonObject)
-                        }
-                    }
-
-                    with(sharedPreferences.edit()) {
-                        putString(MARKERS_KEY, updatedArray.toString())
-                        apply()
-                    }
-                } catch (e: Exception) {
-                    Log.e("HidrantesIgnis", "Error al eliminar el marcador de SharedPreferences.", e)
-                }
-            }
+            guardarMarcadores()
         }
         builder.setNegativeButton("No") { dialog, which -> dialog.cancel() }
 
@@ -198,55 +171,40 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
 
 
 
-    private fun loadMarkers() {
-        val sharedPreferences = requireActivity().getSharedPreferences(MARKERS_PREF, Context.MODE_PRIVATE)
-        val jsonString = sharedPreferences.getString(MARKERS_KEY, null)
 
-        val currentMapId = "mapa1"
 
-        if (jsonString != null) {
-            try {
-                val jsonArray = JSONArray(jsonString)
+    private fun cargarMarcadores() {
+        val markersCollection = firestore.collection("MarcadoresHidrantes")
+        markersCollection.get().addOnSuccessListener { result ->
+            for (document in result) {
+                val title = document.getString("title") ?: "Sin título"
+                val latitude = document.getDouble("latitude") ?: 0.0
+                val longitude = document.getDouble("longitude") ?: 0.0
+                val severity = document.getString("severity") ?: "bajo"
 
-                for (i in 0 until jsonArray.length()) {
-                    val jsonObject = jsonArray.getJSONObject(i)
-                    val mapId = jsonObject.optString("mapId", "")
-
-                    if (mapId == currentMapId) {
-                        val title = jsonObject.optString("title", "Sin título")
-                        val latitude = jsonObject.optDouble("latitude", 0.0)
-                        val longitude = jsonObject.optDouble("longitude", 0.0)
-                        val type = jsonObject.optString("type", "Baja")
-
-                        val latLng = LatLng(latitude, longitude)
-                        val markerImage = when (type) {
-                            "Baja" -> R.drawable.peligroverde
-                            "Moderada" -> R.drawable.peligroamarillo
-                            "Alta" -> R.drawable.peligrorojo
-                            else -> R.drawable.peligro_vector
-                        }
-
-                        val bitmapDrawable = ContextCompat.getDrawable(requireContext(), markerImage)
-                        val bitmap = bitmapDrawable?.toBitmap()
-                        val resizedBitmap = bitmap?.let { Bitmap.createScaledBitmap(it, 100, 100, false) }
-
-                        val markerOptions = MarkerOptions()
-                            .position(latLng)
-                            .title(title)
-                            .icon(resizedBitmap?.let { BitmapDescriptorFactory.fromBitmap(it) })
-
-                        val marker = map.addMarker(markerOptions)
-                        if (marker != null) {
-                            markers.add(marker)
-                        } else {
-                            Log.d("HidrantesIgnis", "Error al añadir marcador desde SharedPreferences.")
-                        }
-                    }
+                val iconResource = when (severity) {
+                    "alto" -> R.drawable.peligrorojo
+                    "medio" -> R.drawable.peligroamarillo
+                    else -> R.drawable.peligroverde
                 }
-            } catch (e: Exception) {
-                Log.e("HidrantesIgnis", "Error al cargar los marcadores desde SharedPreferences.", e)
+
+                val latLng = LatLng(latitude, longitude)
+                val marker = map.addMarker(
+                    MarkerOptions().position(latLng).title(title).icon(iconoMarcador(iconResource))
+                )
+                if (marker != null) {
+                    markers.add(marker)
+                } else {
+                    Log.d("HidrantesIgnis", "Error al añadir marcador desde Firestore.")
+                }
             }
+        }.addOnFailureListener { e ->
+            Log.w("Firestore", "Error getting documents: ", e)
         }
+    }
+
+    private fun iconoMarcador(resourceId: Int): BitmapDescriptor {
+        return BitmapDescriptorFactory.fromResource(resourceId)
     }
 
 
@@ -296,7 +254,7 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
                 val marker = map.addMarker(markerOptions)
                 if (marker != null) {
                     markers.add(marker)
-                    guardarMarcadores(marker, selectedType, title, latLng.latitude, latLng.longitude)
+                    guardarMarcadores()
                 }
 
             dialog.dismiss()
@@ -308,25 +266,26 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
     }
 
 
-    private fun guardarMarcadores(marker: Marker, type: String, title: String, latitude: Double, longitude: Double) {
-        val sharedPreferences = requireActivity().getSharedPreferences(MARKERS_PREF, Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
+    private fun guardarMarcadores() {
+        val markersCollection = firestore.collection("MarcadoresZonas")
+        markersCollection.get().addOnSuccessListener { result ->
+            for (document in result) {
+                document.reference.delete()
+            }
 
-        val currentMapId = "mapa1" // Aquí debes usar el identificador único para cada mapa
-
-        val jsonArray = JSONArray(sharedPreferences.getString(MARKERS_KEY, "[]"))
-        val jsonObject = JSONObject().apply {
-            put("mapId", currentMapId)
-            put("title", title)
-            put("latitude", latitude)
-            put("longitude", longitude)
-            put("type", type)
+            for (marker in markers) {
+                val markerData = hashMapOf(
+                    "title" to marker.title,
+                    "latitude" to marker.position.latitude,
+                    "longitude" to marker.position.longitude
+                )
+                markersCollection.add(markerData)
+            }
+        }.addOnFailureListener { e ->
+            Log.w("Firestore", "Error getting documents: ", e)
         }
-        jsonArray.put(jsonObject)
-
-        editor.putString(MARKERS_KEY, jsonArray.toString())
-        editor.apply()
     }
+
 
 
 

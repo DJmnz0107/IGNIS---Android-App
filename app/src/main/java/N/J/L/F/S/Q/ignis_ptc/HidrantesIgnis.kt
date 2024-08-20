@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -55,6 +56,7 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
     private val markers = mutableListOf<Marker>()
     private var ubicacion: LatLng? = null
     private var currentLocationMarker: Marker? = null
+    private val firestore = FirebaseFirestore.getInstance()
 
 
     override fun onCreateView(
@@ -83,6 +85,8 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
         imgCaminar.visibility = View.GONE
 
         imgConducir.visibility = View.GONE
+
+
 
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
@@ -135,11 +139,12 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
 
                 directionsApi.getDirections(origin, destination, "driving") { distanceText, durationText, error ->
                     if (error == null) {
-                        val distanceInKm = distanceText?.let { convertirMillasAKm(it) }
+                        val distanceInKm = distanceText?.let { convertirDistanciaAKm(it) }
+                        Log.d("DirectionsApi", "distanceInKm: $distanceInKm, durationText: $durationText")
                         lblDistanciaAuto.text = "${durationText ?: "N/A"}"
                         lblDistancia.text = "${distanceInKm ?: "N/A"} km"
                     } else {
-                        Log.e("DirectionsApi", "Error al obtener direcciones en carro: ${error?.message}")
+                        Log.e("DirectionsApi", "Error al obtener direcciones en carro: ${error.message}")
                     }
                 }
 
@@ -147,12 +152,11 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
                     if (error == null) {
                         lblDistanciaCaminando.text = "${durationText ?: "N/A"}"
                     } else {
-                        Log.e("DirectionsApi", "Error al obtener direcciones a pie: ${error?.message}")
+                        Log.e("DirectionsApi", "Error al obtener direcciones a pie: ${error.message}")
                     }
                 }
 
             } else {
-
                 imgDistancia.visibility = View.GONE
                 imgCaminar.visibility = View.GONE
                 imgConducir.visibility = View.GONE
@@ -162,11 +166,11 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
                 lblDistanciaCaminando.text = ""
             }
 
-
             marker.showInfoWindow()
-
             true
         }
+
+
 
         map.setOnInfoWindowClickListener { marker ->
             eliminarAlertDialog(marker)
@@ -213,13 +217,43 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
     }
 
 
-    private fun convertirMillasAKm(distanceText: String): String? {
-        val distanciaMillas = distanceText.split(" ")?.firstOrNull()?.toDoubleOrNull()
-        return distanciaMillas?.let {
-            val distanciaKm = it * 1.60934
-            String.format("%.2f", distanciaKm)
+    private fun convertirDistanciaAKm(distanceText: String): String? {
+        Log.d("convertirDistanciaAKm", "distanceText: $distanceText")
+
+        val parts = distanceText.split(" ")
+        if (parts.size < 2) {
+            Log.e("convertirDistanciaAKm", "Formato de distancia no válido: $distanceText")
+            return null
+        }
+
+        val distanciaValor = parts[0].toDoubleOrNull()
+        val unidad = parts[1]
+
+        Log.d("convertirDistanciaAKm", "distanciaValor: $distanciaValor, unidad: $unidad")
+
+        return distanciaValor?.let {
+            when (unidad) {
+                "ft" -> {
+                    val distanciaKm = it * 0.0003048
+                    String.format("%.2f", distanciaKm)
+                }
+                "mi" -> {
+                    val distanciaKm = it * 1.60934
+                    String.format("%.2f", distanciaKm)
+                }
+                else -> {
+                    Log.e("convertirDistanciaAKm", "Unidad desconocida: $unidad")
+                    null
+                }
+            }
+        } ?: run {
+            Log.e("convertirDistanciaAKm", "No se pudo convertir distancia: $distanceText")
+            null
         }
     }
+
+
+
 
     private fun ajustarVisibilidadMarcadores(zoom: Float) {
         for (marker in markers) {
@@ -290,52 +324,48 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
     }
 
     private fun saveMarkers() {
-        val sharedPreferences = requireActivity().getSharedPreferences(MARKERS_PREF, Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        val jsonArray = JSONArray()
-        val currentMapId = "mapaHidrantes"
+        val markersCollection = firestore.collection("MarcadoresHidrantes")
+        markersCollection.get().addOnSuccessListener { result ->
+            for (document in result) {
+                document.reference.delete()
+            }
 
-        for (marker in markers) {
-            val jsonObject = JSONObject()
-            jsonObject.put("title", marker.title)
-            jsonObject.put("latitude", marker.position.latitude)
-            jsonObject.put("longitude", marker.position.longitude)
-            jsonObject.put("mapId", currentMapId)
-            jsonArray.put(jsonObject)
+            for (marker in markers) {
+                val markerData = hashMapOf(
+                    "title" to marker.title,
+                    "latitude" to marker.position.latitude,
+                    "longitude" to marker.position.longitude
+                )
+                markersCollection.add(markerData)
+            }
+        }.addOnFailureListener { e ->
+            Log.w("Firestore", "Error getting documents: ", e)
         }
-
-        editor.putString(MARKERS_KEY, jsonArray.toString())
-        editor.apply()
     }
+
 
     private fun cargarMarcadores() {
-        val sharedPreferences = requireActivity().getSharedPreferences(MARKERS_PREF, Context.MODE_PRIVATE)
-        val jsonString = sharedPreferences.getString(MARKERS_KEY, null)
-        val currentMapId = "mapaHidrantes"
-
-        if (jsonString != null) {
-            val jsonArray = JSONArray(jsonString)
-
-            for (i in 0 until jsonArray.length()) {
-                val jsonObject = jsonArray.getJSONObject(i)
-                val mapId = jsonObject.optString("mapId", "")
-
-                if (mapId == currentMapId) {
-                    val title = jsonObject.getString("title")
-                    val latitude = jsonObject.getDouble("latitude")
-                    val longitude = jsonObject.getDouble("longitude")
-                    val latLng = LatLng(latitude, longitude)
-                    val marker = map.addMarker(MarkerOptions().position(latLng).title(title).icon(iconoMarcador(R.drawable.hidranteicono)))
-                    if (marker != null) {
-                        markers.add(marker)
-                    } else {
-                        Log.d("HidrantesIgnis", "Error al añadir marcador desde SharedPreferences.")
-                    }
+        val markersCollection = firestore.collection("MarcadoresHidrantes")
+        markersCollection.get().addOnSuccessListener { result ->
+            for (document in result) {
+                val title = document.getString("title") ?: "Sin título"
+                val latitude = document.getDouble("latitude") ?: 0.0
+                val longitude = document.getDouble("longitude") ?: 0.0
+                val latLng = LatLng(latitude, longitude)
+                val marker = map.addMarker(
+                    MarkerOptions().position(latLng).title(title).icon(iconoMarcador(R.drawable.hidranteicono))
+                )
+                if (marker != null) {
+                    markers.add(marker)
+                } else {
+                    Log.d("HidrantesIgnis", "Error al añadir marcador desde Firestore.")
                 }
-
             }
+        }.addOnFailureListener { e ->
+            Log.w("Firestore", "Error getting documents: ", e)
         }
     }
+
 
     private fun iconoMarcador(drawableId: Int): BitmapDescriptor {
         val drawable = ContextCompat.getDrawable(requireContext(), drawableId)

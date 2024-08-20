@@ -1,5 +1,7 @@
 package N.J.L.F.S.Q.ignis_ptc
 
+import Modelo.LocationService
+import Modelo.LocationServiceBomberos
 import N.J.L.F.S.Q.ignis_ptc.databinding.ActivityBomberosBinding
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -14,10 +16,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class activity_bomberos : AppCompatActivity() {
 
     private lateinit var binding: ActivityBomberosBinding
+    private lateinit var locationService: LocationServiceBomberos
 
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        locationService = LocationServiceBomberos(this@activity_bomberos)
+        locationService.checkAndRequestPermissions()
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
 
@@ -40,5 +46,14 @@ class activity_bomberos : AppCompatActivity() {
 
 
 
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        locationService.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }

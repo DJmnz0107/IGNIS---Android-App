@@ -220,46 +220,98 @@ class activity_Register : AppCompatActivity() {
                     GlobalScope.launch(Dispatchers.IO) {
                         val objConexion = ClaseConexion().cadenaConexion()
 
-                        val passwordHashed = hashSHA256(txtPassword.text.toString())
-                        val nivel = 1
+                        val verificarUsuario = objConexion?.prepareStatement("SELECT * FROM Usuarios Where nombre_usuario = ?")!!
+                        verificarUsuario.setString(1, txtUsuario.text.toString())
+                        val result = verificarUsuario.executeQuery()
 
-                        if (txtEdad.text.toString().toInt() >= 18 && txtDUI.text.toString().isEmpty()) {
-                            withContext(Dispatchers.Main) {
-                                Toast.makeText(this@activity_Register, "Es necesario añadir un DUI si la edad es mayor a 18", Toast.LENGTH_LONG).show()
-                            }
-                        } else {
-                            val crearUsuario = objConexion?.prepareStatement("INSERT INTO Usuarios (nombre_usuario, contrasena_usuario, edad_usuario, dui_usuario, id_nivelUsuario) VALUES (?, ?, ?, ?, ?)")!!
-                            crearUsuario.setString(1, txtUsuario.text.toString())
-                            crearUsuario.setString(2, passwordHashed)
-                            crearUsuario.setInt(3, txtEdad.text.toString().toInt())
-
-                            val duiText = if (txtDUI.text.toString().isEmpty()) {
-                                null
-                            } else {
-                                txtDUI.text.toString()
-                            }
-
-                            crearUsuario.setString(4, duiText)
-                            crearUsuario.setInt(5, nivel)
-                            crearUsuario.executeUpdate()
+                        if (result.next()) {
                             withContext(Dispatchers.Main) {
                                 MotionToast.createColorToast(this@activity_Register,
-                                    "Usuario creado",
-                                    "El usuario ha sido creado con éxito",
-                                    MotionToastStyle.SUCCESS,
+                                    "Error usuario",
+                                    "El nombre de usuario ya existe en el sistema.",
+                                    MotionToastStyle.ERROR,
                                     MotionToast.GRAVITY_BOTTOM,
                                     MotionToast.LONG_DURATION,
                                     ResourcesCompat.getFont(this@activity_Register,R.font.cabin_bold))
-                                txtUsuario.setText("")
-                                txtPassword.setText("")
-                                txtEdad.setText("")
-                                txtDUI.setText("")
+                            }
+                        } else {
+
+                            try {
+                                GlobalScope.launch(Dispatchers.IO) {
+                                    val objConexion = ClaseConexion().cadenaConexion()
+                                    val verificarDUI = objConexion?.prepareStatement("SELECT * FROM Usuarios Where dui_usuario = ?")!!
+                                    verificarDUI.setString(1, txtDUI.text.toString())
+
+                                    val result = verificarDUI.executeQuery()
+
+                                    if (result.next()) {
+                                        withContext(Dispatchers.Main) {
+                                            MotionToast.createColorToast(this@activity_Register,
+                                                "Error DUI",
+                                                "El DUI ingresado ya corresponde a otro usuario.",
+                                                MotionToastStyle.ERROR,
+                                                MotionToast.GRAVITY_BOTTOM,
+                                                MotionToast.LONG_DURATION,
+                                                ResourcesCompat.getFont(this@activity_Register,R.font.cabin_bold))
+                                        }
+                                    } else {
+                                        try {
+                                            GlobalScope.launch(Dispatchers.IO) {
+                                                val objConexion = ClaseConexion().cadenaConexion()
+
+                                                val passwordHashed = hashSHA256(txtPassword.text.toString())
+                                                val nivel = 1
+
+                                                if (txtEdad.text.toString().toInt() >= 18 && txtDUI.text.toString().isEmpty()) {
+                                                    withContext(Dispatchers.Main) {
+                                                        Toast.makeText(this@activity_Register, "Es necesario añadir un DUI si la edad es mayor a 18", Toast.LENGTH_LONG).show()
+                                                    }
+                                                } else {
+                                                    val crearUsuario = objConexion?.prepareStatement("INSERT INTO Usuarios (nombre_usuario, contrasena_usuario, edad_usuario, dui_usuario, id_nivelUsuario) VALUES (?, ?, ?, ?, ?)")!!
+                                                    crearUsuario.setString(1, txtUsuario.text.toString())
+                                                    crearUsuario.setString(2, passwordHashed)
+                                                    crearUsuario.setInt(3, txtEdad.text.toString().toInt())
+
+                                                    val duiText = if (txtDUI.text.toString().isEmpty()) {
+                                                        null
+                                                    } else {
+                                                        txtDUI.text.toString()
+                                                    }
+
+                                                    crearUsuario.setString(4, duiText)
+                                                    crearUsuario.setInt(5, nivel)
+                                                    crearUsuario.executeUpdate()
+                                                    withContext(Dispatchers.Main) {
+                                                        MotionToast.createColorToast(this@activity_Register,
+                                                            "Usuario creado",
+                                                            "El usuario ha sido creado con éxito",
+                                                            MotionToastStyle.SUCCESS,
+                                                            MotionToast.GRAVITY_BOTTOM,
+                                                            MotionToast.LONG_DURATION,
+                                                            ResourcesCompat.getFont(this@activity_Register,R.font.cabin_bold))
+                                                        txtUsuario.setText("")
+                                                        txtPassword.setText("")
+                                                        txtEdad.setText("")
+                                                        txtDUI.setText("")
+                                                    }
+                                                }
+                                            }
+                                        } catch (e: Exception) {
+                                            println("El error es: $e")
+                                        }
+                                    }
+
+                                }
+                            }catch (e:Exception){
+                                println("El error es: $e")
                             }
                         }
                     }
-                } catch (e: Exception) {
+                }catch (e:Exception) {
                     println("El error es: $e")
                 }
+
+
             }
         }
     }

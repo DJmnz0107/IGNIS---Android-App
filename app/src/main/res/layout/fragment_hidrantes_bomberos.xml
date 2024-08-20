@@ -98,18 +98,18 @@
         app:layout_constraintTop_toTopOf="@+id/view28" />
 
     <ImageView
-        android:id="@+id/imageView18"
+        android:id="@+id/imgDistanciaBombero"
         android:layout_width="32dp"
         android:layout_height="36dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/location"
         app:layout_constraintBottom_toTopOf="@+id/view28"
-        app:layout_constraintEnd_toStartOf="@+id/textView37"
+        app:layout_constraintEnd_toStartOf="@+id/lblCaminandoBombero"
         app:layout_constraintHorizontal_bias="0.809"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView20"
+        android:id="@+id/imgConduciendoBombero"
         android:layout_width="28dp"
         android:layout_height="31dp"
         android:layout_marginBottom="20dp"
@@ -120,7 +120,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView36"
+        android:id="@+id/lblDistanciaBombero"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="188dp"
@@ -128,12 +128,12 @@
         android:text="3 km"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/view16"
-        app:layout_constraintEnd_toStartOf="@+id/imageView18"
+        app:layout_constraintEnd_toStartOf="@+id/imgDistanciaBombero"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView37"
+        android:id="@+id/lblCaminandoBombero"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="188dp"
@@ -146,18 +146,18 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView19"
+        android:id="@+id/imgCaminandoBombero"
         android:layout_width="34dp"
         android:layout_height="35dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/run_personvector"
         app:layout_constraintBottom_toTopOf="@+id/view28"
-        app:layout_constraintEnd_toStartOf="@+id/textView38"
+        app:layout_constraintEnd_toStartOf="@+id/lblConduciendoBombero"
         app:layout_constraintHorizontal_bias="0.227"
-        app:layout_constraintStart_toEndOf="@+id/textView37" />
+        app:layout_constraintStart_toEndOf="@+id/lblCaminandoBombero" />
 
     <TextView
-        android:id="@+id/textView38"
+        android:id="@+id/lblConduciendoBombero"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -165,8 +165,8 @@
         android:text="4 min"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/view28"
-        app:layout_constraintEnd_toStartOf="@+id/imageView20"
+        app:layout_constraintEnd_toStartOf="@+id/imgConduciendoBombero"
         app:layout_constraintHorizontal_bias="0.854"
-        app:layout_constraintStart_toEndOf="@+id/textView37" />
+        app:layout_constraintStart_toEndOf="@+id/lblCaminandoBombero" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
