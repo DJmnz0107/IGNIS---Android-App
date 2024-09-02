@@ -4,6 +4,7 @@ import Modelo.ClaseConexion
 import Modelo.dataClassEmergencias
 import N.J.L.F.S.Q.ignis_ptc.R
 import android.app.AlertDialog
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
@@ -11,13 +12,19 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class Adaptador (var Datos: List<dataClassEmergencias>): RecyclerView.Adapter<ViewHolder>() {
+
+    companion object{
+        var latLng: LatLng = LatLng(0.0, 0.0)
+    }
 
     fun actualizarEstadoPost(id: Int, nuevoEstado: String) {
         val index = Datos.indexOfFirst { it.id == id }
@@ -89,9 +96,49 @@ class Adaptador (var Datos: List<dataClassEmergencias>): RecyclerView.Adapter<Vi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
+
+
         val item = Datos[position]
         holder.txtNombreDescripcion.text = item.descripcionEmergencia
         holder.txtEstadoDescripcion.text = item.estadoEmergencia
+        holder.itemView.setOnClickListener {
+
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val objConexion = ClaseConexion().cadenaConexion()
+                    val query = "SELECT ubicacion_Emergencia FROM Emergencias WHERE id_emergencia = ?"
+                    val statement = objConexion?.prepareStatement(query)
+
+                    statement?.setInt(1, item.id)
+                    val resultSet = statement?.executeQuery()
+
+                    if (resultSet?.next() == true) {
+                        val ubicacionEmergencia = resultSet.getString("ubicacion_Emergencia")
+                        val parts = ubicacionEmergencia.split(" ")
+
+                        if (parts.size == 2) {
+                            val latitude = parts[0].toDoubleOrNull()
+                            val longitude = parts[1].toDoubleOrNull()
+
+                            if (latitude != null && longitude != null) {
+                                latLng = LatLng(latitude, longitude)
+                            } else {
+                                println("Error: No se pudo convertir la latitud o longitud a Double.")
+                            }
+                        } else {
+                            println("Error: Formato incorrecto de latLngString.")
+                        }
+                    }
+
+                    statement?.close()
+                    objConexion?.close()
+
+                } catch (e: Exception) {
+                    Log.e("EmergenciaInfo", "Error al obtener la ubicación de la emergencia: $e")
+                }
+            }
+        }
+
 
 
         holder.imgBorrar.setOnClickListener {

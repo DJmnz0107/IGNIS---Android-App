@@ -23,6 +23,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
@@ -47,6 +48,9 @@ class Ubicaciones_emergencias : Fragment(), OnMapReadyCallback {
     private var param2: String? = null
 
     private lateinit var map: GoogleMap
+
+    private var emergencyMarker: Marker? = null
+
 
     companion object {
 
@@ -198,21 +202,11 @@ class Ubicaciones_emergencias : Fragment(), OnMapReadyCallback {
 
         CoroutineScope(Dispatchers.IO).launch {
             val descripcionDB = obtenerDescripcion()
-            withContext(Dispatchers.Main) {
-                val adapter = AdaptadorEmergencias(descripcionDB)
-                rcvEmergencias.adapter = adapter
-            }
-        }
-
-     /*   CoroutineScope(Dispatchers.IO).launch {
-            val descripcionDB = obtenerDescripcion()
             withContext(Dispatchers.Main){
                 val adapter = Adaptador(descripcionDB)
                 rcvEmergencias.adapter = adapter
             }
         }
-
-      */
 
 
 
@@ -221,6 +215,31 @@ class Ubicaciones_emergencias : Fragment(), OnMapReadyCallback {
 
 
     }
+
+    private fun UbicacionEmergencia() {
+
+        val coordinates = Adaptador.latLng
+
+
+        if (coordinates.latitude != 0.0 && coordinates.longitude != 0.0) {
+            if (emergencyMarker == null) {
+
+                emergencyMarker = map.addMarker(
+                    MarkerOptions().position(coordinates).title("Ubicación de la emergencia")
+                )
+            } else {
+
+                emergencyMarker?.position = coordinates
+            }
+
+            map.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(coordinates, 18f), 4000, null
+            )
+        } else {
+            Toast.makeText(requireContext(), "Ubicación no disponible", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
 
 
@@ -262,6 +281,7 @@ class Ubicaciones_emergencias : Fragment(), OnMapReadyCallback {
         map = googleMap
 
         createMarker()
+        UbicacionEmergencia()
     }
 
     private fun createMarker() {
