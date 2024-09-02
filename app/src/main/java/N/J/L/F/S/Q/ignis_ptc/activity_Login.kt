@@ -147,7 +147,7 @@ class activity_Login : AppCompatActivity() {
 
                         val nivelUsuario = Usuarios.obtenerNivelUsuario(nombreUsuario, contrasenaEncriptada)
 
-                        val nivelUsuario2 = Usuarios.obtenerNivelUsuario(nombreUsuario, password)
+                        val nivelUsuario2 = Usuarios.obtenerNivelUsuario(nombreUsuario, contrasenaEncriptada)
 
 
                         println("El nivel de usuario es $nivelUsuario")
@@ -164,7 +164,7 @@ class activity_Login : AppCompatActivity() {
                            revisarUsuario.setString(2, contrasenaEncriptada)
                        } else if(nivelUsuario2 == 2) {
                            revisarUsuario.setString(1, nombreUsuario)
-                           revisarUsuario.setString(2, password)
+                           revisarUsuario.setString(2, contrasenaEncriptada)
                        } else {
                            revisarUsuario.setString(1, nombreUsuario)
                            revisarUsuario.setString(2, contrasenaEncriptada)

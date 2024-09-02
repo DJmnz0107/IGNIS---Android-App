@@ -111,26 +111,41 @@ class Informe_Bomberos : Fragment() {
 
         val textoInforme = root.findViewById<TextView>(R.id.mtInforme)
 
+        var validacion = false
+
+        val mtInforme = textoInforme.text.toString()
+
+
+
+
         enviarInforme.setOnClickListener {
-            try {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val objConexion = ClaseConexion().cadenaConexion()
-
-                    val mision = obtenerMisiones()
-
-                    val agregarInforme = objConexion?.prepareStatement("insert into Informes(id_mision, resultado_mision, descripcion_mision) values(?,?,?)")!!
-                    agregarInforme.setInt(1,mision[spMision.selectedItemPosition].idMision)
-                    agregarInforme.setString(2,spResultados.selectedItem.toString())
-                    agregarInforme.setString(3,textoInforme.text.toString())
-                    agregarInforme.executeUpdate()
-                    withContext(Dispatchers.Main){
-                        textoInforme.setText("")
-                        Toast.makeText(requireContext(), "El informe se ha agregado correctamente", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }catch (e:Exception){
-                println("El error es $e")
+            if (mtInforme.isEmpty()) {
+                textoInforme.error = "Descripción obligatoria"
+                validacion = true
             }
+            if(!validacion) {
+
+                try {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val objConexion = ClaseConexion().cadenaConexion()
+
+                        val mision = obtenerMisiones()
+
+                        val agregarInforme = objConexion?.prepareStatement("insert into Informes(id_mision, resultado_mision, descripcion_mision) values(?,?,?)")!!
+                        agregarInforme.setInt(1,mision[spMision.selectedItemPosition].idMision)
+                        agregarInforme.setString(2,spResultados.selectedItem.toString())
+                        agregarInforme.setString(3,textoInforme.text.toString())
+                        agregarInforme.executeUpdate()
+                        withContext(Dispatchers.Main){
+                            textoInforme.setText("")
+                            Toast.makeText(requireContext(), "El informe se ha agregado correctamente", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }catch (e:Exception){
+                    println("El error es $e")
+                }
+            }
+
         }
 
 

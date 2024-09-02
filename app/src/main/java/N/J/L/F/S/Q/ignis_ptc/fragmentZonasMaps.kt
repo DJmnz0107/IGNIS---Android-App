@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,6 +51,7 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
     private var ubicacion: LatLng? = null
     private var ubicacionActualMaracador: Marker? = null
+    private var markerSeverity: String = ""
     private val firestore = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -162,7 +164,7 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
         builder.setPositiveButton("Sí") { dialog, which ->
             marker.remove()
             markers.remove(marker)
-            guardarMarcadores()
+            guardarMarcador(marker, markerSeverity)
         }
         builder.setNegativeButton("No") { dialog, which -> dialog.cancel() }
 
@@ -174,24 +176,33 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
 
 
     private fun cargarMarcadores() {
-        val markersCollection = firestore.collection("MarcadoresHidrantes")
+        val markersCollection = firestore.collection("MarcadoresZonas")
+
         markersCollection.get().addOnSuccessListener { result ->
+            markers.forEach { it.remove() }
+            markers.clear()
+
             for (document in result) {
                 val title = document.getString("title") ?: "Sin título"
                 val latitude = document.getDouble("latitude") ?: 0.0
                 val longitude = document.getDouble("longitude") ?: 0.0
-                val severity = document.getString("severity") ?: "bajo"
+                val severity = document.getString("severity")?.trim() ?: "Baja"
 
-                val iconResource = when (severity) {
-                    "alto" -> R.drawable.peligrorojo
-                    "medio" -> R.drawable.peligroamarillo
+                val iconResource = when (severity.lowercase()) {
+                    "alta" -> R.drawable.peligrorojo
+                    "moderada" -> R.drawable.peligroamarillo
                     else -> R.drawable.peligroverde
                 }
 
                 val latLng = LatLng(latitude, longitude)
-                val marker = map.addMarker(
-                    MarkerOptions().position(latLng).title(title).icon(iconoMarcador(iconResource))
-                )
+                val markerOptions = MarkerOptions()
+                    .position(latLng)
+                    .title(title)
+                    .icon(getScaledMarkerIcon(iconResource, 100, 100))
+
+                val marker = map.addMarker(markerOptions)
+                marker?.tag = severity 
+
                 if (marker != null) {
                     markers.add(marker)
                 } else {
@@ -202,6 +213,33 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
             Log.w("Firestore", "Error getting documents: ", e)
         }
     }
+
+    private fun eliminarTodosLosDocumentosDeLaColeccion() {
+        val collectionRef = firestore.collection("MarcadoresZonas")
+
+        collectionRef.get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    document.reference.delete()
+                        .addOnSuccessListener {
+                            Log.d("Firestore", "Documento eliminado: ${document.id}")
+                        }
+                        .addOnFailureListener { e ->
+                            Log.w("Firestore", "Error al eliminar documento: ${document.id}", e)
+                        }
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.w("Firestore", "Error al obtener documentos: ", e)
+            }
+    }
+
+
+
+
+
+
+
 
     private fun iconoMarcador(resourceId: Int): BitmapDescriptor {
         return BitmapDescriptorFactory.fromResource(resourceId)
@@ -214,7 +252,6 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
 
     private fun showAddMarkerDialog(latLng: LatLng) {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.alertzonas, null)
-
         val spinner = dialogView.findViewById<Spinner>(R.id.spTipoEmergenciaZonas)
         val types = arrayOf("Baja", "Moderada", "Alta")
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, types)
@@ -233,32 +270,29 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
 
         btnAdd.setOnClickListener {
             val title = dialogView.findViewById<EditText>(R.id.txtMarcador).text.toString()
-            val selectedType = spinner.selectedItem.toString()
+            val markerSeverity = spinner.selectedItem.toString()
 
-            val markerImage = when (selectedType) {
+            val markerImage = when (markerSeverity) {
                 "Baja" -> R.drawable.peligroverde
                 "Moderada" -> R.drawable.peligroamarillo
                 "Alta" -> R.drawable.peligrorojo
                 else -> R.drawable.peligro_vector
             }
 
-                val bitmapDrawable = ContextCompat.getDrawable(requireContext(), markerImage)
-                val bitmap = bitmapDrawable?.toBitmap()
-                val resizedBitmap = bitmap?.let { Bitmap.createScaledBitmap(it, 100, 100, false) }
+            val markerOptions = MarkerOptions()
+                .position(latLng)
+                .title(title)
+                .icon(getScaledMarkerIcon(markerImage, 100, 100)) // Escala la imagen
 
-                val markerOptions = MarkerOptions()
-                    .position(latLng)
-                    .title(title)
-                    .icon(resizedBitmap?.let { BitmapDescriptorFactory.fromBitmap(it) })
-
-                val marker = map.addMarker(markerOptions)
-                if (marker != null) {
-                    markers.add(marker)
-                    guardarMarcadores()
-                }
+            val marker = map.addMarker(markerOptions)
+            if (marker != null) {
+                markers.add(marker)
+                guardarMarcador(marker, markerSeverity)
+            }
 
             dialog.dismiss()
         }
+
 
         btnCancel.setOnClickListener {
             dialog.dismiss()
@@ -266,25 +300,49 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
     }
 
 
-    private fun guardarMarcadores() {
-        val markersCollection = firestore.collection("MarcadoresZonas")
-        markersCollection.get().addOnSuccessListener { result ->
-            for (document in result) {
-                document.reference.delete()
-            }
 
-            for (marker in markers) {
-                val markerData = hashMapOf(
-                    "title" to marker.title,
-                    "latitude" to marker.position.latitude,
-                    "longitude" to marker.position.longitude
-                )
-                markersCollection.add(markerData)
-            }
-        }.addOnFailureListener { e ->
-            Log.w("Firestore", "Error getting documents: ", e)
-        }
+
+
+
+    private fun getScaledMarkerIcon(resourceId: Int, width: Int, height: Int): BitmapDescriptor {
+        val drawable = ContextCompat.getDrawable(requireContext(), resourceId) ?: return BitmapDescriptorFactory.defaultMarker()
+        val bitmap = drawable.toBitmap()
+        val resizedBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false)
+        return BitmapDescriptorFactory.fromBitmap(resizedBitmap)
     }
+
+
+
+
+
+
+    private fun guardarMarcador(marker: Marker, gravedad: String) {
+        val markersCollection = firestore.collection("MarcadoresZonas")
+
+        val markerData = hashMapOf(
+            "title" to marker.title,
+            "latitude" to marker.position.latitude,
+            "longitude" to marker.position.longitude,
+            "severity" to gravedad
+        )
+
+        markersCollection.add(markerData)
+            .addOnSuccessListener {
+                Log.d("Firestore", "Marcador guardado con éxito.")
+            }
+            .addOnFailureListener { e ->
+                Log.w("Firestore", "Error al guardar marcador: ", e)
+            }
+    }
+
+
+
+
+
+
+
+
+
 
 
 

@@ -280,7 +280,7 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
                 if (snapshot != null && snapshot.exists()) {
                     val latitude = snapshot.getDouble("Latitud") ?: 0.0
                     val longitude = snapshot.getDouble("Longitud") ?: 0.0
-                    val truckLatLng = LatLng(latitude, longitude)
+                    val truckLatLng = LatLng(37.42527591502073, -122.07760973154546)
 
                     if (marker != null) {
                         marker!!.position = truckLatLng
@@ -306,7 +306,7 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
 
 
 
-        val truckLatLng = LatLng(37.42547178628387, -122.07758508014818)
+        val truckLatLng = LatLng(37.42527591502073, -122.07760973154546)
 
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -317,6 +317,7 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
                 iniciarTracking(truckLatLng, ubicacion)
                 mostrarUbicacionActual(ubicacion)
                 listenForTruckLocation()
+
             }
         }
 
