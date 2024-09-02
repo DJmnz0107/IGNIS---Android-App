@@ -198,11 +198,21 @@ class Ubicaciones_emergencias : Fragment(), OnMapReadyCallback {
 
         CoroutineScope(Dispatchers.IO).launch {
             val descripcionDB = obtenerDescripcion()
+            withContext(Dispatchers.Main) {
+                val adapter = AdaptadorEmergencias(descripcionDB)
+                rcvEmergencias.adapter = adapter
+            }
+        }
+
+     /*   CoroutineScope(Dispatchers.IO).launch {
+            val descripcionDB = obtenerDescripcion()
             withContext(Dispatchers.Main){
                 val adapter = Adaptador(descripcionDB)
                 rcvEmergencias.adapter = adapter
             }
         }
+
+      */
 
 
 
