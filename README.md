@@ -608,19 +608,6 @@ BEGIN
     eliminar_usuario(4); 
 END;
 
---inner join1-- 
-SELECT U.nombre_usuario AS Usuario, CS.descripcion_cambio AS Descripcion, CS.fecha_cambio AS Fecha From Cambios_Sistema CS
-INNER JOIN Usuarios U on CS.id_usuario = U.id_usuario
-
---inner join2-- 
-SELECT M.descripcion_mision AS Mision, M.fecha_mision AS Fecha, T.placa_transporte AS PlacaTransporte, T.tipoVehiculo_transporte AS Vehiculo From Misiones_Transportes MT
-INNER JOIN Misiones M on MT.id_mision = M.id_mision
-INNER JOIN Transportes T on MT.id_transporte = T.id_transporte
-
---inner join3-- 
-SELECT M.descripcion_mision AS Mision, M.fecha_mision as Fecha, B.nombre_bombero || ' ' || B.apellido_bombero AS Bombero, B.especializacion_bombero AS Especializacion From Misiones_Bomberos MB
-INNER JOIN Misiones M on MB.id_mision = M.id_mision
-INNER JOIN Bomberos B on MB.id_bombero = B.id_bombero
 
     SELECT * FROM Auditoria;
 
@@ -712,16 +699,16 @@ VALUES ('Laura', 'Jiménez', '45678901', 'Entrenamiento intermedio', 23, 'Finali
 
 --Tabla Transportes
 INSERT INTO Transportes (placa_transporte, numero_transporte, capacidad_transporte, tipoVehiculo_transporte, disponibilidad_transporte, estado_transporte) 
-VALUES ('ABC1234', '001', 10, 'Camión de bomberos', 'Disponible', 'Operativo');
+VALUES ('ABC1234', '001', 10, 'Camión', 'Disponible', 'Operativo');
 
 INSERT INTO Transportes (placa_transporte, numero_transporte, capacidad_transporte, tipoVehiculo_transporte, disponibilidad_transporte, estado_transporte) 
-VALUES ('DEF5678', '002', 10, 'Pickup de apoyo', 'Disponible', 'Operativo');
+VALUES ('DEF5678', '002', 10, 'Pickup', 'Disponible', 'Operativo');
 
 INSERT INTO Transportes (placa_transporte, numero_transporte, capacidad_transporte, tipoVehiculo_transporte, disponibilidad_transporte, estado_transporte) 
-VALUES ('GHI9101', '003', 10, 'Pickup de apoyo', 'En mantenimiento', 'Inactivo');
+VALUES ('GHI9101', '003', 10, 'Pickup', 'disponible', 'Inactivo');
 
 INSERT INTO Transportes (placa_transporte, numero_transporte, capacidad_transporte, tipoVehiculo_transporte, disponibilidad_transporte, estado_transporte) 
-VALUES ('JKL2345', '004', 10, 'Camión de bomberos', 'Disponible', 'Operativo');
+VALUES ('JKL2345', '004', 10, 'Camión', 'Disponible', 'Operativo');
 
 --Tabla Emergencias
 INSERT INTO Emergencias (ubicacion_emergencia, descripcion_emergencia, gravedad_emergencia, tipo_emergencia, respuesta_notificacion, estado_emergencia) 
@@ -748,6 +735,19 @@ VALUES ('Escalera', 'Escalera de aluminio de 3 metros', 'Usado', TO_DATE('2024-0
 
 INSERT INTO Recursos (nombre_recurso, descripcion_recurso, estado_recurso, fechaRecepcion_recurso, disponibilidad_recurso, foto_recurso) 
 VALUES ('Botiquin', 'Kit completo para primeros auxilios', 'Nuevo', TO_DATE('2024-08-30', 'YYYY-MM-DD'), 'Disponible', 'foto_recurso4.jpg');
+
+--Tabla Misiones
+INSERT INTO Misiones (descripcion_mision, fecha_mision, id_emergencia) 
+VALUES ('Control de incendio en edificio de oficinas', TO_DATE('2024-09-01', 'YYYY-MM-DD'), 1);
+
+INSERT INTO Misiones (descripcion_mision, fecha_mision, id_emergencia) 
+VALUES ('Atención a accidente vehicular con heridos', TO_DATE('2024-09-02', 'YYYY-MM-DD'), 2);
+
+INSERT INTO Misiones (descripcion_mision, fecha_mision, id_emergencia) 
+VALUES ('Respuesta a explosión en planta química', TO_DATE('2024-09-03', 'YYYY-MM-DD'), 3);
+
+INSERT INTO Misiones (descripcion_mision, fecha_mision, id_emergencia) 
+VALUES ('Manejo de fuga de gas en parque central', TO_DATE('2024-09-04', 'YYYY-MM-DD'), 4);
 
 --Tabla Misiones_Recursos
 INSERT INTO Misiones_Recursos (id_mision, id_recurso) 
@@ -790,18 +790,7 @@ INSERT INTO Misiones_Transportes (id_mision, id_transporte)
 VALUES (4, 4);
 
 
---Tabla Misiones
-INSERT INTO Misiones (descripcion_mision, fecha_mision, id_emergencia) 
-VALUES ('Control de incendio en edificio de oficinas', TO_DATE('2024-09-01', 'YYYY-MM-DD'), 1);
 
-INSERT INTO Misiones (descripcion_mision, fecha_mision, id_emergencia) 
-VALUES ('Atención a accidente vehicular con heridos', TO_DATE('2024-09-02', 'YYYY-MM-DD'), 2);
-
-INSERT INTO Misiones (descripcion_mision, fecha_mision, id_emergencia) 
-VALUES ('Respuesta a explosión en planta química', TO_DATE('2024-09-03', 'YYYY-MM-DD'), 3);
-
-INSERT INTO Misiones (descripcion_mision, fecha_mision, id_emergencia) 
-VALUES ('Manejo de fuga de gas en parque central', TO_DATE('2024-09-04', 'YYYY-MM-DD'), 4);
 
 
 --Tabla Misiones bomberos
@@ -816,6 +805,20 @@ VALUES (3, 3);
 
 INSERT INTO Misiones_Bomberos (id_mision, id_bombero) 
 VALUES (4, 4);
+
+--inner join1-- 
+SELECT U.nombre_usuario AS Usuario, CS.descripcion_cambio AS Descripcion, CS.fecha_cambio AS Fecha From Cambios_Sistema CS
+INNER JOIN Usuarios U on CS.id_usuario = U.id_usuario
+
+--inner join2-- 
+SELECT M.descripcion_mision AS Mision, M.fecha_mision AS Fecha, T.placa_transporte AS PlacaTransporte, T.tipoVehiculo_transporte AS Vehiculo From Misiones_Transportes MT
+INNER JOIN Misiones M on MT.id_mision = M.id_mision
+INNER JOIN Transportes T on MT.id_transporte = T.id_transporte
+
+--inner join3-- 
+SELECT M.descripcion_mision AS Mision, M.fecha_mision as Fecha, B.nombre_bombero || ' ' || B.apellido_bombero AS Bombero, B.especializacion_bombero AS Especializacion From Misiones_Bomberos MB
+INNER JOIN Misiones M on MB.id_mision = M.id_mision
+INNER JOIN Bomberos B on MB.id_bombero = B.id_bombero
 
 SELECT * FROM Transportes;
 
