@@ -252,7 +252,7 @@ class Ubicaciones_emergencias : Fragment(), OnMapReadyCallback {
         map = googleMap
 
         createMarker()
-    }
+    }   
 
     private fun createMarker() {
 
