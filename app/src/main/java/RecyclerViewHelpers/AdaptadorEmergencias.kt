@@ -1,10 +1,16 @@
 package RecyclerViewHelpers
 
+import Modelo.ClaseConexion
 import Modelo.dataClassEmergencias
 import N.J.L.F.S.Q.ignis_ptc.R
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AdaptadorEmergencias(var Datos: List<dataClassEmergencias>):RecyclerView.Adapter<ViewHolderEmergencias>() {
 
@@ -32,6 +38,11 @@ class AdaptadorEmergencias(var Datos: List<dataClassEmergencias>):RecyclerView.A
 
         val emergencia = Datos[position]
         holder.txtDescripcionEmergencia.text = emergencia.descripcionEmergencia
+
     }
+
+
+
+
 
 }
