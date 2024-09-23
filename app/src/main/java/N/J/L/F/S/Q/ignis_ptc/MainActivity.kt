@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        locationService.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        locationService.onRequestPermissionsResult(requestCode, permissions, grantResults) //Pide los permisos de ubicación en la activity
     }
 
     private fun showToast(message:String) {

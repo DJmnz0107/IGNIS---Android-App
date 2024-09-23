@@ -70,6 +70,7 @@ class activity_recucontra : AppCompatActivity() {
             }
 
             try {
+                //Chequeo de código colocado
                 val codigoColocado = codigoText.toInt()
                 if (codigoColocado == activity_contrasena.codigoRecu) {
                     txtcodigo.text.clear()
@@ -93,6 +94,7 @@ class activity_recucontra : AppCompatActivity() {
         }
     }
 
+    //Función para actualizar contraseña
     private fun ActualizarContra() {
         val builder = MaterialAlertDialogBuilder(this)
         val inflater = layoutInflater
@@ -168,6 +170,7 @@ class activity_recucontra : AppCompatActivity() {
         dialog.show()
     }
 
+    //Ver y ocultar la contraseña que se esta ingresando
     fun verYOcultarContrasena(editText: EditText, imageView: ImageView) {
         val isVisible = editText.transformationMethod != PasswordTransformationMethod.getInstance()
 

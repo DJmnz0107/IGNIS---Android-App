@@ -3,6 +3,7 @@ package N.J.L.F.S.Q.ignis_ptc
 import Modelo.ClaseConexion
 import Modelo.dataClassMisiones
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +13,13 @@ import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -115,38 +119,42 @@ class Informe_Bomberos : Fragment() {
 
         val mtInforme = textoInforme.text.toString()
 
-
-
-
         enviarInforme.setOnClickListener {
+            val mtInforme = textoInforme.text.toString()
+
             if (mtInforme.isEmpty()) {
                 textoInforme.error = "Descripción obligatoria"
-                validacion = true
+                return@setOnClickListener // Salir del evento click si la validación falla
             }
-            if(!validacion) {
 
+            CoroutineScope(Dispatchers.IO).launch {
                 try {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val objConexion = ClaseConexion().cadenaConexion()
+                    val objConexion = ClaseConexion().cadenaConexion()
 
-                        val mision = obtenerMisiones()
+                    val mision = obtenerMisiones()
+                    val misionSeleccionada = mision[spMision.selectedItemPosition]
 
-                        val agregarInforme = objConexion?.prepareStatement("insert into Informes(id_mision, resultado_mision, descripcion_mision) values(?,?,?)")!!
-                        agregarInforme.setInt(1,mision[spMision.selectedItemPosition].idMision)
-                        agregarInforme.setString(2,spResultados.selectedItem.toString())
-                        agregarInforme.setString(3,textoInforme.text.toString())
-                        agregarInforme.executeUpdate()
-                        withContext(Dispatchers.Main){
-                            textoInforme.setText("")
-                            Toast.makeText(requireContext(), "El informe se ha agregado correctamente", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }catch (e:Exception){
-                    println("El error es $e")
+                    val agregarInforme = objConexion?.prepareStatement("INSERT INTO Informes(id_mision, resultado_mision, descripcion_mision) VALUES(?, ?, ?)")!!
+                    agregarInforme.setInt(1, misionSeleccionada.idMision)
+                    agregarInforme.setString(2, spResultados.selectedItem.toString())
+                    agregarInforme.setString(3, mtInforme)
+                    agregarInforme.executeUpdate()
+
+                    withContext(Dispatchers.Main) {
+                        textoInforme.setText("")
+                        MotionToast.createColorToast(requireContext() as activity_bomberos,
+                            "Emergencia enviada",
+                            "Datos enviado correctamente",
+                            MotionToastStyle.SUCCESS,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(requireContext() as activity_bomberos,R.font.cabin_bold))                    }
+                } catch (e: Exception) {
+                    Log.e("InformeError", "Error al agregar el informe: $e")
                 }
             }
-
         }
+
 
 
         return root

@@ -68,6 +68,7 @@ class EstacionesMaps : Fragment(), OnMapReadyCallback {
             param2 = it.getString(ARG_PARAM2)
         }
 
+        //Comprobacion de servicios de ubicación
         locationService = LocationService(requireActivity() as MainActivity)
 
         if (!Places.isInitialized()) {
@@ -82,6 +83,7 @@ class EstacionesMaps : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapEstaciones) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
+        //Busca las estaciones de bomberos cercanas a la ubicación del usuario
         LocationEventBus.locationUpdates.observe(viewLifecycleOwner, { location ->
             location?.let {
                 CoroutineScope(Dispatchers.IO).launch {
@@ -111,6 +113,7 @@ class EstacionesMaps : Fragment(), OnMapReadyCallback {
 
         val list = mutableListOf<CarouselItem>()
 
+        //Añade una imagen al carrusel
         list.add(
             CarouselItem(
                 imageUrl = "https://www.gobernacion.gob.sv/wp-content/uploads/2021/11/WhatsApp-Image-2021-11-03-at-13.06.33.jpeg"
@@ -130,7 +133,6 @@ class EstacionesMaps : Fragment(), OnMapReadyCallback {
         )
 
         carrusel.setData(list)
-
 
 
 
@@ -168,6 +170,7 @@ class EstacionesMaps : Fragment(), OnMapReadyCallback {
             }
     }
 
+    //Configura el mapa, colocando las diversas opciones que se manejará en este
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         locationService.checkAndRequestPermissions()
@@ -188,6 +191,7 @@ class EstacionesMaps : Fragment(), OnMapReadyCallback {
         CoroutineScope(Dispatchers.Main).launch {
             val location = locationService.ubicacionLatLng(requireContext())
             location?.let {
+                //Busca las estaciones cercanas
                 buscarEstacionesCercanas(it.latitude, it.longitude)
             }
         }
@@ -204,6 +208,7 @@ class EstacionesMaps : Fragment(), OnMapReadyCallback {
     }
 
 
+    //Función para mostrar la ubicación actual dentro del mapa
     private fun mostrarUbicacionActual(location: LatLng?) {
         if (location != null) {
             val circleOptions = CircleOptions()
@@ -235,13 +240,19 @@ class EstacionesMaps : Fragment(), OnMapReadyCallback {
 
 
 
+    // Función para buscar las estaciones cercanas
     private suspend fun buscarEstacionesCercanas(latitude: Double, longitude: Double) {
+        // Obtiene la clave de la API de Google Maps desde los recursos
         val apiKey = getString(R.string.google_maps_key)
+        // Define la ubicación como una cadena con la latitud y longitud
         val location = "$latitude,$longitude"
+        // Define el radio de búsqueda en metros (5 km)
         val radius = 5000
+        // Define el tipo de lugar que se busca (estaciones de bomberos)
         val type = "fire_station"
 
         try {
+            // Llama a la API de Places para buscar lugares cercanos
             val response = ObjPlaces.instance.searchNearbyPlaces(
                 location = location,
                 radius = radius,
@@ -249,24 +260,33 @@ class EstacionesMaps : Fragment(), OnMapReadyCallback {
                 apiKey = apiKey
             )
 
+            // Verifica si la respuesta es exitosa
             if (response.isSuccessful) {
+                // Obtiene la lista de lugares del cuerpo de la respuesta
                 val places = response.body()?.results
+                // Itera sobre cada lugar encontrado
                 places?.forEach { place ->
+                    // Crea un objeto LatLng con la latitud y longitud del lugar
                     val latLng = LatLng(place.geometry.location.lat, place.geometry.location.lng)
+                    // Cambia al contexto de la UI para agregar un marcador
                     withContext(Dispatchers.Main) {
-                        agregarMarcadorEstacion(place.name, latLng)
+                        agregarMarcadorEstacion(place.name, latLng) // Agrega el marcador en el mapa
                     }
                 }
             } else {
+                // Registra un error si la respuesta no es exitosa
                 Log.e("PlacesAPI", "Error en la respuesta: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
+            // Registra cualquier excepción que ocurra durante la búsqueda
             Log.e("PlacesAPI", "Excepción al buscar lugares: ${e.message}")
         }
     }
 
 
 
+
+    //Agrega un marcador para cada estacion
     private fun agregarMarcadorEstacion(name: String, latLng: LatLng) {
         val bitmapDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.estacionubicacion)
         val bitmap = bitmapDrawable?.toBitmap()

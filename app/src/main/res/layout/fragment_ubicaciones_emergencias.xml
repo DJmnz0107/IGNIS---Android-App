@@ -5,34 +5,37 @@
     android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="#FFF2844C"
     tools:context=".Ubicaciones_emergencias">
+
 
     <View
         android:id="@+id/view26"
-        android:layout_width="412dp"
-        android:layout_height="304dp"
+        android:layout_width="416dp"
+        android:layout_height="300dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/emergenciaest"
         android:elevation="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
-
 
     <View
         android:id="@+id/view28"
-        android:layout_width="387dp"
-        android:layout_height="290dp"
-        android:layout_marginTop="9dp"
+        android:layout_width="388dp"
+        android:layout_height="285dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/estaciones_maps_drawable"
         android:elevation="1dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.451"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view26" />
 
     <View
         android:id="@+id/view27"
-        android:layout_width="411dp"
+        android:layout_width="419dp"
         android:layout_height="76dp"
         android:background="@drawable/labelemergencia"
         android:elevation="1dp"
@@ -44,8 +47,8 @@
     <fragment
         android:id="@+id/mapEstaciones2"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="446dp"
+        android:layout_width="393dp"
+        android:layout_height="369dp"
         android:elevation="-5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -83,8 +86,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvEmergencia"
-        android:layout_width="369dp"
-        android:layout_height="269dp"
+        android:layout_width="375dp"
+        android:layout_height="266dp"
         android:layout_marginLeft="-2dp"
         android:layout_marginTop="4dp"
         android:elevation="2dp"
@@ -99,11 +102,11 @@
         android:id="@+id/vBuscar"
         android:layout_width="51dp"
         android:layout_height="49dp"
-        android:layout_marginBottom="248dp"
+        android:layout_marginBottom="212dp"
         android:background="@drawable/busqueda_button"
         app:layout_constraintBottom_toTopOf="@+id/view26"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.966"
+        app:layout_constraintHorizontal_bias="0.991"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView

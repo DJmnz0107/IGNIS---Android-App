@@ -102,43 +102,59 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
         return root
     }
 
+    // Configura todas las opciones del mapa
     override fun onMapReady(googleMap: GoogleMap) {
+        // Inicializa el objeto 'map' con la instancia del mapa proporcionada
         map = googleMap
 
+        // Habilita los controles de zoom en la interfaz del mapa
         map.uiSettings.isZoomControlsEnabled = true
 
+        // Intenta aplicar un estilo personalizado al mapa
         try {
             val success = googleMap.setMapStyle(
                 MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.mapstyles)
             )
+            // Verifica si la aplicación del estilo fue exitosa
             if (!success) {
                 Log.e("HidrantesIgnis", "Style parsing failed.")
             }
         } catch (e: Resources.NotFoundException) {
+            // Maneja el caso en que el recurso del estilo no se encuentra
             Log.e("HidrantesIgnis", "Can't find style. Error: ", e)
         }
 
+        // Configura un listener para manejar clics en el mapa
         map.setOnMapClickListener { latLng ->
-            mostrarAlertDialog(latLng)
+            mostrarAlertDialog(latLng) // Muestra un diálogo de alerta en la posición clickeada
         }
 
+        // Configura un listener que se activa cuando la cámara del mapa se detiene
         map.setOnCameraIdleListener {
-            ajustarVisibilidadMarcadores(map.cameraPosition.zoom)
+            ajustarVisibilidadMarcadores(map.cameraPosition.zoom) // Ajusta la visibilidad de los marcadores según el zoom
         }
 
+        // Configura un listener para manejar clics en los marcadores
         map.setOnMarkerClickListener { marker ->
+            // Verifica si el marcador clickeado no es el de la ubicación actual
             if (marker != currentLocationMarker) {
+                // Obtiene la ubicación de origen
                 val origin = ubicacion?.let { "${it.latitude},${it.longitude}" } ?: return@setOnMarkerClickListener true
+                // Establece la ubicación de destino desde el marcador
                 val destination = "${marker.position.latitude},${marker.position.longitude}"
 
+                // Crea una instancia de la API de direcciones
                 val directionsApi = DirectionsApi(apiKey)
 
+                // Muestra los íconos de distancia y rutas
                 imgDistancia.visibility = View.VISIBLE
                 imgCaminar.visibility = View.VISIBLE
                 imgConducir.visibility = View.VISIBLE
 
+                // Llama a la API para obtener direcciones en carro
                 directionsApi.getDirections(origin, destination, "driving") { distanceText, durationText, error ->
                     if (error == null) {
+                        // Convierte la distancia a kilómetros y muestra la información
                         val distanceInKm = distanceText?.let { convertirDistanciaAKm(it) }
                         Log.d("DirectionsApi", "distanceInKm: $distanceInKm, durationText: $durationText")
                         lblDistanciaAuto.text = "${durationText ?: "N/A"}"
@@ -148,6 +164,7 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
                     }
                 }
 
+                // Llama a la API para obtener direcciones a pie
                 directionsApi.getDirections(origin, destination, "walking") { _, durationText, error ->
                     if (error == null) {
                         lblDistanciaCaminando.text = "${durationText ?: "N/A"}"
@@ -157,6 +174,7 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
                 }
 
             } else {
+                // Oculta los íconos y limpia los textos si se clickea en la ubicación actual
                 imgDistancia.visibility = View.GONE
                 imgCaminar.visibility = View.GONE
                 imgConducir.visibility = View.GONE
@@ -166,28 +184,30 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
                 lblDistanciaCaminando.text = ""
             }
 
+            // Muestra la ventana de información del marcador clickeado
             marker.showInfoWindow()
             true
         }
 
-
-
+        // Configura un listener para manejar clics en la ventana de información del marcador
         map.setOnInfoWindowClickListener { marker ->
-            eliminarAlertDialog(marker)
+            eliminarAlertDialog(marker) // Elimina el diálogo de alerta asociado al marcador
         }
 
-
+        // Inicia una corrutina para obtener la ubicación actual y cargar marcadores
         CoroutineScope(Dispatchers.IO).launch {
             ubicacion = withContext(Dispatchers.IO) {
                 LocationService(context as MainActivity).ubicacionLatLng(context as MainActivity)
             }
             withContext(Dispatchers.Main) {
-                mostrarUbicacionActual(ubicacion)
-                cargarMarcadores()
+                mostrarUbicacionActual(ubicacion) // Muestra la ubicación actual en el mapa
+                cargarMarcadores() // Carga los marcadores en el mapa
             }
         }
     }
 
+
+    //Muestra la ubicación actual a través de un circulo
     private fun mostrarUbicacionActual(location: LatLng?) {
         if (location != null) {
             val circleOptions = CircleOptions()
@@ -217,6 +237,7 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
     }
 
 
+    //Convierte la distancia a KM
     private fun convertirDistanciaAKm(distanceText: String): String? {
         Log.d("convertirDistanciaAKm", "distanceText: $distanceText")
 
@@ -268,6 +289,7 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
         }
     }
 
+    //Muestra el alert dialog para añadir el marcador
     private fun mostrarAlertDialog(latLng: LatLng) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Añadir marcador")
@@ -308,6 +330,7 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
         builder.show()
     }
 
+    //Muestra el alert dialog para eliminar el marcador
     private fun eliminarAlertDialog(marker: Marker) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Eliminar marcador")
@@ -323,6 +346,7 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
         builder.show()
     }
 
+    //Guarda los marcadores en firebase
     private fun saveMarkers() {
         val markersCollection = firestore.collection("MarcadoresHidrantes")
         markersCollection.get().addOnSuccessListener { result ->
@@ -344,6 +368,7 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
     }
 
 
+    //Carga las ubicaciones de la colección y las transforma a marcadores
     private fun cargarMarcadores() {
         val markersCollection = firestore.collection("MarcadoresHidrantes")
         markersCollection.get().addOnSuccessListener { result ->
@@ -367,6 +392,7 @@ class HidrantesIgnis : Fragment(), OnMapReadyCallback {
     }
 
 
+    //Imagen del marcador
     private fun iconoMarcador(drawableId: Int): BitmapDescriptor {
         val drawable = ContextCompat.getDrawable(requireContext(), drawableId)
         val canvas = Canvas()

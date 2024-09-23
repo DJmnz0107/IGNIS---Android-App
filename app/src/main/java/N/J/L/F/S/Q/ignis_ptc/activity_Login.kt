@@ -90,6 +90,7 @@ class activity_Login : AppCompatActivity() {
            startActivity(pantallacontraseña)
         }
 
+        //Encriptación de la contraseña
         fun hashSHA256(password: String): String {
             val bytes = java.security.MessageDigest.getInstance("SHA-256").digest(password.toByteArray())
             return bytes.joinToString("") { "%02x".format(it) }
@@ -138,6 +139,7 @@ class activity_Login : AppCompatActivity() {
                 txtPassword.error = null
             }
 
+            //Validación en caso de los campos estar vacíos
             if (!validacion) {
                 GlobalScope.launch(Dispatchers.IO) {
                     try {
@@ -204,8 +206,13 @@ class activity_Login : AppCompatActivity() {
                                 }
                                 else {
                                     withContext(Dispatchers.Main) {
-                                        Toast.makeText(this@activity_Login, "Revisar si existe algun registro en la base de datos", Toast.LENGTH_LONG).show()
-                                    }
+                                        MotionToast.createColorToast(this@activity_Login,
+                                            "Error al iniciar sesión",
+                                            "Revisar si existe algún registro en la base de datos",
+                                            MotionToastStyle.ERROR,
+                                            MotionToast.GRAVITY_BOTTOM,
+                                            MotionToast.LONG_DURATION,
+                                            ResourcesCompat.getFont(this@activity_Login,R.font.cabin_bold))                                     }
                                 }
                             }
                         }
@@ -245,6 +252,8 @@ class activity_Login : AppCompatActivity() {
 
 
     }
+
+    //Pestaña para seleccionar la cuenta
     private fun signIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.id_client))
@@ -270,6 +279,7 @@ class activity_Login : AppCompatActivity() {
         }
     }
 
+    //Permite el inicio de sesión con Google
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)

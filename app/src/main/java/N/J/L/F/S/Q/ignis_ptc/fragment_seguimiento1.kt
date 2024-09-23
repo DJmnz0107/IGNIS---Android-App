@@ -226,6 +226,7 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
             }
     }
 
+    //Inicia el tracking para el camion de bomberos
     fun iniciarTracking(origin: LatLng, destination: LatLng?) {
         val apiKey = "AIzaSyCH9y8qPHiq4nT-te8GE4BYvKNFshV5ZG0"
 
@@ -246,6 +247,7 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
         }
     }
 
+    //Actualiza la ubicacion del camión de bomberos
     fun actualizarLocalizacion(truckId: String, latitude: Double, longitude: Double) {
         val firetruckRef = firestore.collection("CamionesBomberos").document(truckId)
 
@@ -264,6 +266,7 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
     }
 
 
+    //Verifica la ubicación del camión de bomberos
     private fun listenForTruckLocation() {
         listenerRegistration = firestore.collection("CamionesBomberos")
             .document("CamionesBomberosPrueba")
@@ -298,6 +301,7 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
     }
 
 
+    //Configura las opciones a mostrar dentro del mapa
     override fun onMapReady(googleMap:GoogleMap) {
 
         map = googleMap
@@ -325,6 +329,7 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
 
     }
 
+    //Muestra la ubicación actual con un marcador
     private fun mostrarUbicacionActual(location: LatLng?) {
         if (location != null) {
             val circleOptions = CircleOptions()
@@ -357,6 +362,7 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
 
 
 
+    //Obtiene la ruta desde firebase
     private fun obtenerRuta(origin: LatLng, destination: LatLng, apiKey: String, callback: (String, List<LatLng>) -> Unit) {
         val url = "https://maps.googleapis.com/maps/api/directions/json?" +
                 "origin=${origin.latitude},${origin.longitude}" +
@@ -395,6 +401,7 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
         })
     }
 
+    //Reajusta el tamaño de la imagen
     private fun reajustarTamanoCamion(drawableId: Int, width: Int, height: Int): Bitmap {
         val imageBitmap = BitmapFactory.decodeResource(resources, drawableId)
         return Bitmap.createScaledBitmap(imageBitmap, width, height, false)
@@ -403,6 +410,7 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
 
 
 
+    //Crea una polyline personalizada
     private fun decodePoly(encoded: String): List<LatLng> {
         val poly = ArrayList<LatLng>()
         var index = 0

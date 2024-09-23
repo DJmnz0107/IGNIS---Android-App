@@ -22,6 +22,7 @@ import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -36,6 +37,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 
 class HomeFragment : Fragment() {
 
@@ -53,8 +56,9 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        mAuth = FirebaseAuth.getInstance()
+        mAuth = FirebaseAuth.getInstance() // Inicializa la autenticación de Firebase
 
+        // Configuración para Google Sign-In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.id_client))
             .requestEmail()
@@ -62,11 +66,13 @@ class HomeFragment : Fragment() {
 
         mGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
 
+        // Obtiene el usuario actual
         val auth = Firebase.auth
 
         mAuth = FirebaseAuth.getInstance()
         val user = auth.currentUser
 
+        // Inicializa el servicio de ubicación
         locationService = LocationService(MainActivity())
 
         val homeViewModel =
@@ -82,7 +88,7 @@ class HomeFragment : Fragment() {
 
         btnEmergencia.setOnClickListener {
 
-            showBottomSheet()
+            showBottomSheet() // Muestra el BottomSheet para emergencias
 
         }
 
@@ -101,8 +107,8 @@ class HomeFragment : Fragment() {
 
                 positiveButton.setOnClickListener {
                     val pantallaLogin = Intent(requireActivity(), activity_Login::class.java)
-                    startActivity(pantallaLogin)
-                    requireActivity().finish()
+                    startActivity(pantallaLogin) // Redirige al login
+                    requireActivity().finish() // Cierra la actividad actual
                     dialog.dismiss()
                 }
 
@@ -129,11 +135,11 @@ class HomeFragment : Fragment() {
             positiveButton.setOnClickListener {
                 val user = mAuth.currentUser
                 if (user != null) {
-                    handleSignOut(user)
+                    handleSignOut(user) //Cierra la sesión al usuario si esta conectado con Google
                 }else {
                     val pantallaLogin = Intent(requireActivity(), activity_Login::class.java)
                     startActivity(pantallaLogin)
-                    requireActivity().finish()
+                    requireActivity().finish() //Cierra la sesión al usuario si esta conectado a la base de datos
                 }
                 dialog.dismiss()
             }
@@ -151,6 +157,7 @@ class HomeFragment : Fragment() {
     }
 
 
+    //Maneja el cierre de sesión con Google
     private fun handleSignOut(user: FirebaseUser) {
         user.providerData.forEach { userInfo ->
             if (userInfo.providerId == "google.com") {
@@ -163,6 +170,7 @@ class HomeFragment : Fragment() {
     }
 
 
+    //Manejo del inicio de sesión con google para iniciar otra actividad
     private fun signOutAndStartSignInActivity() {
         mAuth.signOut()
 
@@ -174,10 +182,11 @@ class HomeFragment : Fragment() {
     }
 
 
-
+    //Muestra el bottomSheet al usuario
     private fun showBottomSheet() {
         val context = context ?: return
 
+        //Configuración del bottomsheet
         val bottomSheetDialog = BottomSheetDialog(context)
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_emergencias, null)
         bottomSheetDialog.setContentView(bottomSheetView)
@@ -197,6 +206,8 @@ class HomeFragment : Fragment() {
 
         val toggleButtons = listOf(btnIncendio, btnRescate, btnDerrumbe, btnInundacion, btnDerrame)
 
+
+        //Revisa los items del spGravedad
         spGravedad.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedItem = parent?.getItemAtPosition(position).toString()
@@ -247,6 +258,7 @@ class HomeFragment : Fragment() {
                 txtDescripcion.error = null
             }
 
+            //Si la validacion es false, entonces continua con el código, sino, muestra errores
             if(!validacion) {
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
@@ -268,18 +280,36 @@ class HomeFragment : Fragment() {
                             insertEmergencia.executeUpdate()
 
                             withContext(Dispatchers.Main) {
-                                Toast.makeText(requireContext(), "Información ingresada correctamente", Toast.LENGTH_LONG).show()
+                                MotionToast.createColorToast(requireContext() as MainActivity,
+                                    "Emergencia enviada",
+                                    "Datos enviado correctamente",
+                                    MotionToastStyle.SUCCESS,
+                                    MotionToast.GRAVITY_BOTTOM,
+                                    MotionToast.LONG_DURATION,
+                                    ResourcesCompat.getFont(requireContext() as MainActivity,R.font.cabin_bold))
                                 txtDescripcion.text.clear()
                                 txtTipoEmergencia.text.clear()
                             }
                         } else {
-                            Toast.makeText(requireContext(),"Porfavor, activa los permisos de ubicación para poder conocer donde se encuentra la emergencia.", Toast.LENGTH_LONG).show()
-                        }
+                            MotionToast.createColorToast(requireContext() as MainActivity,
+                                "Permisos de ubicación",
+                                "Por favor, activa los permisos de ubicación para enviar la emergencia",
+                                MotionToastStyle.ERROR,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.LONG_DURATION,
+                                ResourcesCompat.getFont(requireContext() as MainActivity,R.font.cabin_bold))
+                            txtDescripcion.text.clear()
+                            txtTipoEmergencia.text.clear()                        }
                     } catch (e: Exception) {
                         println("El error es: $e")
                         withContext(Dispatchers.Main) {
-                            Toast.makeText(requireContext(), "Revisa si están todos los campos  o si seleccionaste/escribiste el tipo de emergencia.", Toast.LENGTH_LONG).show()
-                        }
+                            MotionToast.createColorToast(requireContext() as MainActivity,
+                                "Campos llenos",
+                                "Por favor, revisa si has llenado todos los campos.",
+                                MotionToastStyle.ERROR,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.LONG_DURATION,
+                                ResourcesCompat.getFont(requireContext() as MainActivity,R.font.cabin_bold))                        }
                     }
                 }
             }

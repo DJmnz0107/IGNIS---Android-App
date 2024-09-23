@@ -65,7 +65,11 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Busca el fragmento del mapa en el layout mediante su ID
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapZonas) as SupportMapFragment?
+
+// Solicita que el fragmento del mapa asigne el objeto actual como su callback para recibir notificaciones
+// cuando el mapa esté listo para ser utilizado
         mapFragment?.getMapAsync(this)
     }
 
@@ -101,6 +105,7 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
             }
     }
 
+    //Configura el mapa y sus funciones
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.uiSettings.isZoomControlsEnabled = true
@@ -128,6 +133,7 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
         }
     }
 
+    //Muestra la ubicación actual con un ciruclo y un marcador
     private fun mostrarUbicacionActual(location: LatLng?) {
         if (location != null) {
             val circleOptions = CircleOptions()
@@ -156,6 +162,7 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
         }
     }
 
+    //Alerta para eliminar el marcador
     private fun eliminarAlertDialog(marker: Marker) {
         val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
         builder.setTitle("Eliminar marcador")
@@ -175,6 +182,7 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
 
 
 
+    //Carga los marcadores que se encuentran dentro de la colección de firebase de MarcadoresZonas
     private fun cargarMarcadores() {
         val markersCollection = firestore.collection("MarcadoresZonas")
 
@@ -250,6 +258,7 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
 
 
 
+    //Muestra un alertdialog para añadir el marcador
     private fun showAddMarkerDialog(latLng: LatLng) {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.alertzonas, null)
         val spinner = dialogView.findViewById<Spinner>(R.id.spTipoEmergenciaZonas)
@@ -272,7 +281,7 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
             val title = dialogView.findViewById<EditText>(R.id.txtMarcador).text.toString()
             val markerSeverity = spinner.selectedItem.toString()
 
-            val markerImage = when (markerSeverity) {
+            val markerImage = when (markerSeverity) { //Dependiendo del tipo de gravedad seleccionada se coloca una imagen o icono distinto
                 "Baja" -> R.drawable.peligroverde
                 "Moderada" -> R.drawable.peligroamarillo
                 "Alta" -> R.drawable.peligrorojo
@@ -316,6 +325,7 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
 
 
 
+    //Guarda la ubicación del marcador en la colección de MarcadoresZonas en firebase
     private fun guardarMarcador(marker: Marker, gravedad: String) {
         val markersCollection = firestore.collection("MarcadoresZonas")
 

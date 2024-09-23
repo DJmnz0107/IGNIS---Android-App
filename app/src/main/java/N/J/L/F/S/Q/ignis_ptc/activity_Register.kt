@@ -73,6 +73,8 @@ class activity_Register : AppCompatActivity() {
             imgHide.visibility = View.GONE
         }
 
+
+        //Añadir un guion si la longuitud del texto es igual a 8
         txtDUI.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -93,6 +95,7 @@ class activity_Register : AppCompatActivity() {
 
         txtEdad.filters = arrayOf(InputFilter.LengthFilter(3))
 
+        //Comprobación de txtEdad en caso de escribir una edad menor que 13 e igual o mayor a 18 para activar y desactivar campos
         txtEdad.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 

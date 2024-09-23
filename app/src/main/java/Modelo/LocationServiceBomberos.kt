@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -19,15 +20,18 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class LocationServiceBomberos(private  val activityBomberos: activity_bomberos) {
+class LocationServiceBomberos(private val activityBomberos: activity_bomberos) {
+
     companion object {
         const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
 
+    // Verifica y solicita permisos de ubicación.
     fun checkAndRequestPermissions() {
         if (ContextCompat.checkSelfPermission(activityBomberos, Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED
         ) {
+            // Solicita permisos de ubicación si no han sido concedidos.
             ActivityCompat.requestPermissions(
                 activityBomberos,
                 arrayOf(
@@ -37,10 +41,12 @@ class LocationServiceBomberos(private  val activityBomberos: activity_bomberos) 
                 LOCATION_PERMISSION_REQUEST_CODE
             )
         } else {
+            // Llama al método si los permisos ya están concedidos.
             onPermissionsGranted()
         }
     }
 
+    // Maneja el resultado de la solicitud de permisos.
     fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -48,6 +54,7 @@ class LocationServiceBomberos(private  val activityBomberos: activity_bomberos) 
     ) {
         when (requestCode) {
             LOCATION_PERMISSION_REQUEST_CODE -> {
+                // Verifica si los permisos fueron concedidos.
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     onPermissionsGranted()
                 } else {
@@ -57,6 +64,7 @@ class LocationServiceBomberos(private  val activityBomberos: activity_bomberos) 
         }
     }
 
+    // Obtiene la ubicación del usuario de forma asíncrona y devuelve un String.
     suspend fun getUbicacionAsync(activity: Context): String {
         return withContext(Dispatchers.Main) {
             val location = getUserLocation(activity)
@@ -67,6 +75,7 @@ class LocationServiceBomberos(private  val activityBomberos: activity_bomberos) 
         }
     }
 
+    // Obtiene la ubicación del usuario y devuelve un objeto LatLng.
     suspend fun ubicacionLatLng(activity: Context): LatLng? {
         return withContext(Dispatchers.Main) {
             val location = getUserLocation(activity)
@@ -77,62 +86,69 @@ class LocationServiceBomberos(private  val activityBomberos: activity_bomberos) 
         }
     }
 
-
+    // Se llama cuando los permisos son concedidos.
     private fun onPermissionsGranted() {
         CoroutineScope(Dispatchers.Main).launch {
             val location = getUserLocation(activityBomberos)
-            location?.let {
-                val ubicacion = "Latitud: ${it.latitude}, Longitud: ${it.longitude}"
-                val latLng = LatLng(it.latitude, it.longitude)
+            if (location != null) {
+                // Crea un string con la ubicación y notifica a través de un bus de eventos.
+                val ubicacion = "Latitud: ${location.latitude}, Longitud: ${location.longitude}"
+                val latLng = LatLng(location.latitude, location.longitude)
                 LocationEventBus.postLocationUpdate(latLng)
+                Log.d("LocationServiceBomberos", "Ubicación obtenida: $ubicacion")
+            } else {
+                Log.d("LocationServiceBomberos", "Ubicación no disponible")
             }
         }
     }
 
+    // Se llama cuando los permisos son denegados.
     private fun onPermissionsDenied() {
         showToast("Permisos de ubicación no concedidos")
     }
 
+    // Muestra un mensaje Toast.
     private fun showToast(message: String) {
         Toast.makeText(activityBomberos, message, Toast.LENGTH_SHORT).show()
     }
 
-
-
     @SuppressLint("MissingPermission")
-    suspend fun getUserLocation(context: Context):android.location.Location? {
-        val fusedLocationproviderClient = LocationServices.getFusedLocationProviderClient(context)
+    // Obtiene la ubicación del usuario de forma suspendida.
+    suspend fun getUserLocation(context: Context): android.location.Location? {
+        val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val isGPSEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.GPS_PROVIDER)
 
+        // Verifica si el GPS está habilitado.
+        val isGPSEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) || locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
         if (!isGPSEnabled) {
             showToast("Activa el GPS para obtener la ubicación")
             return null
         }
 
+        // Usar una coroutine para obtener la ubicación.
         return suspendCancellableCoroutine { cont ->
-            fusedLocationproviderClient.lastLocation.apply {
-                if(isComplete) {
-                    if(isSuccessful) {
-                        cont.resume(result){}
+            fusedLocationProviderClient.lastLocation.apply {
+                // Si la tarea ya se completó, maneja el resultado.
+                if (isComplete) {
+                    if (isSuccessful) {
+                        cont.resume(result) {}
                     } else {
-                        cont.resume(null){}
+                        cont.resume(null) {}
                     }
                     return@suspendCancellableCoroutine
                 }
+                // Agrega escuchadores para manejar el éxito o el fracaso.
                 addOnSuccessListener {
-                    cont.resume(it){}
+                    cont.resume(it) {}
                 }
                 addOnFailureListener {
-                    cont.resume(null){}
+                    cont.resume(null) {}
                 }
                 addOnCanceledListener {
-                    cont.resume(null){}
+                    cont.resume(null) {}
                 }
             }
-
         }
     }
 }

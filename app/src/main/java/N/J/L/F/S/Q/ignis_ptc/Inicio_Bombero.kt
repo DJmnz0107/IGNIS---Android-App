@@ -43,6 +43,7 @@ class Inicio_Bombero : Fragment() {
         val btnCerrar = root.findViewById<Button>(R.id.btnLogOut)
 
 
+        //Lógica de cierre de sesión en la pantalla de bomberos
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 val context = requireContext()

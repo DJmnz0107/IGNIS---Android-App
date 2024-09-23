@@ -22,7 +22,10 @@ class activity_bomberos : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        //Llama a los permisos de ubicación
         locationService = LocationServiceBomberos(this@activity_bomberos)
+
+        //Chequea si estos han sido otorgados
         locationService.checkAndRequestPermissions()
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -48,6 +51,7 @@ class activity_bomberos : AppCompatActivity() {
 
     }
 
+    //Pide los permisos de ubicación para ser utilizados
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
