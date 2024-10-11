@@ -1,6 +1,8 @@
 package N.J.L.F.S.Q.ignis_ptc
 
 import Modelo.LocationService
+import Modelo.UbicacionCallBack
+import N.J.L.F.S.Q.ignis_ptc.ui.home.HomeFragment
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -30,6 +32,7 @@ import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
@@ -71,6 +74,12 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
     private lateinit var firestore: FirebaseFirestore
     private var marker: Marker? = null
     private var listenerRegistration: ListenerRegistration? = null
+    private lateinit var handler: Handler
+    private lateinit var runnable: Runnable
+    private var lastLocation: LatLng? = null
+    private var polyline: Polyline? = null
+    private var truckLocation: LatLng? = null // Almacena la ubicación del camión
+    private var currentLocation: LatLng? = null // Almacena la ubicación actual
 
 
 
@@ -247,6 +256,24 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
         }
     }
 
+    private fun actualizarPolyline() {
+        // Si ya existe una polyline, elimínala antes de crear una nueva
+        polyline?.remove()
+
+        val color = ContextCompat.getColor(requireContext(), R.color.naranjaDos)
+
+
+        // Verifica que ambas ubicaciones no sean nulas
+        if (truckLocation != null && currentLocation != null) {
+            polyline = map.addPolyline(PolylineOptions()
+                .add(truckLocation!!, currentLocation!!) // Agrega los puntos de inicio y fin
+                .width(5f) // Ancho de la línea
+                .color(color) // Color de la línea
+            )
+            Log.d("Polyline", "Polyline actualizada desde $truckLocation hasta $currentLocation")
+        }
+    }
+
     //Actualiza la ubicacion del camión de bomberos
     fun actualizarLocalizacion(truckId: String, latitude: Double, longitude: Double) {
         val firetruckRef = firestore.collection("CamionesBomberos").document(truckId)
@@ -266,68 +293,132 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
     }
 
 
-    //Verifica la ubicación del camión de bomberos
-    private fun listenForTruckLocation() {
-        listenerRegistration = firestore.collection("CamionesBomberos")
-            .document("CamionesBomberosPrueba")
-            .addSnapshotListener { snapshot, e ->
-                if (e != null) {
-                    Log.w("Firestore", "Listen failed.", e)
-                    return@addSnapshotListener
-                }
-
-                val resizedIcon = BitmapDescriptorFactory.fromBitmap(
-                    reajustarTamanoCamion(R.drawable.camionbombero, 200, 200)
-                )
-
-                if (snapshot != null && snapshot.exists()) {
-                    val latitude = snapshot.getDouble("Latitud") ?: 0.0
-                    val longitude = snapshot.getDouble("Longitud") ?: 0.0
-                    val truckLatLng = LatLng(37.42527591502073, -122.07760973154546)
-
-                    if (marker != null) {
-                        marker!!.position = truckLatLng
-                    } else {
-                        marker = map.addMarker(
-                            MarkerOptions()
-                                .position(truckLatLng)
-                                .title("Camión de Bomberos")
-                                .icon(resizedIcon)
-                        )
-                    }
-
-                }
-            }
-    }
 
 
-    //Configura las opciones a mostrar dentro del mapa
-    override fun onMapReady(googleMap:GoogleMap) {
-
-        map = googleMap
-
-        map.uiSettings.isZoomControlsEnabled = true
-
-
-
-        val truckLatLng = LatLng(37.42527591502073, -122.07760973154546)
-
-
+    private fun iniciarLecturaUbicaciones() {
+        // Inicializa la ubicación actual
         CoroutineScope(Dispatchers.IO).launch {
             val ubicacion = withContext(Dispatchers.IO) {
                 LocationService(context as MainActivity).ubicacionLatLng(context as MainActivity)
             }
-            withContext(Dispatchers.Main) {
-                iniciarTracking(truckLatLng, ubicacion)
-                mostrarUbicacionActual(ubicacion)
-                listenForTruckLocation()
-
-            }
+            currentLocation = ubicacion
         }
 
+        // Configura el Handler para ejecutar la lectura de ubicaciones cada 5 segundos
+        handler = Handler(Looper.getMainLooper())
+        runnable = Runnable {
+            leerUbicaciones(object : UbicacionCallBack {
+                override fun onUbicacionRecibida(ubicacionCamion: LatLng) {
+                    truckLocation = ubicacionCamion
+                    if (truckLocation != null) {
+                        val resizedIcon = BitmapDescriptorFactory.fromBitmap(
+                            reajustarTamanoCamion(R.drawable.camionbombero, 200, 200)
+                        )
 
+                        // Actualiza la posición del marcador si ya existe
+                        if (marker != null) {
+                            marker!!.position = truckLocation!!
+                        } else {
+                            // Crea un nuevo marcador si no existe
+                            marker = map.addMarker(
+                                MarkerOptions()
+                                    .position(truckLocation!!)
+                                    .title("Camión de Bomberos")
+                                    .icon(resizedIcon)
+                            )
+                        }
 
+                        // Llama a iniciarTracking para actualizar la polilínea
+                        iniciarTracking(truckLocation!!, currentLocation)
+                    }
+                }
+            })
+            // Llama a leerUbicaciones cada 5 segundos
+            handler.postDelayed(runnable, 5000)
+        }
+        handler.post(runnable)
     }
+
+
+
+    private fun leerUbicaciones(callback: UbicacionCallBack) {
+        val collectionRef = firestore.collection("CamionesBomberos")
+
+        collectionRef.get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val geoPoint = document.getGeoPoint("ubicacion")
+                    if (geoPoint != null) {
+                        val ubicacion = LatLng(geoPoint.latitude, geoPoint.longitude)
+                        // Actualiza la ubicación en el mapa o en la UI
+                        callback.onUbicacionRecibida(ubicacion) // Llama al callback
+                        Log.d("Firestore", "Ubicación: $ubicacion")
+                    } else {
+                        Log.w("Firestore", "Ubicación no disponible para el documento: ${document.id}")
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("Firestore", "Error al obtener documentos: ", exception)
+            }
+    }
+
+
+
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap
+        map.uiSettings.isZoomControlsEnabled = true
+
+
+        if (HomeFragment.EmergenciaState.enviada) {
+            CoroutineScope(Dispatchers.IO).launch {
+                obtenerIdEmergenciaDesdeFirebase(idBombero = 123) { idEmergenciaFirebase ->
+                    if (idEmergenciaFirebase != null && HomeFragment.EmergenciaState.idEmergencia == idEmergenciaFirebase) {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            val ubicacion = withContext(Dispatchers.IO) {
+                                LocationService(context as MainActivity).ubicacionLatLng(context as MainActivity)
+                            }
+                            mostrarUbicacionActual(ubicacion)
+                            iniciarLecturaUbicaciones()
+                        }
+                    } else {
+                        Log.d("Seguimiento", "El ID de emergencia no coincide o no se ha enviado ninguna emergencia.")
+                    }
+                }
+            }
+        } else {
+            Log.d("Seguimiento", "No se ha enviado ninguna emergencia todavía.")
+        }
+    }
+
+
+    private fun obtenerIdEmergenciaDesdeFirebase(idBombero: Int, onResult: (Int?) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+        val docRef = db.collection("CamionesBomberos").document("ID_del_bombero_$idBombero")
+
+        // Intenta obtener el documento del bombero en la base de datos de Firebase
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    // Si el documento existe, extrae el campo "idEmergencia"
+                    val idEmergencia = document.getLong("idEmergencia")?.toInt()
+                    Log.d("Firebase", "ID de emergencia obtenido: $idEmergencia")
+                    onResult(idEmergencia)
+                } else {
+                    // Si el documento no existe, devuelve null
+                    Log.d("Firebase", "No se encontró el documento para el bombero con ID: $idBombero")
+                    onResult(null)
+                }
+            }
+            .addOnFailureListener { e ->
+                // En caso de error, loguea el fallo y devuelve null
+                Log.e("Firebase", "Error al obtener el ID de emergencia: $e")
+                onResult(null)
+            }
+    }
+
+
 
     //Muestra la ubicación actual con un marcador
     private fun mostrarUbicacionActual(location: LatLng?) {

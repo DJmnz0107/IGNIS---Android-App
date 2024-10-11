@@ -139,84 +139,70 @@ class activity_Login : AppCompatActivity() {
                 txtPassword.error = null
             }
 
-            //Validación en caso de los campos estar vacíos
+            // Validación en caso de los campos estar vacíos
             if (!validacion) {
                 GlobalScope.launch(Dispatchers.IO) {
                     try {
-                        val Usuarios = Usuarios()
-
                         val contrasenaEncriptada = hashSHA256(txtPassword.text.toString())
 
-                        val nivelUsuario = Usuarios.obtenerNivelUsuario(nombreUsuario, contrasenaEncriptada)
-
-                        val nivelUsuario2 = Usuarios.obtenerNivelUsuario(nombreUsuario, contrasenaEncriptada)
-
-
-                        println("El nivel de usuario es $nivelUsuario")
-
-                        println("El nivel de usuario es $nivelUsuario2")
-
-
                         val objConexion = ClaseConexion().cadenaConexion()
+                        val revisarUsuario = objConexion?.prepareStatement(
+                            "SELECT id_usuario, id_nivelusuario FROM Usuarios WHERE nombre_usuario = ? AND contrasena_usuario = ?"
+                        )
+                        revisarUsuario?.setString(1, nombreUsuario)
+                        revisarUsuario?.setString(2, contrasenaEncriptada)
 
-                        val revisarUsuario = objConexion?.prepareStatement("SELECT * FROM Usuarios WHERE nombre_usuario = ? AND contrasena_usuario = ?")!!
+                        val resultado = revisarUsuario?.executeQuery()
 
-                       if(nivelUsuario == 1) {
-                           revisarUsuario.setString(1, nombreUsuario)
-                           revisarUsuario.setString(2, contrasenaEncriptada)
-                       } else if(nivelUsuario2 == 2) {
-                           revisarUsuario.setString(1, nombreUsuario)
-                           revisarUsuario.setString(2, contrasenaEncriptada)
-                       } else {
-                           revisarUsuario.setString(1, nombreUsuario)
-                           revisarUsuario.setString(2, contrasenaEncriptada)
-                       }
+                        if (resultado != null && resultado.next()) {
+                            val idUsuario = resultado.getInt("id_usuario") // Obtener el ID del usuario
+                            val nivelUsuario = resultado.getInt("id_nivelusuario") // Obtener el nivel del usuario
 
-
-                        val resultado = revisarUsuario.executeQuery()
-
-                        if (resultado.next()) {
-                            if(nivelUsuario != null || nivelUsuario2 != null) {
-                                if (nivelUsuario == 1) {
-                                    withContext(Dispatchers.Main) {
+                            // Manejo del inicio de sesión basado en el nivel de usuario
+                            withContext(Dispatchers.Main) {
+                                when (nivelUsuario) {
+                                    1 -> {
                                         MotionToast.createColorToast(this@activity_Login,
                                             "Sesión iniciada con éxito",
                                             "Bienvenido a ignis",
                                             MotionToastStyle.SUCCESS,
                                             MotionToast.GRAVITY_BOTTOM,
                                             MotionToast.LONG_DURATION,
-                                            ResourcesCompat.getFont(this@activity_Login,R.font.cabin_bold))
+                                            ResourcesCompat.getFont(this@activity_Login, R.font.cabin_bold))
+                                        // Lógica para otro nivel de usuario
+
+                                        val pantallaUsuarios = Intent(this@activity_Login, MainActivity::class.java)
+                                        pantallaUsuarios.putExtra("userId", idUsuario) // Pasar el ID del usuario
+                                        startActivity(pantallaUsuarios)
+                                        finish()
                                     }
-                                    val pantallaMain = Intent(this@activity_Login, MainActivity::class.java)
-                                    startActivity(pantallaMain)
-                                    finish()
-                                }else if (nivelUsuario2 == 2) {
-                                    withContext(Dispatchers.Main) {
+                                    2 -> { // Bombero
                                         MotionToast.createColorToast(this@activity_Login,
                                             "Sesión iniciada con éxito",
-                                            "Bienvenido a ignis",
+                                            "Bienvenido a ignis, bombero",
                                             MotionToastStyle.SUCCESS,
                                             MotionToast.GRAVITY_BOTTOM,
                                             MotionToast.LONG_DURATION,
-                                            ResourcesCompat.getFont(this@activity_Login,R.font.cabin_bold))
+                                            ResourcesCompat.getFont(this@activity_Login, R.font.cabin_bold))
+
+                                        val pantallaBombero = Intent(this@activity_Login, activity_bomberos::class.java)
+                                        pantallaBombero.putExtra("userId", idUsuario) // Pasar el ID del usuario
+                                        startActivity(pantallaBombero)
+                                        finish()
                                     }
-                                    val pantallaBombero = Intent(this@activity_Login, activity_bomberos::class.java)
-                                    startActivity(pantallaBombero)
-                                    finish()
-                                }
-                                else {
-                                    withContext(Dispatchers.Main) {
+                                    else -> {
+                                        // Manejo de otros niveles de usuario si es necesario
                                         MotionToast.createColorToast(this@activity_Login,
-                                            "Error al iniciar sesión",
-                                            "Revisar si existe algún registro en la base de datos",
-                                            MotionToastStyle.ERROR,
+                                            "Acceso denegado",
+                                            "No tienes permisos para acceder a esta aplicación",
+                                            MotionToastStyle.WARNING,
                                             MotionToast.GRAVITY_BOTTOM,
                                             MotionToast.LONG_DURATION,
-                                            ResourcesCompat.getFont(this@activity_Login,R.font.cabin_bold))                                     }
+                                            ResourcesCompat.getFont(this@activity_Login, R.font.cabin_bold))
+                                    }
                                 }
                             }
-                        }
-                        else {
+                        } else {
                             withContext(Dispatchers.Main) {
                                 MotionToast.createColorToast(this@activity_Login,
                                     "Error al iniciar sesión",
@@ -224,7 +210,8 @@ class activity_Login : AppCompatActivity() {
                                     MotionToastStyle.ERROR,
                                     MotionToast.GRAVITY_BOTTOM,
                                     MotionToast.LONG_DURATION,
-                                    ResourcesCompat.getFont(this@activity_Login,R.font.cabin_bold))                            }
+                                    ResourcesCompat.getFont(this@activity_Login, R.font.cabin_bold))
+                            }
                         }
                     } catch (e: Exception) {
                         println("El error es: ${e.message}")
@@ -251,7 +238,11 @@ class activity_Login : AppCompatActivity() {
 
 
 
+
     }
+
+
+
 
     //Pestaña para seleccionar la cuenta
     private fun signIn() {

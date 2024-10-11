@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import N.J.L.F.S.Q.ignis_ptc.databinding.FragmentHomeBinding
+import N.J.L.F.S.Q.ignis_ptc.ui.home.HomeFragment.EmergenciaState.idEmergencia
 import android.content.Intent
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -39,8 +40,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
+import java.sql.Statement
 
 class HomeFragment : Fragment() {
+
+    object EmergenciaState {
+        var idEmergencia: Int? = null // Variable para almacenar el ID de la emergencia enviada
+        var enviada: Boolean = false // Variable para verificar si la emergencia ha sido enviada
+    }
 
     private var _binding: FragmentHomeBinding? = null
 
@@ -268,50 +275,77 @@ class HomeFragment : Fragment() {
 
                         if (ubicacion.isNotBlank()) {
                             val objConexion = ClaseConexion().cadenaConexion()
-                            val insertEmergencia = objConexion?.prepareStatement("INSERT INTO Emergencias (ubicacion_emergencia, descripcion_emergencia, gravedad_emergencia, tipo_emergencia, respuesta_notificacion, estado_emergencia) VALUES (?, ?, ?, ?, ?, ?)")!!
+                            val insertEmergencia = objConexion?.prepareStatement(
+                                "INSERT INTO Emergencias (ubicacion_emergencia, descripcion_emergencia, gravedad_emergencia, tipo_emergencia, respuesta_notificacion, estado_emergencia) VALUES (?, ?, ?, ?, ?, ?)",
+                            )!!
 
                             insertEmergencia.setString(1, ubicacion)
                             insertEmergencia.setString(2, txtDescripcion.text.toString())
                             insertEmergencia.setString(3, spGravedad.selectedItem.toString())
-                            insertEmergencia.setString(4,txtTipoEmergencia.text.toString())
+                            insertEmergencia.setString(4, txtTipoEmergencia.text.toString())
                             insertEmergencia.setString(5, "En espera")
                             insertEmergencia.setString(6, "En proceso")
 
                             insertEmergencia.executeUpdate()
 
+                            // Obtener el último ID insertado
+                            val lastIdQuery = "SELECT id_emergencia FROM Emergencias ORDER BY id_emergencia DESC FETCH FIRST 1 ROWS ONLY"
+                            val lastIdStmt = objConexion?.createStatement()
+                            val rsLastId = lastIdStmt?.executeQuery(lastIdQuery)
+
+                            if (rsLastId?.next() == true) {
+                                EmergenciaState.idEmergencia = rsLastId.getLong(1).toInt() // Usar el valor del último ID
+                                EmergenciaState.enviada = true
+                                System.out.println(idEmergencia)
+                                System.out.println(EmergenciaState.enviada)
+                            }
+
+                            objConexion?.commit() // Confirma la transacción
+
+
+
+
+
+
                             withContext(Dispatchers.Main) {
                                 MotionToast.createColorToast(requireContext() as MainActivity,
                                     "Emergencia enviada",
-                                    "Datos enviado correctamente",
+                                    "Datos enviados correctamente",
                                     MotionToastStyle.SUCCESS,
                                     MotionToast.GRAVITY_BOTTOM,
                                     MotionToast.LONG_DURATION,
-                                    ResourcesCompat.getFont(requireContext() as MainActivity,R.font.cabin_bold))
+                                    ResourcesCompat.getFont(requireContext() as MainActivity, R.font.cabin_bold))
                                 txtDescripcion.text.clear()
                                 txtTipoEmergencia.text.clear()
                             }
                         } else {
-                            MotionToast.createColorToast(requireContext() as MainActivity,
-                                "Permisos de ubicación",
-                                "Por favor, activa los permisos de ubicación para enviar la emergencia",
-                                MotionToastStyle.ERROR,
-                                MotionToast.GRAVITY_BOTTOM,
-                                MotionToast.LONG_DURATION,
-                                ResourcesCompat.getFont(requireContext() as MainActivity,R.font.cabin_bold))
-                            txtDescripcion.text.clear()
-                            txtTipoEmergencia.text.clear()                        }
+                            withContext(Dispatchers.Main) {
+                                MotionToast.createColorToast(requireContext() as MainActivity,
+                                    "Permisos de ubicación",
+                                    "Por favor, activa los permisos de ubicación para enviar la emergencia",
+                                    MotionToastStyle.ERROR,
+                                    MotionToast.GRAVITY_BOTTOM,
+                                    MotionToast.LONG_DURATION,
+                                    ResourcesCompat.getFont(requireContext() as MainActivity, R.font.cabin_bold))
+                                txtDescripcion.text.clear()
+                                txtTipoEmergencia.text.clear()
+                            }
+                        }
                     } catch (e: Exception) {
                         println("El error es: $e")
                         withContext(Dispatchers.Main) {
                             MotionToast.createColorToast(requireContext() as MainActivity,
                                 "Campos llenos",
-                                "Por favor, revisa si has llenado todos los campos.",
+                                "Por favor, revisa que has llenado todos los campos.",
                                 MotionToastStyle.ERROR,
                                 MotionToast.GRAVITY_BOTTOM,
                                 MotionToast.LONG_DURATION,
-                                ResourcesCompat.getFont(requireContext() as MainActivity,R.font.cabin_bold))                        }
+                                ResourcesCompat.getFont(requireContext() as MainActivity, R.font.cabin_bold))
+                        }
                     }
                 }
+
+
             }
 
 

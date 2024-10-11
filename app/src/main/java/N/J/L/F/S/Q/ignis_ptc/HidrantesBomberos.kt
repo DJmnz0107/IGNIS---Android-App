@@ -314,6 +314,10 @@ class HidrantesBomberos : Fragment(), OnMapReadyCallback {
                     val distanciaKm = it * 1.60934
                     String.format("%.2f", distanciaKm)
                 }
+                "km" -> {
+                    val distanciakm = it
+                    String.format("%.2f", distanciakm)
+                }
                 else -> {
                     Log.e("convertirDistanciaAKm", "Unidad desconocida: $unidad")
                     null
