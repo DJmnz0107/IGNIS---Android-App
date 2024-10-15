@@ -2,6 +2,7 @@ package N.J.L.F.S.Q.ignis_ptc.ui.home
 
 import Modelo.ClaseConexion
 import Modelo.LocationService
+import Modelo.LocationServiceUrgencia
 import N.J.L.F.S.Q.ignis_ptc.MainActivity
 import N.J.L.F.S.Q.ignis_ptc.R
 import N.J.L.F.S.Q.ignis_ptc.activity_Login
@@ -20,6 +21,7 @@ import android.widget.ToggleButton
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -45,11 +47,11 @@ class SinsesionActivity : AppCompatActivity() {
         var enviada: Boolean = false // Variable para verificar si la emergencia ha sido enviada
     }
 
-    private lateinit var locationService: LocationService
-    private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private lateinit var locationService:LocationServiceUrgencia
     private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.sinsesion) // Asegúrate de que este es el layout correcto
 
@@ -61,14 +63,14 @@ class SinsesionActivity : AppCompatActivity() {
             .requestEmail()
             .build()
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
         // Obtiene el usuario actual
         val auth = Firebase.auth
         val user = auth.currentUser
 
         // Inicializa el servicio de ubicación
-        locationService = LocationService(MainActivity())
+        locationService = LocationServiceUrgencia(this@SinsesionActivity)
+        locationService.checkAndRequestPermissions()
 
         val btnEmergencia = findViewById<Button>(R.id.btnEmergencia)
 
@@ -178,13 +180,12 @@ class SinsesionActivity : AppCompatActivity() {
                 txtDescripcion.error = null
             }
 
-            // Si la validacion es false, entonces continúa con el código, sino, muestra errores
             if (!validacion) {
                 CoroutineScope(Dispatchers.IO).launch {
-                    var insertEmergencia: PreparedStatement? = null // Declarar aquí para el bloque finally
+                    var insertEmergencia: PreparedStatement? = null
                     try {
                         val ubicacion = withContext(Dispatchers.IO) {
-                            LocationService(MainActivity()).getUbicacionAsync(MainActivity())
+                            LocationServiceUrgencia(this@SinsesionActivity).getUbicacionAsync(this@SinsesionActivity)
                         }
 
                         if (ubicacion.isNotBlank()) {
@@ -198,30 +199,31 @@ class SinsesionActivity : AppCompatActivity() {
                                 insertEmergencia.setString(2, txtDescripcion.text.toString())
                                 insertEmergencia.setString(3, spGravedad.selectedItem.toString())
                                 insertEmergencia.setString(4, txtTipoEmergencia.text.toString())
-                                insertEmergencia.setString(5, "Sin Respuesta")
-                                insertEmergencia.setString(6, "En Espera")
+                                insertEmergencia.setString(5, "En espera")
+                                insertEmergencia.setString(6, "En proceso")
 
-                                // Ejecución de la inserción
                                 val resultado = insertEmergencia.executeUpdate()
                                 if (resultado > 0) {
                                     EmergenciaState.idEmergencia = resultado
                                     EmergenciaState.enviada = true
 
-                                    // Mover la lógica de la UI a la corutina principal
+                                    // Aquí asegúrate de que estás en el hilo principal antes de actualizar la UI
                                     withContext(Dispatchers.Main) {
-                                        MotionToast.createToast(
-                                            this@SinsesionActivity,
-                                            "¡Éxito!",
-                                            "¡Emergencia enviada con éxito!",
+                                        MotionToast.createColorToast(
+                                            this@SinsesionActivity,  // Usar la instancia existente de la actividad
+                                            "Emergencia enviada",
+                                            "Datos enviados correctamente",
                                             MotionToastStyle.SUCCESS,
                                             MotionToast.GRAVITY_BOTTOM,
                                             MotionToast.LONG_DURATION,
-                                            null
+                                            ResourcesCompat.getFont(this@SinsesionActivity, R.font.cabin_bold)  // Asegurarse de que el acceso al recurso se realice en el hilo principal
                                         )
+
+                                        // Cierra el BottomSheet en el hilo principal
+                                        bottomSheetDialog.dismiss()
                                     }
                                 }
                             } else {
-                                // Manejo del caso en que el PreparedStatement es nulo
                                 withContext(Dispatchers.Main) {
                                     MotionToast.createToast(
                                         this@SinsesionActivity,
@@ -230,7 +232,7 @@ class SinsesionActivity : AppCompatActivity() {
                                         MotionToastStyle.ERROR,
                                         MotionToast.GRAVITY_BOTTOM,
                                         MotionToast.LONG_DURATION,
-                                        null
+                                        ResourcesCompat.getFont(this@SinsesionActivity, R.font.cabin_bold)  // Asegurarse de que el acceso al recurso se realice en el hilo principal
                                     )
                                 }
                             }
@@ -243,12 +245,11 @@ class SinsesionActivity : AppCompatActivity() {
                                     MotionToastStyle.ERROR,
                                     MotionToast.GRAVITY_BOTTOM,
                                     MotionToast.LONG_DURATION,
-                                    null
+                                    ResourcesCompat.getFont(this@SinsesionActivity, R.font.cabin_bold)  // Asegurarse de que el acceso al recurso se realice en el hilo principal
                                 )
                             }
                         }
                     } catch (e: SQLException) {
-                        // Manejo específico de errores SQL
                         withContext(Dispatchers.Main) {
                             MotionToast.createToast(
                                 this@SinsesionActivity,
@@ -257,11 +258,11 @@ class SinsesionActivity : AppCompatActivity() {
                                 MotionToastStyle.ERROR,
                                 MotionToast.GRAVITY_BOTTOM,
                                 MotionToast.LONG_DURATION,
-                                null
+                                ResourcesCompat.getFont(this@SinsesionActivity, R.font.cabin_bold)  // Asegurarse de que el acceso al recurso se realice en el hilo principal
                             )
                         }
+                        println("El error es: " + e)
                     } catch (e: Exception) {
-                        // Manejo de cualquier otro error inesperado
                         withContext(Dispatchers.Main) {
                             MotionToast.createToast(
                                 this@SinsesionActivity,
@@ -270,16 +271,25 @@ class SinsesionActivity : AppCompatActivity() {
                                 MotionToastStyle.ERROR,
                                 MotionToast.GRAVITY_BOTTOM,
                                 MotionToast.LONG_DURATION,
-                                null
+                                ResourcesCompat.getFont(this@SinsesionActivity, R.font.cabin_bold)  // Asegurarse de que el acceso al recurso se realice en el hilo principal
                             )
                         }
                     } finally {
-                        // Asegúrate de cerrar el PreparedStatement
                         insertEmergencia?.close()
                     }
                 }
-                bottomSheetDialog.dismiss() // Cierra el BottomSheet
             }
         }
+
+    }
+
+    //Pide los permisos de ubicación para ser utilizados
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        locationService.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }
