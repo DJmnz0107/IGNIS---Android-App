@@ -3,6 +3,7 @@ package N.J.L.F.S.Q.ignis_ptc
 import Modelo.ClaseConexion
 import Modelo.Usuarios
 import Modelo.dataClassUsuarios
+import N.J.L.F.S.Q.ignis_ptc.ui.home.SinsesionActivity
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -80,10 +81,17 @@ class activity_Login : AppCompatActivity() {
 
         val btnLoginGoogle = findViewById<Button>(R.id.btnLoginGoogle)
 
+        val imgSeguir = findViewById<ImageView>(R.id.imgseguir)
+
+
         btnLoginGoogle.setOnClickListener {
             signIn()
         }
 
+        imgSeguir.setOnClickListener {
+        val pantallaSiguiente = Intent(this@activity_Login, SinsesionActivity::class.java)
+        startActivity(pantallaSiguiente)
+        }
 
 
         lBlOlvidar.setOnClickListener { val pantallacontraseña = Intent(this,activity_contrasena::class.java)

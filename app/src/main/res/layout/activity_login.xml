@@ -276,5 +276,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ignis" />
 
+    <ImageView
+        android:id="@+id/imgseguir"
+        android:layout_width="38dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_arrow_downward_24" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
