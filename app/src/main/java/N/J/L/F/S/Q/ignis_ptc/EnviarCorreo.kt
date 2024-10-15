@@ -1,5 +1,4 @@
-package N.J.L.F.S.Q.ignis_ptc
-
+import N.J.L.F.S.Q.ignis_ptc.activity_contrasena.numAleatorio.codigoRecu
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Properties
@@ -30,13 +29,38 @@ suspend fun enviarCorreo(receptor: String, sujeto: String, mensaje: String) = wi
     })
 
     try {
-        // Creación del mensaje de correo
+        // Aquí definimos el contenido HTML con estilo CSS embebido
+        val htmlMessage = """
+            <html>
+            <body style="background-color: #fefefe; font-family: Arial, sans-serif;">
+                <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+                    <h2 style="color: #FF7043; text-align: center;">Recuperación de Contraseña</h2>
+                    <p style="color: #555; font-size: 16px;">
+                         <strong>$mensaje</strong>,<br><br>
+                        Te saluda el equipo de Ignis Software Developers.<br>
+                        Aquí tienes tu código de recuperación:
+                    </p>
+                    <div style="background-color: #FF7043; color: white; font-size: 24px; text-align: center; padding: 15px; border-radius: 5px;">
+                        $codigoRecu
+                    </div>
+                    <p style="color: #555; font-size: 14px;">
+                        Si no has solicitado este código, por favor ignora este mensaje.<br><br>
+                        Gracias,<br>
+                        El equipo de Ignis.
+                    </p>
+                </div>
+            </body>
+            </html>
+        """.trimIndent()
+
+        // Creación del mensaje de correo en formato HTML
         val message = MimeMessage(session).apply {
             setFrom(InternetAddress("ignissoftwaredevelopers@gmail.com")) // Remitente
             addRecipient(Message.RecipientType.TO, InternetAddress(receptor)) // Destinatario
             subject = sujeto // Asunto del correo
-            setText(mensaje) // Cuerpo del correo
+            setContent(htmlMessage, "text/html; charset=utf-8") // Contenido en HTML
         }
+
         // Envío del mensaje
         Transport.send(message)
         println("Correo enviado satisfactoriamente")
