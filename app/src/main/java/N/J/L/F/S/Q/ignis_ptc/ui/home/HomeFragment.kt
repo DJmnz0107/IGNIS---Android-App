@@ -308,16 +308,42 @@ class HomeFragment : Fragment() {
 
 
                             withContext(Dispatchers.Main) {
-                                MotionToast.createColorToast(requireContext() as MainActivity,
+                                // Muestra un MotionToast de éxito
+                                MotionToast.createColorToast(
+                                    requireContext() as MainActivity,
                                     "Emergencia enviada",
                                     "Datos enviados correctamente",
                                     MotionToastStyle.SUCCESS,
                                     MotionToast.GRAVITY_BOTTOM,
                                     MotionToast.LONG_DURATION,
-                                    ResourcesCompat.getFont(requireContext() as MainActivity, R.font.cabin_bold))
+                                    ResourcesCompat.getFont(requireContext() as MainActivity, R.font.cabin_bold)
+                                )
+
+                                // Limpiar los campos de texto
                                 txtDescripcion.text.clear()
                                 txtTipoEmergencia.text.clear()
+
+                                // Crear el AlertDialog personalizado
+                                val builder = AlertDialog.Builder(requireContext())
+                                val inflater = layoutInflater
+                                val dialogLayout = inflater.inflate(R.layout.alert_dialog_emergencia, null)
+
+                                // Configurar el AlertDialog antes de mostrarlo
+                                builder.setView(dialogLayout)
+                                val alertDialog = builder.create() // Crear el AlertDialog antes de usarlo
+
+                                // Configurar el botón "Aceptar" en el diálogo
+                                val btnAceptar = dialogLayout.findViewById<Button>(R.id.btnAceptar)
+                                btnAceptar.setOnClickListener {
+                                    // Cerrar el diálogo cuando se presione el botón
+                                    alertDialog.dismiss() // Ahora el alertDialog ya está definido
+                                }
+
+                                // Mostrar el AlertDialog
+                                alertDialog.show()
+                                alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                             }
+
                         } else {
                             withContext(Dispatchers.Main) {
                                 MotionToast.createColorToast(requireContext() as MainActivity,

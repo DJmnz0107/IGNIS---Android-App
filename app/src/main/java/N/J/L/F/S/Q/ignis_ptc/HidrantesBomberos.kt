@@ -12,8 +12,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
@@ -30,6 +32,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -344,19 +347,37 @@ class HidrantesBomberos : Fragment(), OnMapReadyCallback {
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
     private fun eliminarAlertDialog(marker: Marker) {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Eliminar marcador")
-        builder.setMessage("¿Desea eliminar este marcador?")
+        // Inflar el layout personalizado
+        val inflater = LayoutInflater.from(requireContext())
+        val dialogView = inflater.inflate(R.layout.dialog_eliminar_hidrante, null)
 
-        builder.setPositiveButton("Sí") { dialog, which ->
+        // Obtener referencia a los elementos del layout
+        val btnCancel = dialogView.findViewById<Button>(R.id.btnCancelDelete)
+        val btnConfirm = dialogView.findViewById<Button>(R.id.btnConfirmDelete)
+
+        // Crear el AlertDialog
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setView(dialogView)
+
+        // Crear y mostrar el diálogo
+        val dialog = builder.create()
+
+        // Acciones para el botón "Sí" (Confirmar eliminación)
+        btnConfirm.setOnClickListener {
             marker.remove()
             markers.remove(marker)
             saveMarkers()
+            dialog.dismiss() // Cerrar el diálogo
         }
-        builder.setNegativeButton("No") { dialog, which -> dialog.cancel() }
 
-        builder.show()
+        // Acciones para el botón "No" (Cancelar eliminación)
+        btnCancel.setOnClickListener {
+            dialog.dismiss() // Cerrar el diálogo
+        }
+
+        dialog.show()
     }
+
     private fun mostrarAlertDialogError(message: String) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Error")
@@ -367,14 +388,24 @@ class HidrantesBomberos : Fragment(), OnMapReadyCallback {
 
     //AlertDialog para añadir un hidrante
     private fun mostrarAlertDialog(latLng: LatLng) {
+        // Inflar el layout personalizado
+        val inflater = LayoutInflater.from(requireContext())
+        val dialogView = inflater.inflate(R.layout.dialog_agregar_hidrante, null)
+
+        // Obtener referencia a los elementos del layout
+        val input = dialogView.findViewById<EditText>(R.id.etMarkerName)
+        val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
+        val btnSave = dialogView.findViewById<Button>(R.id.btnSave)
+
+        // Crear el AlertDialog
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Añadir marcador")
+        builder.setView(dialogView)
 
-        val input = EditText(requireContext())
-        input.hint = "Nombre del marcador"
-        builder.setView(input)
+        // Crear y mostrar el dialogo
+        val dialog = builder.create()
 
-        builder.setPositiveButton("OK") { dialog, which ->
+        // Acciones para el botón "Guardar"
+        btnSave.setOnClickListener {
             val title = input.text.toString().trim()
 
             if (title.isNotEmpty()) {
@@ -389,14 +420,21 @@ class HidrantesBomberos : Fragment(), OnMapReadyCallback {
                     saveMarkers()
                     map.moveCamera(CameraUpdateFactory.newLatLng(latLng))
                 }
+                dialog.dismiss() // Cerrar el diálogo
             } else {
                 mostrarAlertDialogError("El nombre del marcador no puede estar vacío.")
             }
         }
-        builder.setNegativeButton("Cancelar") { dialog, which -> dialog.cancel() }
 
-        builder.show()
+        // Acciones para el botón "Cancelar"
+        btnCancel.setOnClickListener {
+            dialog.dismiss() // Cerrar el diálogo
+        }
+
+        dialog.show()
     }
+
+
 
     //Desaparece los marcadores a cierto nivel de zoom
     private fun ajustarVisibilidadMarcadores(zoom: Float) {

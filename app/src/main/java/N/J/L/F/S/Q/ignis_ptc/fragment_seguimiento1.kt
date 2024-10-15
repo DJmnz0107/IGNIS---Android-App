@@ -295,7 +295,7 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
 
 
 
-    private fun iniciarLecturaUbicaciones() {
+    private fun iniciarLecturaUbicaciones(idEmergencia: Int?) {
         // Inicializa la ubicación actual
         CoroutineScope(Dispatchers.IO).launch {
             val ubicacion = withContext(Dispatchers.IO) {
@@ -307,32 +307,37 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
         // Configura el Handler para ejecutar la lectura de ubicaciones cada 5 segundos
         handler = Handler(Looper.getMainLooper())
         runnable = Runnable {
-            leerUbicaciones(object : UbicacionCallBack {
-                override fun onUbicacionRecibida(ubicacionCamion: LatLng) {
-                    truckLocation = ubicacionCamion
-                    if (truckLocation != null) {
-                        val resizedIcon = BitmapDescriptorFactory.fromBitmap(
-                            reajustarTamanoCamion(R.drawable.camionbombero, 200, 200)
-                        )
-
-                        // Actualiza la posición del marcador si ya existe
-                        if (marker != null) {
-                            marker!!.position = truckLocation!!
-                        } else {
-                            // Crea un nuevo marcador si no existe
-                            marker = map.addMarker(
-                                MarkerOptions()
-                                    .position(truckLocation!!)
-                                    .title("Camión de Bomberos")
-                                    .icon(resizedIcon)
+            // Verifica si idEmergencia es nulo antes de llamar a leerUbicaciones
+            if (idEmergencia != null) {
+                leerUbicaciones(object : UbicacionCallBack {
+                    override fun onUbicacionRecibida(ubicacionCamion: LatLng) {
+                        truckLocation = ubicacionCamion
+                        if (truckLocation != null) {
+                            val resizedIcon = BitmapDescriptorFactory.fromBitmap(
+                                reajustarTamanoCamion(R.drawable.camionbombero, 200, 200)
                             )
-                        }
 
-                        // Llama a iniciarTracking para actualizar la polilínea
-                        iniciarTracking(truckLocation!!, currentLocation)
+                            // Actualiza la posición del marcador si ya existe
+                            if (marker != null) {
+                                marker!!.position = truckLocation!!
+                            } else {
+                                // Crea un nuevo marcador si no existe
+                                marker = map.addMarker(
+                                    MarkerOptions()
+                                        .position(truckLocation!!)
+                                        .title("Camión de Bomberos")
+                                        .icon(resizedIcon)
+                                )
+                            }
+
+                            // Llama a iniciarTracking para actualizar la polilínea
+                            iniciarTracking(truckLocation!!, currentLocation)
+                        }
                     }
-                }
-            })
+                }, idEmergencia) // Pasa el idEmergencia a la función leerUbicaciones
+            } else {
+                Log.e("Ubicaciones", "El ID de emergencia es nulo, no se puede realizar la lectura de ubicaciones.")
+            }
             // Llama a leerUbicaciones cada 5 segundos
             handler.postDelayed(runnable, 5000)
         }
@@ -341,17 +346,18 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
 
 
 
-    private fun leerUbicaciones(callback: UbicacionCallBack) {
+
+
+    private fun leerUbicaciones(callback: UbicacionCallBack, idEmergenciaBuscada: Int) {
         val collectionRef = firestore.collection("CamionesBomberos")
 
-        collectionRef.get()
+        collectionRef.whereEqualTo("idEmergencia", idEmergenciaBuscada).get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     val geoPoint = document.getGeoPoint("ubicacion")
                     if (geoPoint != null) {
                         val ubicacion = LatLng(geoPoint.latitude, geoPoint.longitude)
-                        // Actualiza la ubicación en el mapa o en la UI
-                        callback.onUbicacionRecibida(ubicacion) // Llama al callback
+                        callback.onUbicacionRecibida(ubicacion)
                         Log.d("Firestore", "Ubicación: $ubicacion")
                     } else {
                         Log.w("Firestore", "Ubicación no disponible para el documento: ${document.id}")
@@ -366,21 +372,21 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
 
 
 
+
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.uiSettings.isZoomControlsEnabled = true
 
-
         if (HomeFragment.EmergenciaState.enviada) {
             CoroutineScope(Dispatchers.IO).launch {
-                obtenerIdEmergenciaDesdeFirebase(idBombero = 123) { idEmergenciaFirebase ->
-                    if (idEmergenciaFirebase != null && HomeFragment.EmergenciaState.idEmergencia == idEmergenciaFirebase) {
+                verificarIdEmergenciaEnColeccion(HomeFragment.EmergenciaState.idEmergencia) { existeEmergencia ->
+                    if (existeEmergencia) {
                         CoroutineScope(Dispatchers.Main).launch {
                             val ubicacion = withContext(Dispatchers.IO) {
                                 LocationService(context as MainActivity).ubicacionLatLng(context as MainActivity)
                             }
                             mostrarUbicacionActual(ubicacion)
-                            iniciarLecturaUbicaciones()
+                            iniciarLecturaUbicaciones(HomeFragment.EmergenciaState.idEmergencia)
                         }
                     } else {
                         Log.d("Seguimiento", "El ID de emergencia no coincide o no se ha enviado ninguna emergencia.")
@@ -391,6 +397,7 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
             Log.d("Seguimiento", "No se ha enviado ninguna emergencia todavía.")
         }
     }
+
 
 
     private fun obtenerIdEmergenciaDesdeFirebase(idBombero: Int, onResult: (Int?) -> Unit) {
@@ -417,6 +424,37 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
                 onResult(null)
             }
     }
+
+    private fun verificarIdEmergenciaEnColeccion(idEmergenciaBuscado: Int?, onResult: (Boolean) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+
+        // Verifica si el idEmergenciaBuscado es nulo
+        if (idEmergenciaBuscado == null) {
+            Log.e("Firebase", "El ID de emergencia es nulo.")
+            onResult(false) // Retornar false si el ID es nulo
+            return
+        }
+
+        // Realiza la consulta para verificar si existe el idEmergencia
+        db.collection("CamionesBomberos")
+            .whereEqualTo("idEmergencia", idEmergenciaBuscado)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (documents.isEmpty) {
+                    Log.d("Firebase", "No se encontró ningún documento con el ID de emergencia: $idEmergenciaBuscado")
+                    onResult(false) // No existe el ID
+                } else {
+                    Log.d("Firebase", "Se encontró al menos un documento con el ID de emergencia: $idEmergenciaBuscado")
+                    onResult(true) // Existe al menos un documento con el ID
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firebase", "Error al buscar el ID de emergencia: $e")
+                onResult(false) // Retornar false en caso de error
+            }
+    }
+
+
 
 
 

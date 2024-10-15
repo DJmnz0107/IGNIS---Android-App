@@ -61,44 +61,55 @@ class Informe_Bomberos : Fragment() {
 
         val spMision = root.findViewById<Spinner>(R.id.spMision)
 
-        fun obtenerMisiones():List<dataClassMisiones>{
+        fun obtenerMisiones(idBombero: Int?): List<dataClassMisiones> {
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
+                val statement = objConexion?.createStatement()
 
-                val statment = objConexion?.createStatement()
+                // Consulta para obtener misiones según el id_bombero
+                val query = """
+            SELECT m.id_mision, m.descripcion_mision, m.fecha_mision, m.id_emergencia 
+            FROM Misiones m
+            JOIN Misiones_Bomberos mb ON m.id_mision = mb.id_mision
+            WHERE mb.id_bombero = ?
+        """
 
-                val resultSet = statment?.executeQuery("select * from Misiones")!!
+                val preparedStatement = objConexion?.prepareStatement(query)
+
+                // Verificar si idBombero es nulo
+                if (idBombero != null) {
+                    preparedStatement?.setInt(1, idBombero) // Establecer el id_bombero en la consulta
+                } else {
+                    println("El id_bombero es nulo.")
+                    return emptyList() // O maneja el caso nulo de la forma que prefieras
+                }
+
+                val resultSet = preparedStatement?.executeQuery()!!
 
                 val listadoDeResultados = mutableListOf<dataClassMisiones>()
 
-                while (resultSet.next()){
+                while (resultSet.next()) {
                     val idMision = resultSet.getInt("id_mision")
-
                     val descripcionMision = resultSet.getString("descripcion_mision")
-
                     val fechaMision = resultSet.getDate("fecha_mision")
-
                     val idEmergencia = resultSet.getInt("id_emergencia")
 
-                    val misionesCompletas = dataClassMisiones(idMision, descripcionMision, fechaMision, idEmergencia )
+                    val misionesCompletas = dataClassMisiones(idMision, descripcionMision, fechaMision, idEmergencia)
 
                     listadoDeResultados.add(misionesCompletas)
-
-
                 }
                 return listadoDeResultados
-            }catch (e:Exception) {
-
+            } catch (e: Exception) {
                 println("El error es $e")
                 return emptyList()
             }
-
-
         }
+
+
 
         try {
             CoroutineScope(Dispatchers.IO).launch {
-                val listadoResultados = obtenerMisiones()
+                val listadoResultados = obtenerMisiones(activity_bomberos.datosBombero.idBombero)
                 val descripcionMision = listadoResultados.map { it.descripcionMision }
                 withContext(Dispatchers.Main){
                     val miAdaptador = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, descripcionMision )
@@ -131,29 +142,45 @@ class Informe_Bomberos : Fragment() {
                 try {
                     val objConexion = ClaseConexion().cadenaConexion()
 
-                    val mision = obtenerMisiones()
+                    // Obtener las misiones del bombero y seleccionar la misión correspondiente
+                    val mision = obtenerMisiones(activity_bomberos.datosBombero.idBombero)
                     val misionSeleccionada = mision[spMision.selectedItemPosition]
 
+                    // Obtener el ID de la emergencia asociada a la misión
+                    val idEmergencia = misionSeleccionada.idEmergencia
+
+                    // Insertar el informe
                     val agregarInforme = objConexion?.prepareStatement("INSERT INTO Informes(id_mision, resultado_mision, descripcion_mision) VALUES(?, ?, ?)")!!
                     agregarInforme.setInt(1, misionSeleccionada.idMision)
                     agregarInforme.setString(2, spResultados.selectedItem.toString())
                     agregarInforme.setString(3, mtInforme)
                     agregarInforme.executeUpdate()
 
+                    // Actualizar el estado de la emergencia a 'finalizada'
+                    val actualizarEmergencia = objConexion.prepareStatement("UPDATE Emergencias SET estado_emergencia = 'Finalizada' WHERE id_emergencia = ?")
+                    actualizarEmergencia.setInt(1, idEmergencia)
+                    actualizarEmergencia.executeUpdate()
+
+                    objConexion.commit()
+
+
+                    // Mostrar mensaje de éxito
                     withContext(Dispatchers.Main) {
                         textoInforme.setText("")
                         MotionToast.createColorToast(requireContext() as activity_bomberos,
                             "Emergencia enviada",
-                            "Datos enviado correctamente",
+                            "Datos enviados correctamente",
                             MotionToastStyle.SUCCESS,
                             MotionToast.GRAVITY_BOTTOM,
                             MotionToast.LONG_DURATION,
-                            ResourcesCompat.getFont(requireContext() as activity_bomberos,R.font.cabin_bold))                    }
+                            ResourcesCompat.getFont(requireContext() as activity_bomberos,R.font.cabin_bold))
+                    }
                 } catch (e: Exception) {
                     Log.e("InformeError", "Error al agregar el informe: $e")
                 }
             }
         }
+
 
 
 

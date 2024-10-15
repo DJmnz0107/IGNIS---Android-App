@@ -10,6 +10,8 @@ import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.Window
+import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -31,11 +33,15 @@ import java.sql.SQLException
 
 class activity_bomberos : AppCompatActivity() {
 
+    object datosBombero {
+        var idBombero:Int? = -1
+    }
+
     private lateinit var binding: ActivityBomberosBinding
     private lateinit var locationService: LocationServiceBomberos
     private var userId: Int = -1 // Variable para almacenar el ID del usuario
-    private var idBombero:Int? = -1
     private var respuestaNotificacion: String? = ""
+    private var estadoEmergencia:String? = ""
     private var idEmergencia:Int? = null
     private var shouldContinueUpdating = true
     private var lastLocation: LatLng? = null
@@ -105,9 +111,9 @@ class activity_bomberos : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             while (shouldContinueUpdating) {
                 val ubicacion = locationService.ubicacionLatLng(this@activity_bomberos)
-                if (ubicacion != null && idBombero != null && idEmergencia != null) {
+                if (ubicacion != null && datosBombero.idBombero != null && idEmergencia != null) {
                     if (shouldSendUpdate(ubicacion)) {
-                        actualizarUbicacionBombero(idBombero, ubicacion, idEmergencia)
+                        actualizarUbicacionBombero(datosBombero.idBombero, ubicacion, idEmergencia)
                         lastLocation = ubicacion // Actualiza la última ubicación
                     }
                 }
@@ -142,51 +148,70 @@ class activity_bomberos : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             while (shouldContinueUpdating) {
                 val db = FirebaseFirestore.getInstance()
-                val docRef = db.collection("CamionesBomberos").document("ID_del_bombero_$idBombero")
+                // Crear docRef usando el ID del bombero y el ID de la emergencia
+                val docRef = db.collection("CamionesBomberos").document("ID_del_bombero_$idBombero" + "_emergencia_$idEmergencia")
 
                 // Verifica que el ID de emergencia no sea nulo
                 if (idEmergencia == null) {
                     Log.e("ActivityBomberos", "El ID de emergencia es nulo.")
-                    return@launch // Sale de la coroutine si el ID es nulo
+                    return@launch
                 }
 
                 try {
                     // Verifica si el documento del bombero existe
                     val document = docRef.get().await()
                     if (document.exists()) {
-                        // Obtiene el idEmergencia del documento
-                        val idEmergenciaActual = document.getLong("idEmergencia")?.toInt()
-
-                        if (idEmergenciaActual == null) {
-                            Log.d("ActivityBomberos", "No se encontró idEmergencia en el documento del bombero.")
-                            // Aquí puedes decidir qué hacer si el idEmergencia no existe
-                            crearUbicacionBombero(idBombero, ubicacion, idEmergencia)
-                        } else if (idEmergenciaActual == idEmergencia) {
-                            // Si el idEmergencia coincide, actualiza la ubicación del bombero
-                            Log.d("ActivityBomberos", "idEmergencia encontrado y coincide: $idEmergenciaActual")
-                            docRef.update("ubicacion", com.google.firebase.firestore.GeoPoint(ubicacion.latitude, ubicacion.longitude))
-                                .addOnSuccessListener {
-                                    Log.d("ActivityBomberos", "Ubicación actualizada exitosamente: $ubicacion")
-                                }
-                                .addOnFailureListener { e ->
-                                    Log.e("ActivityBomberos", "Error al actualizar la ubicación: $e")
-                                }
-                        } else {
-                            Log.d("ActivityBomberos", "El idEmergencia no coincide. Actual: $idEmergenciaActual, Nuevo: $idEmergencia")
-                            // Si es necesario, aquí puedes decidir crear la ubicación
-                            crearUbicacionBombero(idBombero, ubicacion, idEmergencia)
-                        }
+                        // Actualiza la ubicación
+                        docRef.update("ubicacion", com.google.firebase.firestore.GeoPoint(ubicacion.latitude, ubicacion.longitude))
+                            .addOnSuccessListener {
+                                Log.d("ActivityBomberos", "Ubicación actualizada exitosamente: $ubicacion")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.e("ActivityBomberos", "Error al actualizar la ubicación: $e")
+                            }
                     } else {
-                        Log.d("ActivityBomberos", "No se encontró documento para el bombero: ID $idBombero.")
-                        crearUbicacionBombero(idBombero, ubicacion, idEmergencia) // Crea una nueva ubicación si no hay documento
+                        // Si no existe el documento, llama a crearUbicacionBombero
+                        crearUbicacionBombero(idBombero, ubicacion, idEmergencia)
                     }
                 } catch (e: Exception) {
                     Log.e("ActivityBomberos", "Error al verificar el documento del bombero: ${e.message}")
                 }
 
-                delay(5000) // Agrega un retraso para evitar llamadas constantes
+                delay(5000) // Intervalo ajustable
             }
         }
+    }
+
+    private fun mostrarDialogoEmergencia() {
+        val dialogoView = layoutInflater.inflate(R.layout.dialog_emergencia, null)
+        val dialogoBuilder = AlertDialog.Builder(this)
+            .setView(dialogoView)
+            .setCancelable(false) // Desactivar el cierre con el fondo
+
+        val dialogo = dialogoBuilder.create()
+
+        // Configurar el botón de cerrar
+        dialogoView.findViewById<Button>(R.id.btnCerrar).setOnClickListener {
+            dialogo.dismiss()
+        }
+
+        dialogo.show()
+    }
+
+    private fun mostrarDialogoNoEmergencia() {
+        val dialogoView = layoutInflater.inflate(R.layout.dialog_no_emergencia, null)
+        val dialogoBuilder = AlertDialog.Builder(this)
+            .setView(dialogoView)
+            .setCancelable(false) // Desactivar el cierre con el fondo
+
+        val dialogo = dialogoBuilder.create()
+
+        // Configurar el botón de cerrar
+        dialogoView.findViewById<Button>(R.id.btnNoEmergenciaCerrar).setOnClickListener {
+            dialogo.dismiss()
+        }
+
+        dialogo.show()
     }
 
 
@@ -204,32 +229,41 @@ class activity_bomberos : AppCompatActivity() {
             // Llama a la función suspendida en el lifecycleScope
             lifecycleScope.launch {
                 // Llama a la función para obtener el id del bombero
-                idBombero = obtenerIdBomberoPorUsuarioId(userId)
+                datosBombero.idBombero = obtenerIdBomberoPorUsuarioId(userId)
 
-                println(idBombero)
+                var id = datosBombero.idBombero
 
-                if (idBombero != null) {
-                    println("ID del bombero encontrado: $idBombero")
+                println(datosBombero.idBombero)
+
+                if (datosBombero.idBombero != null) {
+                    println("ID del bombero encontrado: $id")
 
                     // Llama a la función para obtener la emergencia asignada
-                    val emergencia = obtenerEmergenciaAsignada(idBombero)
+                    val emergencia = obtenerEmergenciaAsignada(id)
 
                     if (emergencia != null) {
 
                         idEmergencia = emergencia.id
                         respuestaNotificacion = obtenerRespuestaNotificacion(idEmergencia!!)
+                        estadoEmergencia = obtenerEstadoEmergencia(idEmergencia!!)
+
 
                         println(respuestaNotificacion)
+                        println(estadoEmergencia)
 
-                        if(respuestaNotificacion == "En camino") {
+                        if(respuestaNotificacion == "En camino" && estadoEmergencia == "En proceso") {
+                            mostrarDialogoEmergencia()
                             iniciarActualizacionUbicacion()
-                        } else {
+                        }
+                        else {
+                            mostrarDialogoNoEmergencia()
                             println("No se encontró una emergencia enviada : ${emergencia.respuestaNotificacion}")
+                            println("O el estado de la emergencia es : ${emergencia.estadoEmergencia}")
                         }
                         // Procesa la emergencia aquí
                         println("Emergencia encontrada: ${emergencia.descripcionEmergencia}")
                     } else {
-                        println("No se encontró emergencia asignada para el bombero con ID: $idBombero")
+                        println("No se encontró emergencia asignada para el bombero con ID: $id")
                     }
                 } else {
                     println("No se encontró un bombero para el ID de usuario: $userId")
@@ -246,33 +280,32 @@ class activity_bomberos : AppCompatActivity() {
 
     private fun crearUbicacionBombero(idBombero: Int?, ubicacion: LatLng, idEmergencia: Int?) {
         val db = FirebaseFirestore.getInstance()
-        val docRef = db.collection("CamionesBomberos").document("ID_del_bombero_$idBombero")
+        // Nuevo docRef único para cada combinación de bombero y emergencia
+        val docRef = db.collection("CamionesBomberos").document("ID_del_bombero_$idBombero" + "_emergencia_$idEmergencia")
 
-        // Verifica si ya existe el documento
-        docRef.get()
-            .addOnSuccessListener { document ->
-                if (!document.exists()) {
-                    // Solo crea el documento si no existe
-                    val data = hashMapOf(
-                        "ubicacion" to com.google.firebase.firestore.GeoPoint(ubicacion.latitude, ubicacion.longitude),
-                        "idEmergencia" to idEmergencia // Almacena el ID de la emergencia
-                    )
+        db.runTransaction { transaction ->
+            val existingDocument = transaction.get(docRef)
 
-                    docRef.set(data)
-                        .addOnSuccessListener {
-                            Log.d("ActivityBomberos", "Ubicación creada exitosamente: $ubicacion con ID de emergencia: $idEmergencia")
-                        }
-                        .addOnFailureListener { e ->
-                            Log.e("ActivityBomberos", "Error al crear la ubicación: $e")
-                        }
-                } else {
-                    Log.d("ActivityBomberos", "La ubicación ya existe para ID del bombero: $idBombero")
-                }
+            if (existingDocument.exists()) {
+                Log.d("ActivityBomberos", "Ya existe un documento con el ID del bombero $idBombero y emergencia $idEmergencia")
+            } else {
+                // Crea un nuevo documento
+                val data = hashMapOf(
+                    "ubicacion" to com.google.firebase.firestore.GeoPoint(ubicacion.latitude, ubicacion.longitude),
+                    "idEmergencia" to idEmergencia
+                )
+                transaction.set(docRef, data)
+                Log.d("ActivityBomberos", "Ubicación creada exitosamente: $ubicacion con ID de emergencia: $idEmergencia")
             }
-            .addOnFailureListener { e ->
-                Log.e("ActivityBomberos", "Error al verificar la existencia del documento: $e")
-            }
+        }.addOnSuccessListener {
+            Log.d("ActivityBomberos", "Transacción completada con éxito.")
+        }.addOnFailureListener { e ->
+            Log.e("ActivityBomberos", "Error en la transacción: $e")
+        }
     }
+
+
+
 
 
 
@@ -303,12 +336,19 @@ class activity_bomberos : AppCompatActivity() {
                 JOIN Misiones m ON mb.id_mision = m.id_mision
                 JOIN Emergencias e ON m.id_emergencia = e.id_emergencia
                 WHERE mb.id_bombero = ?
+                  AND m.fecha_mision = (SELECT MAX(fecha_mision)
+                                         FROM Misiones
+                                         WHERE id_emergencia IN (SELECT id_emergencia
+                                                                 FROM Misiones m2
+                                                                 JOIN Misiones_Bomberos mb2 ON mb2.id_mision = m2.id_mision
+                                                                 WHERE mb2.id_bombero = ?))
                 ORDER BY m.fecha_mision DESC
                 FETCH FIRST 1 ROW ONLY
                 """
                 )
 
                 statement.setInt(1, idBombero)
+                statement.setInt(2, idBombero) // Agregar el idBombero a la subconsulta
 
                 val result = statement.executeQuery()
 
@@ -336,6 +376,7 @@ class activity_bomberos : AppCompatActivity() {
 
         return emergenciaAsignada
     }
+
 
 
 
@@ -400,6 +441,37 @@ class activity_bomberos : AppCompatActivity() {
 
         return respuestaNotificacion
     }
+
+    suspend fun obtenerEstadoEmergencia(idEmergencia: Int): String? {
+        return withContext(Dispatchers.IO) {
+            var estadoEmergencia: String? = null
+
+            try {
+                val objConexion = ClaseConexion().cadenaConexion()
+                println("Consultando estado_emergencia para el ID de emergencia: $idEmergencia")
+
+                objConexion?.use { conexion ->
+                    val statement = conexion.prepareStatement(
+                        "SELECT estado_emergencia FROM Emergencias WHERE id_emergencia = ?"
+                    )
+                    statement.setInt(1, idEmergencia)
+                    val result = statement.executeQuery()
+
+                    if (result.next()) {
+                        estadoEmergencia = result.getString("estado_emergencia") // Obtener el estado de la emergencia
+                        println("Estado de la emergencia encontrado: $estadoEmergencia")
+                    } else {
+                        println("No se encontró el estado de la emergencia para el ID de emergencia: $idEmergencia")
+                    }
+                }
+            } catch (e: SQLException) {
+                println("Error en la consulta: ${e.message}")
+            }
+
+            estadoEmergencia // Devolver el valor aquí
+        }
+    }
+
 
 
 

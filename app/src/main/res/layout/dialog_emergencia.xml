@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#EE894C"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/txtTitulo"
+        android:layout_width="372dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cabin_bold"
+        android:text="Estado de Emergencia"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" /> <!-- Color blanco para el título -->
+
+    <TextView
+        android:id="@+id/txtMensaje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/cabin_bold"
+        android:text="Hay una emergencia activa. La ubicación se está actualizando."
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" /> <!-- Color blanco para el mensaje -->
+
+    <TextView
+        android:id="@+id/txtInstrucciones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/cabin_bold"
+        android:text="Por favor, no cierre la aplicación para dar seguimiento a su ubicación actual."
+        android:textAlignment="center"
+        android:textColor="#FF0000"
+        android:textSize="16sp" /> <!-- Color blanco para instrucciones -->
+
+    <Button
+        android:id="@+id/btnCerrar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/naranja"
+        android:text="Cerrar"
+        android:textColor="@android:color/white" />
+</LinearLayout>

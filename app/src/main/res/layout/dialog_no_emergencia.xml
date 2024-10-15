@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/naranjaDos"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/txtNoEmergenciaTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cabin_bold"
+        android:text="No hay Emergencias"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" /> <!-- Color naranja -->
+
+    <TextView
+        android:id="@+id/txtNoEmergenciaMensaje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/cabin_bold"
+        android:text="No hay emergencias activas en este momento."
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" /> <!-- Color negro para mayor legibilidad -->
+
+    <Button
+        android:id="@+id/btnNoEmergenciaCerrar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/naranja"
+        android:text="Cerrar"
+        android:textColor="@android:color/white" /> <!-- Texto blanco -->
+</LinearLayout>
