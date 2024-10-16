@@ -33,6 +33,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import www.sanju.motiontoast.MotionToast
@@ -49,6 +50,7 @@ class SinsesionActivity : AppCompatActivity() {
 
     private lateinit var locationService:LocationServiceUrgencia
     private lateinit var mAuth: FirebaseAuth
+    private var isCooldown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -136,6 +138,8 @@ class SinsesionActivity : AppCompatActivity() {
 
         val toggleButtons = listOf(btnIncendio, btnRescate, btnDerrumbe, btnInundacion, btnDerrame)
 
+        // Variable de cooldown
+
         // Revisa los items del spGravedad
         spGravedad.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -154,8 +158,7 @@ class SinsesionActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
         val btnAtras = bottomSheetView.findViewById<Button>(R.id.btnAtras)
@@ -168,120 +171,139 @@ class SinsesionActivity : AppCompatActivity() {
 
         val btnEnviar = bottomSheetView.findViewById<Button>(R.id.btnEnviar)
         btnEnviar.setOnClickListener {
-            var validacion = false
+            if (!isCooldown) {
+                var validacion = false
 
-            val descripcion = txtDescripcion.text.toString()
-            val tipo = txtTipoEmergencia.text.toString()
+                val descripcion = txtDescripcion.text.toString()
+                val tipo = txtTipoEmergencia.text.toString()
 
-            if (descripcion.isEmpty()) {
-                txtDescripcion.error = "Descripción obligatoria"
-                validacion = true
-            } else {
-                txtDescripcion.error = null
-            }
+                if (descripcion.isEmpty()) {
+                    txtDescripcion.error = "Descripción obligatoria"
+                    validacion = true
+                } else {
+                    txtDescripcion.error = null
+                }
 
-            if (!validacion) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    var insertEmergencia: PreparedStatement? = null
-                    try {
-                        val ubicacion = withContext(Dispatchers.IO) {
-                            LocationServiceUrgencia(this@SinsesionActivity).getUbicacionAsync(this@SinsesionActivity)
-                        }
+                if (!validacion) {
+                    // Activa el cooldown
+                    isCooldown = true
+                    CoroutineScope(Dispatchers.IO).launch {
+                        var insertEmergencia: PreparedStatement? = null
+                        try {
+                            val ubicacion = withContext(Dispatchers.IO) {
+                                LocationServiceUrgencia(this@SinsesionActivity).getUbicacionAsync(this@SinsesionActivity)
+                            }
 
-                        if (ubicacion.isNotBlank()) {
-                            val objConexion = ClaseConexion().cadenaConexion()
-                            insertEmergencia = objConexion?.prepareStatement(
-                                "INSERT INTO Emergencias (ubicacion_emergencia, descripcion_emergencia, gravedad_emergencia, tipo_emergencia, respuesta_notificacion, estado_emergencia) VALUES (?, ?, ?, ?, ?, ?)"
-                            )
+                            if (ubicacion.isNotBlank()) {
+                                val objConexion = ClaseConexion().cadenaConexion()
+                                insertEmergencia = objConexion?.prepareStatement(
+                                    "INSERT INTO Emergencias (ubicacion_emergencia, descripcion_emergencia, gravedad_emergencia, tipo_emergencia, respuesta_notificacion, estado_emergencia) VALUES (?, ?, ?, ?, ?, ?)"
+                                )
 
-                            if (insertEmergencia != null) {
-                                insertEmergencia.setString(1, ubicacion)
-                                insertEmergencia.setString(2, txtDescripcion.text.toString())
-                                insertEmergencia.setString(3, spGravedad.selectedItem.toString())
-                                insertEmergencia.setString(4, txtTipoEmergencia.text.toString())
-                                insertEmergencia.setString(5, "En espera")
-                                insertEmergencia.setString(6, "En proceso")
+                                if (insertEmergencia != null) {
+                                    insertEmergencia.setString(1, ubicacion)
+                                    insertEmergencia.setString(2, txtDescripcion.text.toString())
+                                    insertEmergencia.setString(3, spGravedad.selectedItem.toString())
+                                    insertEmergencia.setString(4, txtTipoEmergencia.text.toString())
+                                    insertEmergencia.setString(5, "En espera")
+                                    insertEmergencia.setString(6, "En proceso")
 
-                                val resultado = insertEmergencia.executeUpdate()
-                                if (resultado > 0) {
-                                    EmergenciaState.idEmergencia = resultado
-                                    EmergenciaState.enviada = true
+                                    val resultado = insertEmergencia.executeUpdate()
+                                    if (resultado > 0) {
+                                        EmergenciaState.idEmergencia = resultado
+                                        EmergenciaState.enviada = true
 
-                                    // Aquí asegúrate de que estás en el hilo principal antes de actualizar la UI
+                                        // Aquí asegúrate de que estás en el hilo principal antes de actualizar la UI
+                                        withContext(Dispatchers.Main) {
+                                            MotionToast.createColorToast(
+                                                this@SinsesionActivity,
+                                                "Emergencia enviada",
+                                                "Datos enviados correctamente",
+                                                MotionToastStyle.SUCCESS,
+                                                MotionToast.GRAVITY_BOTTOM,
+                                                MotionToast.LONG_DURATION,
+                                                ResourcesCompat.getFont(this@SinsesionActivity, R.font.cabin_bold)
+                                            )
+
+                                            // Cierra el BottomSheet en el hilo principal
+                                            bottomSheetDialog.dismiss()
+                                        }
+                                    }
+                                } else {
                                     withContext(Dispatchers.Main) {
                                         MotionToast.createColorToast(
-                                            this@SinsesionActivity,  // Usar la instancia existente de la actividad
-                                            "Emergencia enviada",
-                                            "Datos enviados correctamente",
-                                            MotionToastStyle.SUCCESS,
+                                            this@SinsesionActivity,
+                                            "¡Error!",
+                                            "Error al preparar la consulta.",
+                                            MotionToastStyle.ERROR,
                                             MotionToast.GRAVITY_BOTTOM,
                                             MotionToast.LONG_DURATION,
-                                            ResourcesCompat.getFont(this@SinsesionActivity, R.font.cabin_bold)  // Asegurarse de que el acceso al recurso se realice en el hilo principal
+                                            ResourcesCompat.getFont(this@SinsesionActivity, R.font.cabin_bold)
                                         )
-
-                                        // Cierra el BottomSheet en el hilo principal
-                                        bottomSheetDialog.dismiss()
                                     }
                                 }
                             } else {
                                 withContext(Dispatchers.Main) {
-                                    MotionToast.createToast(
+                                    MotionToast.createColorToast(
                                         this@SinsesionActivity,
                                         "¡Error!",
-                                        "Error al preparar la consulta.",
+                                        "No se pudo obtener la ubicación.",
                                         MotionToastStyle.ERROR,
                                         MotionToast.GRAVITY_BOTTOM,
                                         MotionToast.LONG_DURATION,
-                                        ResourcesCompat.getFont(this@SinsesionActivity, R.font.cabin_bold)  // Asegurarse de que el acceso al recurso se realice en el hilo principal
+                                        ResourcesCompat.getFont(this@SinsesionActivity, R.font.cabin_bold)
                                     )
                                 }
                             }
-                        } else {
+                        } catch (e: SQLException) {
                             withContext(Dispatchers.Main) {
-                                MotionToast.createToast(
+                                MotionToast.createColorToast(
                                     this@SinsesionActivity,
-                                    "¡Error!",
-                                    "No se pudo obtener la ubicación.",
+                                    "¡Error SQL!",
+                                    "Error al enviar la emergencia: ${e.message}",
                                     MotionToastStyle.ERROR,
                                     MotionToast.GRAVITY_BOTTOM,
                                     MotionToast.LONG_DURATION,
-                                    ResourcesCompat.getFont(this@SinsesionActivity, R.font.cabin_bold)  // Asegurarse de que el acceso al recurso se realice en el hilo principal
+                                    ResourcesCompat.getFont(this@SinsesionActivity, R.font.cabin_bold)
                                 )
                             }
+                            println("El error es: " + e)
+                        } catch (e: Exception) {
+                            withContext(Dispatchers.Main) {
+                                MotionToast.createColorToast(
+                                    this@SinsesionActivity,
+                                    "¡Error!",
+                                    "Error inesperado: ${e.message}",
+                                    MotionToastStyle.ERROR,
+                                    MotionToast.GRAVITY_BOTTOM,
+                                    MotionToast.LONG_DURATION,
+                                    ResourcesCompat.getFont(this@SinsesionActivity, R.font.cabin_bold)
+                                )
+                            }
+                        } finally {
+                            insertEmergencia?.close()
+                            delay(90000) // 1 minuto y medio
+                            isCooldown = false
                         }
-                    } catch (e: SQLException) {
-                        withContext(Dispatchers.Main) {
-                            MotionToast.createToast(
-                                this@SinsesionActivity,
-                                "¡Error SQL!",
-                                "Error al enviar la emergencia: ${e.message}",
-                                MotionToastStyle.ERROR,
-                                MotionToast.GRAVITY_BOTTOM,
-                                MotionToast.LONG_DURATION,
-                                ResourcesCompat.getFont(this@SinsesionActivity, R.font.cabin_bold)  // Asegurarse de que el acceso al recurso se realice en el hilo principal
-                            )
-                        }
-                        println("El error es: " + e)
-                    } catch (e: Exception) {
-                        withContext(Dispatchers.Main) {
-                            MotionToast.createToast(
-                                this@SinsesionActivity,
-                                "¡Error!",
-                                "Error inesperado: ${e.message}",
-                                MotionToastStyle.ERROR,
-                                MotionToast.GRAVITY_BOTTOM,
-                                MotionToast.LONG_DURATION,
-                                ResourcesCompat.getFont(this@SinsesionActivity, R.font.cabin_bold)  // Asegurarse de que el acceso al recurso se realice en el hilo principal
-                            )
-                        }
-                    } finally {
-                        insertEmergencia?.close()
                     }
                 }
+            } else {
+
+                // Mensaje indicando que está en cooldown
+                MotionToast.createColorToast(
+                    this@SinsesionActivity,
+                    "¡Espera!",
+                    "Por favor, espera 1 minuto y medio antes de enviar otra emergencia.",
+                    MotionToastStyle.INFO,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this@SinsesionActivity, R.font.cabin_bold)
+                )
             }
         }
-
     }
+
+
 
     //Pide los permisos de ubicación para ser utilizados
     override fun onRequestPermissionsResult(

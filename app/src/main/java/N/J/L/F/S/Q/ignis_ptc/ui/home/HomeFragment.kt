@@ -36,6 +36,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import www.sanju.motiontoast.MotionToast
@@ -57,6 +58,8 @@ class HomeFragment : Fragment() {
     private lateinit var locationService: LocationService
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var mAuth: FirebaseAuth
+    private var isCooldown = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -92,6 +95,8 @@ class HomeFragment : Fragment() {
         val btnEmergencia = root.findViewById<Button>(R.id.btnEmergencia)
 
         val btnCerrarSesion = root.findViewById<Button>(R.id.btnCerrarSesion)
+
+
 
         btnEmergencia.setOnClickListener {
 
@@ -250,14 +255,31 @@ class HomeFragment : Fragment() {
             bottomSheetDialog.dismiss()
         }
 
+        // Código para el botón btnEnviar
+        // Código para el botón btnEnviar
         val btnEnviar = bottomSheetView.findViewById<Button>(R.id.btnEnviar)
         btnEnviar.setOnClickListener {
+
+            // Verificar si está en cooldown antes de cualquier validación
+            if (isCooldown) {
+                MotionToast.createColorToast(
+                    requireContext() as MainActivity,
+                    "¡Espera!",
+                    "Por favor, espera 1 minuto y medio antes de enviar otra emergencia.",
+                    MotionToastStyle.INFO,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(requireContext() as MainActivity, R.font.cabin_bold)
+                )
+                return@setOnClickListener  // Salir del click listener si está en cooldown
+            }
 
             var validacion = false
 
             val descripcion = txtDescripcion.text.toString()
             val tipo = txtTipoEmergencia.text.toString()
 
+            // Validar la descripción
             if (descripcion.isEmpty()) {
                 txtDescripcion.error = "Descripción obligatoria"
                 validacion = true
@@ -265,8 +287,10 @@ class HomeFragment : Fragment() {
                 txtDescripcion.error = null
             }
 
-            //Si la validacion es false, entonces continua con el código, sino, muestra errores
-            if(!validacion) {
+            // Si la validación es false, continúa con el código, sino, muestra errores
+            if (!validacion) {
+                isCooldown = true  // Establecer en cooldown
+
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
                         val ubicacion = withContext(Dispatchers.IO) {
@@ -276,13 +300,14 @@ class HomeFragment : Fragment() {
                         if (ubicacion.isNotBlank()) {
                             val objConexion = ClaseConexion().cadenaConexion()
                             val insertEmergencia = objConexion?.prepareStatement(
-                                "INSERT INTO Emergencias (ubicacion_emergencia, descripcion_emergencia, gravedad_emergencia, tipo_emergencia, respuesta_notificacion, estado_emergencia) VALUES (?, ?, ?, ?, ?, ?)",
+                                "INSERT INTO Emergencias (ubicacion_emergencia, descripcion_emergencia, gravedad_emergencia, tipo_emergencia, respuesta_notificacion, estado_emergencia) VALUES (?, ?, ?, ?, ?, ?)"
                             )!!
 
+                            // Insertar datos en la base de datos
                             insertEmergencia.setString(1, ubicacion)
-                            insertEmergencia.setString(2, txtDescripcion.text.toString())
+                            insertEmergencia.setString(2, descripcion)
                             insertEmergencia.setString(3, spGravedad.selectedItem.toString())
-                            insertEmergencia.setString(4, txtTipoEmergencia.text.toString())
+                            insertEmergencia.setString(4, tipo)
                             insertEmergencia.setString(5, "En espera")
                             insertEmergencia.setString(6, "En proceso")
 
@@ -296,16 +321,11 @@ class HomeFragment : Fragment() {
                             if (rsLastId?.next() == true) {
                                 EmergenciaState.idEmergencia = rsLastId.getLong(1).toInt() // Usar el valor del último ID
                                 EmergenciaState.enviada = true
-                                System.out.println(idEmergencia)
+                                System.out.println(EmergenciaState.idEmergencia)
                                 System.out.println(EmergenciaState.enviada)
                             }
 
-                            objConexion?.commit() // Confirma la transacción
-
-
-
-
-
+                            objConexion?.commit() // Confirmar la transacción
 
                             withContext(Dispatchers.Main) {
                                 // Muestra un MotionToast de éxito
@@ -368,14 +388,17 @@ class HomeFragment : Fragment() {
                                 MotionToast.LONG_DURATION,
                                 ResourcesCompat.getFont(requireContext() as MainActivity, R.font.cabin_bold))
                         }
+
+                    } finally {
+                        delay(90000)  // Esperar 90 segundos
+                        isCooldown = false  // Restablecer el cooldown
                     }
                 }
-
-
             }
-
-
         }
+
+
+
     }
 
 
