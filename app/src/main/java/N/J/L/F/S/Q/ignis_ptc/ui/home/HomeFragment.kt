@@ -360,7 +360,8 @@ class HomeFragment : Fragment() {
                                 }
 
                                 // Mostrar el AlertDialog
-                                alertDialog.show()
+                                alertDialog
+                                    .show()
                                 alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                             }
 
@@ -390,7 +391,7 @@ class HomeFragment : Fragment() {
                         }
 
                     } finally {
-                        delay(90000)  // Esperar 90 segundos
+                        delay(30000)  // Esperar 30 segundos
                         isCooldown = false  // Restablecer el cooldown
                     }
                 }

@@ -282,7 +282,7 @@ class SinsesionActivity : AppCompatActivity() {
                             }
                         } finally {
                             insertEmergencia?.close()
-                            delay(90000) // 1 minuto y medio
+                            delay(30000) // 30 segundos
                             isCooldown = false
                         }
                     }
