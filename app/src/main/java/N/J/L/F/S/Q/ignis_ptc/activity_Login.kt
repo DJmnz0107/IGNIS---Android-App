@@ -81,14 +81,14 @@ class activity_Login : AppCompatActivity() {
 
         val btnLoginGoogle = findViewById<Button>(R.id.btnLoginGoogle)
 
-        val imgSeguir = findViewById<ImageView>(R.id.imgseguir)
+        val lblSeguir = findViewById<TextView>(R.id.lblSeguir)
 
 
         btnLoginGoogle.setOnClickListener {
             signIn()
         }
 
-        imgSeguir.setOnClickListener {
+        lblSeguir.setOnClickListener {
         val pantallaSiguiente = Intent(this@activity_Login, SinsesionActivity::class.java)
         startActivity(pantallaSiguiente)
         }

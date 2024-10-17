@@ -163,20 +163,31 @@ class fragmentZonasMaps : Fragment(), OnMapReadyCallback {
     }
 
     //Alerta para eliminar el marcador
+    // Alerta para eliminar el marcador con diseño personalizado
     private fun eliminarAlertDialog(marker: Marker) {
-        val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
-        builder.setTitle("Eliminar marcador")
-        builder.setMessage("¿Desea eliminar este marcador?")
+        val dialogView = layoutInflater.inflate(R.layout.dialog_eliminar_zona, null)
 
-        builder.setPositiveButton("Sí") { dialog, which ->
+        val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+        builder.setView(dialogView)
+
+        val dialog = builder.create()
+
+        // Botón "Sí"
+        dialogView.findViewById<Button>(R.id.btnYes).setOnClickListener {
             marker.remove()
             markers.remove(marker)
             guardarMarcador(marker, markerSeverity)
+            dialog.dismiss() // Cierra el diálogo
         }
-        builder.setNegativeButton("No") { dialog, which -> dialog.cancel() }
 
-        builder.show()
+        // Botón "No"
+        dialogView.findViewById<Button>(R.id.btnNo).setOnClickListener {
+            dialog.dismiss() // Cierra el diálogo sin eliminar el marcador
+        }
+
+        dialog.show()
     }
+
 
 
 

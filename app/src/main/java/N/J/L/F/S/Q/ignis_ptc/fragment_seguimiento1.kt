@@ -312,28 +312,37 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
                 leerUbicaciones(object : UbicacionCallBack {
                     override fun onUbicacionRecibida(ubicacionCamion: LatLng) {
                         truckLocation = ubicacionCamion
+
                         if (truckLocation != null) {
-                            val resizedIcon = BitmapDescriptorFactory.fromBitmap(
-                                reajustarTamanoCamion(R.drawable.camionbombero, 200, 200)
-                            )
+                            // Ajusta el tamaño de la imagen del camión de bomberos
+                            val bitmap = reajustarTamanoCamion(R.drawable.camionbombero, 200, 200)
 
-                            // Actualiza la posición del marcador si ya existe
-                            if (marker != null) {
-                                marker!!.position = truckLocation!!
+                            if (bitmap != null) {
+                                // Si el Bitmap no es null, crea el icono redimensionado
+                                val resizedIcon = BitmapDescriptorFactory.fromBitmap(bitmap)
+
+                                // Actualiza la posición del marcador si ya existe
+                                if (marker != null) {
+                                    marker!!.position = truckLocation!!
+                                } else {
+                                    // Crea un nuevo marcador si no existe
+                                    marker = map.addMarker(
+                                        MarkerOptions()
+                                            .position(truckLocation!!)
+                                            .title("Camión de Bomberos")
+                                            .icon(resizedIcon)
+                                    )
+                                }
+
+                                // Llama a iniciarTracking para actualizar la polilínea
+                                iniciarTracking(truckLocation!!, currentLocation)
                             } else {
-                                // Crea un nuevo marcador si no existe
-                                marker = map.addMarker(
-                                    MarkerOptions()
-                                        .position(truckLocation!!)
-                                        .title("Camión de Bomberos")
-                                        .icon(resizedIcon)
-                                )
+                                // Si el Bitmap es null, maneja el error aquí (por ejemplo, usa un marcador por defecto)
+                                Log.e("Error", "No se pudo reajustar el tamaño del icono del camión de bomberos.")
                             }
-
-                            // Llama a iniciarTracking para actualizar la polilínea
-                            iniciarTracking(truckLocation!!, currentLocation)
                         }
                     }
+
                 }, idEmergencia) // Pasa el idEmergencia a la función leerUbicaciones
             } else {
                 Log.e("Ubicaciones", "El ID de emergencia es nulo, no se puede realizar la lectura de ubicaciones.")
@@ -531,10 +540,15 @@ class fragment_seguimiento1 : Fragment(), OnMapReadyCallback {
     }
 
     //Reajusta el tamaño de la imagen
-    private fun reajustarTamanoCamion(drawableId: Int, width: Int, height: Int): Bitmap {
-        val imageBitmap = BitmapFactory.decodeResource(resources, drawableId)
-        return Bitmap.createScaledBitmap(imageBitmap, width, height, false)
+    private fun reajustarTamanoCamion(drawableId: Int, width: Int, height: Int): Bitmap? {
+        return if (isAdded) {
+            val imageBitmap = BitmapFactory.decodeResource(resources, drawableId)
+            Bitmap.createScaledBitmap(imageBitmap, width, height, false)
+        } else {
+            null
+        }
     }
+
 
 
 

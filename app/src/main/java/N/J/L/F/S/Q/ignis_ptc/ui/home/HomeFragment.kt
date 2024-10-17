@@ -265,7 +265,7 @@ class HomeFragment : Fragment() {
                 MotionToast.createColorToast(
                     requireContext() as MainActivity,
                     "¡Espera!",
-                    "Por favor, espera 1 minuto y medio antes de enviar otra emergencia.",
+                    "Por favor, espera 30 segundos antes de enviar otra emergencia.",
                     MotionToastStyle.INFO,
                     MotionToast.GRAVITY_BOTTOM,
                     MotionToast.LONG_DURATION,

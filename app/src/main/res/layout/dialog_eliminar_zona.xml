@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/naranjaDos"
+    android:padding="20dp"
+    android:gravity="center_horizontal">
+
+    <!-- Título del AlertDialog -->
+    <TextView
+        android:id="@+id/txtDialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cabin_bold"
+        android:text="Eliminar marcador"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:paddingBottom="10dp" />
+
+    <!-- Mensaje del AlertDialog -->
+    <TextView
+        android:id="@+id/txtDialogMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/cabin"
+        android:text="¿Deseas eliminar esta zona?"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <!-- Contenedor de botones -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="2"
+        android:paddingTop="10dp">
+
+        <!-- Botón "Sí" -->
+        <Button
+            android:id="@+id/btnYes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/naranja"
+            android:text="Sí"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:fontFamily="@font/cabin_bold"
+            android:layout_marginEnd="10dp" />
+
+        <!-- Botón "No" -->
+        <Button
+            android:id="@+id/btnNo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/naranja"
+            android:fontFamily="@font/cabin_bold"
+            android:text="No"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

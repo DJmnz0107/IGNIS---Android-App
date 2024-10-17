@@ -15,6 +15,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Toast
 import android.widget.ToggleButton
@@ -75,37 +76,19 @@ class SinsesionActivity : AppCompatActivity() {
         locationService.checkAndRequestPermissions()
 
         val btnEmergencia = findViewById<Button>(R.id.btnEmergencia)
+        val imgBack = findViewById<ImageView>(R.id.imgBack)
 
 
         btnEmergencia.setOnClickListener {
             showBottomSheet() // Muestra el BottomSheet para emergencias
         }
 
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val builder = AlertDialog.Builder(this@SinsesionActivity, R.style.CustomAlertDialog)
-                val customLayout = layoutInflater.inflate(R.layout.logout_personalizado, null)
-                builder.setView(customLayout)
+        imgBack.setOnClickListener {
+            val pantallaNueva = Intent(this@SinsesionActivity, activity_Login::class.java)
+            startActivity(pantallaNueva)
+        }
 
-                val positiveButton: Button = customLayout.findViewById(R.id.positiveButton)
-                val negativeButton: Button = customLayout.findViewById(R.id.negativeButton)
 
-                val dialog = builder.create()
-
-                positiveButton.setOnClickListener {
-                    val pantallaLogin = Intent(this@SinsesionActivity, activity_Login::class.java)
-                    startActivity(pantallaLogin) // Redirige al login
-                    finish() // Cierra la actividad actual
-                    dialog.dismiss()
-                }
-
-                negativeButton.setOnClickListener {
-                    dialog.dismiss()
-                }
-
-                dialog.show()
-            }
-        })
 
 
     }
@@ -293,7 +276,7 @@ class SinsesionActivity : AppCompatActivity() {
                 MotionToast.createColorToast(
                     this@SinsesionActivity,
                     "¡Espera!",
-                    "Por favor, espera 1 minuto y medio antes de enviar otra emergencia.",
+                    "Por favor, espera 30 segundos antes de enviar otra emergencia.",
                     MotionToastStyle.INFO,
                     MotionToast.GRAVITY_BOTTOM,
                     MotionToast.LONG_DURATION,

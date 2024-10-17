@@ -251,13 +251,13 @@
         app:layout_constraintTop_toBottomOf="@+id/btnLoginGoogle" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/lblSeguir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:fontFamily="@font/cabin_bold"
-        android:text="Terminos y condiciones"
-        android:textColor="#7D7D7D"
+        android:text="Enviar una emergencia sin iniciar sesión"
+        android:textColor="#FF5722"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -275,16 +275,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ignis" />
-
-    <ImageView
-        android:id="@+id/imgseguir"
-        android:layout_width="38dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_arrow_downward_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
