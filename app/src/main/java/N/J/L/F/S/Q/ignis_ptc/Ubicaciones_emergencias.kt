@@ -158,7 +158,7 @@ class Ubicaciones_emergencias : Fragment(), OnMapReadyCallback {
 
     private fun setupRecyclerView() {
         CoroutineScope(Dispatchers.Main).launch {
-            val emergencias = getEmergencias()
+            val emergencias = getEmergencias(activity_bomberos.datosBombero.idBombero)
             val recyclerView = view?.findViewById<RecyclerView>(R.id.rcvEmergencia)
             val adaptador = Adaptador(emergencias) { emergencia ->
                 actualizarUbicacion(emergencia)
@@ -167,17 +167,37 @@ class Ubicaciones_emergencias : Fragment(), OnMapReadyCallback {
         }
     }
 
-    //Obtiene todas las emergencias de la base de datos
-    private suspend fun getEmergencias(): List<dataClassEmergencias> {
+    private suspend fun getEmergencias(idBombero: Int?): List<dataClassEmergencias> {
         return withContext(Dispatchers.IO) {
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
-                val query = """
-                SELECT id_emergencia, ubicacion_emergencia, descripcion_emergencia, 
-                       gravedad_emergencia, tipo_emergencia, respuesta_notificacion, estado_emergencia 
-                FROM Emergencias
-            """
+                val query = if (idBombero != null) {
+                    """
+                SELECT e.id_emergencia, e.ubicacion_emergencia, e.descripcion_emergencia, 
+                       e.gravedad_emergencia, e.tipo_emergencia, e.respuesta_notificacion, e.estado_emergencia
+                FROM Emergencias e
+                JOIN Misiones m ON e.id_emergencia = m.id_emergencia
+                JOIN Misiones_Bomberos mb ON m.id_mision = mb.id_mision
+                JOIN Bomberos b ON b.id_bombero = mb.id_bombero
+                WHERE b.id_bombero = ?
+                """
+                } else {
+                    """
+                SELECT e.id_emergencia, e.ubicacion_emergencia, e.descripcion_emergencia, 
+                       e.gravedad_emergencia, e.tipo_emergencia, e.respuesta_notificacion, e.estado_emergencia
+                FROM Emergencias e
+                JOIN Misiones m ON e.id_emergencia = m.id_emergencia
+                JOIN Misiones_Bomberos mb ON m.id_mision = mb.id_mision
+                """
+                }
+
                 val statement = objConexion?.prepareStatement(query)
+
+                // Asignar el id del bombero al parámetro de la consulta solo si no es nulo
+                if (idBombero != null) {
+                    statement?.setInt(1, idBombero)
+                }
+
                 val resultSet = statement?.executeQuery()
 
                 val emergencias = mutableListOf<dataClassEmergencias>()
@@ -204,11 +224,14 @@ class Ubicaciones_emergencias : Fragment(), OnMapReadyCallback {
                 emergencias
 
             } catch (e: Exception) {
-                Log.e("MiFragmento", "Error al obtener las emergencias: $e")
+                Log.e("MiFragmento", "Error al obtener las emergencias por bombero: $e")
                 emptyList() // Retorna una lista vacía en caso de error
             }
         }
     }
+
+
+
 
 
 

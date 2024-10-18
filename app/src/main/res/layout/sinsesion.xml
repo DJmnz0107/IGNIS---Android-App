@@ -50,10 +50,10 @@
     <TextView
         android:id="@+id/textView2"
         android:layout_width="271dp"
-        android:layout_height="77dp"
+        android:layout_height="86dp"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/cabin_semibold"
-        android:text="Inicia sesion si quieres acceder a muchas mas funciones de la aplicación."
+        android:text="Inicia sesion si quieres acceder a muchas mas funciones de la aplicación, ten encuenta que no podrás ver el seguimiento de esta emergencia."
         android:textAlignment="textStart"
         android:textColor="#EF8A4C"
         android:textSize="16sp"
